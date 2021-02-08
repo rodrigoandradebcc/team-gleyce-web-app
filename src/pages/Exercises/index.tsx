@@ -5,6 +5,7 @@ import api from '../../services/api';
 
 import ModalAddExercise from '../../components/ModalAddExercise';
 import ModalEditExercise from '../../components/ModalEditExercise';
+import ModalDeleteExercise from '../../components/ModalDeleteExercise';
 
 import {
   Container,
@@ -36,6 +37,8 @@ const Exercises: React.FC = () => {
   const [exercises, setExercises] = useState<IExercise[]>([]);
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingExercise, setEditingExercise] = useState<IExercise>(
     {} as IExercise,
@@ -51,7 +54,7 @@ const Exercises: React.FC = () => {
     }
 
     getExercises();
-  }, [setExercises]);
+  }, [setExercises, refresh]);
 
   const handleToggleModal = useCallback(() => {
     setModalOpen(!modalOpen);
@@ -61,30 +64,46 @@ const Exercises: React.FC = () => {
     setEditModalOpen(!editModalOpen);
   }, [editModalOpen]);
 
+  const handleToggleDeleteModal = useCallback(() => {
+    setDeleteModalOpen(!deleteModalOpen);
+  }, [deleteModalOpen]);
+
   const handleAddExercise = useCallback(
     async (newExercise: IExercise) => {
-      const { data: exerciseCreated } = await api.post<IExercise>(
-        '/exercises',
-        newExercise,
-      );
+      try {
+        const { data: exerciseCreated } = await api.post<IExercise>(
+          '/exercises',
+          newExercise,
+        );
 
-      setExercises([...exercises, exerciseCreated]);
+        setExercises([...exercises, exerciseCreated]);
+      } catch ({ err }) {
+        console.log(err);
+      }
     },
     [exercises],
   );
 
-  const handleUpdateExercise = useCallback(() => {
-    console.log('siwuhfdshuf');
+  const handleUpdateExercise = useCallback(async (exercise: IExercise) => {
+    try {
+      await api.put(`/exercises/${exercise.id}`, exercise);
+      setRefresh(!refresh);
+    } catch ({ err }) {
+      console.log(err);
+    }
   }, []);
 
   const handleDeleteExercise = useCallback(() => {
     console.log('siwuhfdshuf');
   }, []);
 
-  const handleEditExercise = useCallback(async (exercise: IExercise) => {
-    setEditingExercise(exercise);
-    handleToggleEditModal();
-  }, []);
+  const handleEditExercise = useCallback(
+    (exercise: IExercise) => {
+      setEditingExercise(exercise);
+      handleToggleEditModal();
+    },
+    [handleToggleEditModal],
+  );
 
   return (
     <Container>
@@ -126,7 +145,7 @@ const Exercises: React.FC = () => {
                       handleEditExercise({ id, name, exercise_group, link });
                     }}
                   />
-                  <FiTrash2 onClick={() => handleDeleteExercise()} />
+                  <FiTrash2 onClick={() => handleToggleDeleteModal()} />
                 </Actions>
               </Column>
               <Column>
@@ -147,8 +166,14 @@ const Exercises: React.FC = () => {
         isOpen={editModalOpen}
         setIsOpen={handleToggleEditModal}
         handleUpdateExercise={handleUpdateExercise}
-        edittingExercise={editingExercise}
+        editingExercise={editingExercise}
         deleteExercise={handleDeleteExercise}
+      />
+
+      <ModalDeleteExercise
+        isOpen={deleteModalOpen}
+        setIsOpen={handleToggleDeleteModal}
+        handleDeleteExercise={handleDeleteExercise}
       />
     </Container>
   );

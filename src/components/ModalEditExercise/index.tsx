@@ -10,14 +10,14 @@ import { Form, Label } from './styles';
 
 interface IExercise {
   exercise_group: string;
-  id: string;
   link: string;
   name: string;
+  id: string;
 }
 
 interface IModalProps {
   isOpen: boolean;
-  edittingExercise: IExercise;
+  editingExercise: IExercise;
   setIsOpen: () => void;
   handleUpdateExercise: (exercise: IExercise) => void;
   deleteExercise(id: string): void;
@@ -26,16 +26,15 @@ interface IModalProps {
 const ModalAddExercise: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
-  edittingExercise,
+  editingExercise,
   handleUpdateExercise,
-  deleteExercise,
 }) => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(
     async ({ name, link, exercise_group }: IExercise) => {
       handleUpdateExercise({
-        id: uuid(),
+        id: editingExercise.id,
         name,
         link,
         exercise_group,
@@ -43,13 +42,13 @@ const ModalAddExercise: React.FC<IModalProps> = ({
 
       setIsOpen();
     },
-    [handleUpdateExercise, setIsOpen],
+    [handleUpdateExercise, setIsOpen, editingExercise],
   );
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <h1>Novo exercício</h1>
+      <Form ref={formRef} onSubmit={handleSubmit} initialData={editingExercise}>
+        <h1>Editar exercício</h1>
 
         <div className="two-inputs">
           <div>
@@ -69,8 +68,8 @@ const ModalAddExercise: React.FC<IModalProps> = ({
           </div>
         </div>
 
-        <button type="submit" data-testid="add-exercise-button">
-          <p className="text">Adicionar exercício</p>
+        <button type="submit" data-testid="update-exercise-button">
+          <p className="text">Atualizar exercício</p>
           <div className="icon">
             <FiCheckSquare size={24} />
           </div>
