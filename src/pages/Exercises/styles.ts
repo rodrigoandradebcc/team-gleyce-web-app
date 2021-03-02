@@ -5,14 +5,21 @@ interface Props {
 }
 
 export const Container = styled.div`
-  width: 80%;
-  padding: 10px;
-  max-height: 90vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+  background-color: var(--background-content);
+  border-radius: 24px;
+  padding: 12px;
 `;
 
 export const Welcome = styled.div`
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 16px 16px;
+
+  width: inherit;
 `;
 
 export const Message = styled.span``;

@@ -9,17 +9,22 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 80%;
-
-  height: 90vh;
+  flex: 1;
+  background-color: var(--background-content);
+  border-radius: 24px;
+  padding: 12px;
 `;
 
 export const Welcome = styled.div`
   display: flex;
   flex-direction: column;
-  margin 16px 16px;
+  margin: 16px 16px;
 
   width: inherit;
+
+  strong {
+    margin-top: 15px;
+  }
 `;
 
 export const CardList = styled.div`

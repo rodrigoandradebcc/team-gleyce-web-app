@@ -10,13 +10,18 @@ export const Container = styled.div`
 
   height: 320px;
   width: 100%;
-  background: #eeeeee;
-  border: 1px solid #e0e0e0;
+  background: #fff;
+  /* border: 1px solid #e0e0e0; */
+  border-radius: 10px;
 
   a {
     margin-top: 40px;
     text-decoration: none;
     color: #673ab7;
+  }
+
+  & + div {
+    margin-left: 20px;
   }
 `;
 

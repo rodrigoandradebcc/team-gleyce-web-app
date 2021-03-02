@@ -14,10 +14,28 @@ import {
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background: #eeeeee;
-  width: 20%;
-  height: calc(90vh - 2px);
+  background: #fac600;
+  width: 250px;
   border-right: 1px solid #e0e0e0;
+  margin-right: 18px;
+  border-radius: 24px;
+`;
+
+export const ContainerLogo = styled.div`
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Logo = styled.img`
+  width: 135px;
+`;
+
+export const ContainerLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const MenuButton = styled(Link)`
@@ -27,8 +45,8 @@ export const MenuButton = styled(Link)`
   text-decoration: none;
   color: black;
 
-  /* width: 152px;
-  height: 32px; */
+  cursor: pointer;
+  border-radius: 25px;
   outline: 0;
   padding: 16px 16px;
 
@@ -45,10 +63,12 @@ export const MenuButton = styled(Link)`
     margin-left: 19px;
     font-weight: bold;
     font-size: 16px;
+    color: #fef0cd;
   }
 
-  cursor: pointer;
-  border-radius: 25px;
+  svg {
+    color: #fef0cd;
+  }
 `;
 
 const iconCSS = css`

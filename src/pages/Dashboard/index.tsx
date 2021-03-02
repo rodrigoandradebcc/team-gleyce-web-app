@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Card from '../../components/Card';
+import DueDateCard from '../../components/DueDateCard';
 import PersonalClass from '../../components/PersonalClass';
 
 import {

@@ -9,9 +9,15 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #FAFAFA;
-    height: 100vh;
+    background: var(--background);
     --webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    padding: 12px;
   }
 
   body, input, button {
@@ -30,6 +36,9 @@ export default createGlobalStyle`
     --twitter: #33A1F2;
     --twitter-dark-hover: #011017;
     --twitter-light-hover: #2C8ED6;
+    --background: #FAFAFA;
+    --background-content:#EDEEF0;
+    --wine: #D61E29;
+    --yellow: #FAC600;
   }
-
 `;
