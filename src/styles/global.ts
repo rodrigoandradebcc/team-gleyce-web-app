@@ -24,6 +24,10 @@ export default createGlobalStyle`
     font: 16px Roboto, sans-serif;
   }
 
+  button{
+    cursor: pointer;
+  }
+
   :root {
     --primary: #000;
     --secondary: #15181C;

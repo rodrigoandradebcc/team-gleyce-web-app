@@ -1,22 +1,21 @@
-import React from 'react';
-
+import React, { ButtonHTMLAttributes } from 'react';
 import {
   Container,
-  StatusStudent,
-  StudentPhoto,
-  Status,
-  StudentName,
-  Plan,
   LastAccess,
+  Plan,
   SendMessage,
+  Status,
+  StatusStudent,
+  StudentName,
+  StudentPhoto,
   Switch,
 } from './styles';
 
-interface CardStudentProps {
+interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isActive: boolean;
   photo: string;
   name: string;
-  plan: string;
+  plan?: string;
   last_access: string;
 }
 
@@ -26,9 +25,10 @@ const CardStudent: React.FC<CardStudentProps> = ({
   name,
   plan,
   last_access,
+  ...rest
 }) => {
   return (
-    <Container>
+    <Container {...rest}>
       <StatusStudent>
         <StudentPhoto src={photo} />
         <Status>{isActive ? 'Ativo' : 'Inativo'}</Status>

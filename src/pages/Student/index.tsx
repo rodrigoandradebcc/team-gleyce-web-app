@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { v4 as uuid } from 'uuid';
 
+import { useHistory } from 'react-router-dom';
 import CardStudent from '../../components/CardStudent';
 
 import {
@@ -15,7 +15,7 @@ import {
   ContainerCardsStudents,
 } from './styles';
 
-import teste from '../../assets/userProf.png';
+import api from '../../services/api';
 
 interface Student {
   id: string;
@@ -26,85 +26,36 @@ interface Student {
   plan: string;
 }
 
+interface StudentProps {
+  id: string;
+  full_name: string;
+  cpf: string;
+  date_of_birth: string;
+  active: boolean;
+  email: string;
+  phone: string;
+  password: string;
+  last_acess: string;
+  photo: string;
+}
+
 const Student: React.FC = () => {
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<StudentProps[]>([]);
+  const [studentSelected, setStudentSelected] = useState<string>();
+
+  const history = useHistory();
 
   useEffect(() => {
-    setStudents([
-      {
-        id: uuid(),
-        active: true,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: false,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: true,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: false,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: false,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: false,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: false,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: false,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-      {
-        id: uuid(),
-        active: false,
-        last_access: '10/10/2021',
-        name: 'Teste do teste',
-        photo: teste,
-        plan: 'Personal',
-      },
-    ]);
-  }, [students]);
+    api.get('/users').then(response => {
+      setStudents(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log('SELECIONADO', studentSelected);
+  }, [studentSelected]);
+
+  console.log(students);
 
   return (
     <Container>
@@ -119,16 +70,35 @@ const Student: React.FC = () => {
           <ButtonCreateStudent>Cadastrar aluno</ButtonCreateStudent>
         </HeaderContent>
         <ContainerCardsStudents>
-          {students.map(({ id, active, last_access, name, photo, plan }) => (
-            <CardStudent
-              key={id}
-              isActive={active}
-              last_access={last_access}
-              name={name}
-              photo={photo}
-              plan={plan}
-            />
-          ))}
+          {students.map(
+            ({
+              id,
+              last_acess,
+              full_name,
+              photo,
+              cpf,
+              date_of_birth,
+              active,
+              email,
+              phone,
+              password,
+            }) => (
+              <CardStudent
+                key={id}
+                isActive={active}
+                last_access={last_acess}
+                name={full_name}
+                photo={photo}
+                onClick={() => {
+                  // setStudentSelected(id);
+                  history.push('/trainings', {
+                    idSelected: id,
+                    studentName: full_name,
+                  });
+                }}
+              />
+            ),
+          )}
         </ContainerCardsStudents>
       </Main>
     </Container>

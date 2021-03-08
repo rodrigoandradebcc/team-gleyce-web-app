@@ -65,6 +65,5 @@ export const ButtonCreateStudent = styled.button`
 
 export const ContainerCardsStudents = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 `;

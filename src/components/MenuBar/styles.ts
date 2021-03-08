@@ -14,7 +14,7 @@ import {
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background: #fac600;
+  background: #000000;
   width: 250px;
   border-right: 1px solid #e0e0e0;
   margin-right: 18px;
@@ -63,11 +63,11 @@ export const MenuButton = styled(Link)`
     margin-left: 19px;
     font-weight: bold;
     font-size: 16px;
-    color: #fef0cd;
+    color: #ffffff;
   }
 
   svg {
-    color: #fef0cd;
+    color: #ffffff;
   }
 `;
 

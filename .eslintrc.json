@@ -30,6 +30,7 @@
     "no-use-before-define": "off",
     "prettier/prettier": "error",
     "react/prop-types": "off",
+    "no-console": "off",
     "react/require-default-props": "off",
     "react/jsx-one-expression-per-line": "off",
     "@typescript-eslint/explicit-function-return-type": [
