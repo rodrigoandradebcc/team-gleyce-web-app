@@ -1,61 +1,49 @@
-import React, { useRef, useCallback } from 'react';
-import { FormHandles } from '@unform/core';
-import { v4 as uuid } from 'uuid';
-import { FiCheckSquare } from 'react-icons/fi';
+import React from 'react';
 
 import Modal from '../Modal';
 
-interface IExercise {
-  exercise_group: string;
-  id: string;
-  link: string;
-  name: string;
-}
+import { Title, ActionsContainer, Button, Label } from './styles';
 
 interface IModalProps {
   isOpen: boolean;
+  deletingExercise: string;
   setIsOpen: () => void;
-  handleDeleteExercise: (exercise: IExercise) => void;
+  handleDeleteExercise: (id: string) => void;
 }
 
 const ModalDeleteExercise: React.FC<IModalProps> = ({
   isOpen = false,
+  deletingExercise,
   setIsOpen,
   handleDeleteExercise,
 }) => {
-  const formRef = useRef<FormHandles>(null);
-
-  const handleSubmit = useCallback(
-    async ({ name, link, exercise_group }: IExercise) => {
-      handleDeleteExercise({
-        id: uuid(),
-        name,
-        link,
-        exercise_group,
-      });
-
-      setIsOpen();
-    },
-    [handleDeleteExercise, setIsOpen],
-  );
+  function handleConfirmDelete(id: string): void {
+    console.log(id);
+    handleDeleteExercise(id);
+    setIsOpen();
+  }
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <h3>Deseja realmente apagar este exercício?</h3>
-      <div className="two-inputs">
-        <button type="submit" data-testid="confirm-delete-exercise-button">
-          <p className="text">Confirmar</p>
-          <div className="icon">
-            <FiCheckSquare size={24} />
-          </div>
-        </button>
-        <button type="submit" data-testid="cancel-delete-exercise-button">
-          <p className="text">Cancelar</p>
-          <div className="icon">
-            <FiCheckSquare size={24} />
-          </div>
-        </button>
-      </div>
+      <Title>Deseja realmente apagar este exercício?</Title>
+      <ActionsContainer>
+        <Button
+          colorButton="#D61E29"
+          type="submit"
+          data-testid="confirm-delete-exercise-button"
+          onClick={() => handleConfirmDelete(deletingExercise)}
+        >
+          <Label>Confirmar</Label>
+        </Button>
+        <Button
+          colorButton="#00C06B"
+          type="submit"
+          data-testid="cancel-delete-exercise-button"
+          onClick={() => setIsOpen()}
+        >
+          <Label>Cancelar</Label>
+        </Button>
+      </ActionsContainer>
     </Modal>
   );
 };

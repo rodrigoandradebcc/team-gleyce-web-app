@@ -43,6 +43,7 @@ const Exercises: React.FC = () => {
   const [editingExercise, setEditingExercise] = useState<IExercise>(
     {} as IExercise,
   );
+  const [deletingExercise, setDeletingExercise] = useState('');
 
   useEffect(() => {
     async function getExercises(): Promise<void> {
@@ -64,9 +65,13 @@ const Exercises: React.FC = () => {
     setEditModalOpen(!editModalOpen);
   }, [editModalOpen]);
 
-  const handleToggleDeleteModal = useCallback(() => {
-    setDeleteModalOpen(!deleteModalOpen);
-  }, [deleteModalOpen]);
+  const handleToggleDeleteModal = useCallback(
+    (id: string) => {
+      setDeleteModalOpen(!deleteModalOpen);
+      setDeletingExercise(id);
+    },
+    [deleteModalOpen],
+  );
 
   const handleAddExercise = useCallback(
     async (newExercise: IExercise) => {
@@ -93,8 +98,14 @@ const Exercises: React.FC = () => {
     }
   }, []);
 
-  const handleDeleteExercise = useCallback(() => {
-    console.log('siwuhfdshuf');
+  const handleDeleteExercise = useCallback(async (id: string) => {
+    console.log(id);
+    try {
+      await api.delete(`/exercises/${id}`);
+      setRefresh(!refresh);
+    } catch ({ err }) {
+      console.log(err);
+    }
   }, []);
 
   const handleEditExercise = useCallback(
@@ -145,7 +156,7 @@ const Exercises: React.FC = () => {
                       handleEditExercise({ id, name, exercise_group, link });
                     }}
                   />
-                  <FiTrash2 onClick={() => handleToggleDeleteModal()} />
+                  <FiTrash2 onClick={() => handleToggleDeleteModal(id)} />
                 </Actions>
               </Column>
               <Column>
@@ -167,13 +178,13 @@ const Exercises: React.FC = () => {
         setIsOpen={handleToggleEditModal}
         handleUpdateExercise={handleUpdateExercise}
         editingExercise={editingExercise}
-        deleteExercise={handleDeleteExercise}
       />
 
       <ModalDeleteExercise
         isOpen={deleteModalOpen}
-        setIsOpen={handleToggleDeleteModal}
+        setIsOpen={() => setDeleteModalOpen(!deleteModalOpen)}
         handleDeleteExercise={handleDeleteExercise}
+        deletingExercise={deletingExercise}
       />
     </Container>
   );

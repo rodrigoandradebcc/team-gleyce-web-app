@@ -20,7 +20,6 @@ interface IModalProps {
   editingExercise: IExercise;
   setIsOpen: () => void;
   handleUpdateExercise: (exercise: IExercise) => void;
-  deleteExercise(id: string): void;
 }
 
 const ModalAddExercise: React.FC<IModalProps> = ({
@@ -32,7 +31,7 @@ const ModalAddExercise: React.FC<IModalProps> = ({
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(
-    async ({ name, link, exercise_group }: IExercise) => {
+    ({ name, link, exercise_group }: IExercise) => {
       handleUpdateExercise({
         id: editingExercise.id,
         name,
