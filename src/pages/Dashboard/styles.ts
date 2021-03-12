@@ -12,7 +12,6 @@ export const Container = styled.div`
   flex: 1;
   background-color: var(--background-content);
   border-radius: 24px;
-  padding: 12px;
 `;
 
 export const Welcome = styled.div`
@@ -29,6 +28,7 @@ export const Welcome = styled.div`
 
 export const CardList = styled.div`
   display: flex;
+  margin: 16px 0;
 
   width: 100%;
 `;

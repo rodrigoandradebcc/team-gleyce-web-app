@@ -8,6 +8,14 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 
+  &:first-child {
+    margin-left: 20px;
+  }
+
+  &:last-child {
+    margin-right: 20px;
+  }
+
   height: 320px;
   width: 100%;
   background: #fff;

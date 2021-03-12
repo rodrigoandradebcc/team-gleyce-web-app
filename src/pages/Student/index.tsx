@@ -90,7 +90,6 @@ const Student: React.FC = () => {
                 name={full_name}
                 photo={photo}
                 onClick={() => {
-                  // setStudentSelected(id);
                   history.push('/trainings', {
                     idSelected: id,
                     studentName: full_name,
