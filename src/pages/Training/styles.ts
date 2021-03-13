@@ -38,7 +38,7 @@ export const ContainerCards = styled.div`
   grid-auto-rows: 100px;
 `;
 
-export const TrainingCard = styled.div`
+export const TrainingCard = styled.button`
   display: flex;
   flex-direction: column;
   /* min-width: 350px; */

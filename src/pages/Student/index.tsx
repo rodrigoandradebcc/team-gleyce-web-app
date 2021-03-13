@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import CardStudent from '../../components/CardStudent';
@@ -16,15 +16,7 @@ import {
 } from './styles';
 
 import api from '../../services/api';
-
-interface Student {
-  id: string;
-  active: boolean;
-  last_access: string;
-  name: string;
-  photo: string;
-  plan: string;
-}
+import ModalAddStudent from '../../components/ModalAddStudent';
 
 interface StudentProps {
   id: string;
@@ -37,11 +29,13 @@ interface StudentProps {
   password: string;
   last_acess: string;
   photo: string;
+  plan_type: string;
+  observation: string;
 }
 
 const Student: React.FC = () => {
   const [students, setStudents] = useState<StudentProps[]>([]);
-  const [studentSelected, setStudentSelected] = useState<string>();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const history = useHistory();
 
@@ -51,11 +45,59 @@ const Student: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log('SELECIONADO', studentSelected);
-  }, [studentSelected]);
+  const handleToggleModalAddStudent = useCallback(() => {
+    setModalOpen(!modalOpen);
+  }, [modalOpen]);
 
-  console.log(students);
+  const handleToggleActiveUser = useCallback(
+    async (id: string) => {
+      const findUser = students.find(student => student.id === id);
+
+      try {
+        await api.put(`/users/${id}`, { active: findUser?.active });
+      } catch ({ err }) {
+        console.log(err);
+      }
+    },
+    [students],
+  );
+
+  const handleAddStudent = useCallback(
+    async ({
+      full_name,
+      cpf,
+      date_of_birth,
+      email,
+      phone,
+      password,
+      observation,
+      plan_type,
+      active,
+    }: Omit<StudentProps, 'id' | 'last_acess' | 'photo'>) => {
+      try {
+        const { data: studentCreated } = await api.post<StudentProps>(
+          '/users',
+          {
+            full_name,
+            cpf,
+            date_of_birth,
+            email,
+            phone,
+            password,
+            plan_type,
+            observation,
+            last_acess: new Date(),
+            active,
+          },
+        );
+
+        setStudents([...students, studentCreated]);
+      } catch ({ err }) {
+        console.log(err);
+      }
+    },
+    [students],
+  );
 
   return (
     <Container>
@@ -67,40 +109,39 @@ const Student: React.FC = () => {
       <Main>
         <HeaderContent>
           <Result>{students.length} resultados</Result>
-          <ButtonCreateStudent>Cadastrar aluno</ButtonCreateStudent>
+          <ButtonCreateStudent onClick={() => handleToggleModalAddStudent()}>
+            Cadastrar aluno
+          </ButtonCreateStudent>
         </HeaderContent>
         <ContainerCardsStudents>
           {students.map(
-            ({
-              id,
-              last_acess,
-              full_name,
-              photo,
-              cpf,
-              date_of_birth,
-              active,
-              email,
-              phone,
-              password,
-            }) => (
+            ({ id, last_acess, full_name, photo, active, plan_type }) => (
               <CardStudent
                 key={id}
+                id={id}
                 isActive={active}
                 last_access={last_acess}
                 name={full_name}
                 photo={photo}
+                plan_type={plan_type}
                 onClick={() => {
-                  // setStudentSelected(id);
                   history.push('/trainings', {
                     idSelected: id,
                     studentName: full_name,
                   });
                 }}
+                handleToggleActiveUser={() => handleToggleActiveUser(id)}
               />
             ),
           )}
         </ContainerCardsStudents>
       </Main>
+
+      <ModalAddStudent
+        isOpen={modalOpen}
+        setIsOpen={handleToggleModalAddStudent}
+        handleAddStudent={handleAddStudent}
+      />
     </Container>
   );
 };

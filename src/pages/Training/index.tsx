@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import api from '../../services/api';
 
 import * as S from './styles';
@@ -10,6 +10,7 @@ interface HistoryProps {
 }
 
 interface TraingProps {
+  id: string;
   name: string;
   observation: string;
   note: string;
@@ -20,6 +21,8 @@ const Training: React.FC = () => {
   const location = useLocation<HistoryProps>();
   const { idSelected, studentName } = location.state;
   const [trainings, setTrainings] = useState<TraingProps[]>();
+
+  const history = useHistory();
 
   const getTrainings = (id: string): void => {
     api.get(`/trainings/${id}`).then(response => {
@@ -41,8 +44,15 @@ const Training: React.FC = () => {
       <h2>{studentName}</h2>
       <strong>TREINOS ATIVOS ({trainings?.length})</strong>
       <S.ContainerCards>
-        {trainings?.map(({ name, expiration_date, observation }) => (
-          <S.TrainingCard>
+        {trainings?.map(({ name, expiration_date, observation, id }) => (
+          <S.TrainingCard
+            onClick={() => {
+              history.push('/plans', {
+                idSelected: id,
+              });
+              console.log(id);
+            }}
+          >
             <strong>{name}</strong>
             <p>{observation}</p>
 

@@ -36,10 +36,10 @@ const MenuBar: React.FC = () => {
           <ExerciseIcon />
           <span>Exercícios</span>
         </MenuButton>
-        <MenuButton to="/trainings">
+        {/* <MenuButton to="/trainings">
           <ExerciseIcon />
           <span>Treinos</span>
-        </MenuButton>
+        </MenuButton> */}
         <MenuButton to="/students">
           <ClientIcon />
           <span>Alunos</span>
