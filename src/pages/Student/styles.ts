@@ -65,5 +65,17 @@ export const ButtonCreateStudent = styled.button`
 
 export const ContainerCardsStudents = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  > div {
+    margin-right: 10px;
+  }
+`;
+
+export const ListStudentEmpty = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
 `;

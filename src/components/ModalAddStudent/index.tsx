@@ -5,7 +5,9 @@ import { FiCheckSquare } from 'react-icons/fi';
 import Modal from '../Modal';
 import Input from '../Input';
 
-import { Form, Label, Select } from './styles';
+import { Form, Label, Switch } from './styles';
+import InputSelect from '../InputSelect';
+import InputTextArea from '../InputTextArea';
 
 interface StudentProps {
   full_name: string;
@@ -35,7 +37,6 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   handleAddStudent,
 }) => {
   const formRef = useRef<FormHandles>(null);
-  const selectStateElement = useRef<HTMLSelectElement>(null);
   const [isActive, setIsActive] = useState(false);
   const [observation, setObservation] = useState('');
   const [planSelected, setPlanSelected] = useState('');
@@ -72,6 +73,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
       });
 
       setIsOpen();
+      setIsActive(false);
     },
     [handleAddStudent, isActive, observation, planSelected, setIsOpen],
   );
@@ -84,17 +86,15 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Nome do aluno</Label>
-            <Input name="full_name" placeholder="Ex: Fulano de tal" />
+            <Input name="full_name" placeholder="Ex: Fulano de tal" required />
           </div>
           <div>
             <Label>Tipo de plano</Label>
-            <Select
-              ref={selectStateElement}
+            <InputSelect
               options={plans}
-              onChange={(optionSelected: { label: string; value: string }) => {
-                setPlanSelected(optionSelected.value);
-              }}
               isClearable
+              setPlanSelected={(value: string) => setPlanSelected(value)}
+              required
             />
           </div>
         </div>
@@ -102,53 +102,69 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>CPF</Label>
-            <Input name="cpf" type="number" placeholder="00011122233" />
+            <Input name="cpf" type="text" placeholder="00011122233" required />
           </div>
           <div>
             <Label>Data de nascimento</Label>
-            <Input name="date_of_birth" type="date" placeholder="01/01/2000" />
+            <Input
+              name="date_of_birth"
+              type="date"
+              placeholder="01/12/2000"
+              required
+            />
           </div>
         </div>
 
         <div className="two-inputs">
           <div>
             <Label>Contato</Label>
-            <Input name="phone" type="text" placeholder="+55 11 9 2233-4455" />
+            <Input
+              name="phone"
+              type="tel"
+              placeholder="(88) 9 1122-3344"
+              required
+            />
           </div>
           <div>
             <Label>Email</Label>
-            <Input name="email" type="email" placeholder="01/01/2000" />
+            <Input
+              name="email"
+              type="email"
+              placeholder="fulano@tal.com"
+              required
+            />
           </div>
         </div>
 
         <div className="two-inputs">
           <div>
             <Label>Senha</Label>
-            <Input name="password" type="password" />
+            <Input name="password" type="password" required />
           </div>
           <div>
             <Label>Confirmação de senha</Label>
-            <Input name="password_confirmation" type="password" />
+            <Input name="password_confirmation" type="password" required />
           </div>
         </div>
 
         <div>
           <div>
             <Label>Aluno ativo?</Label>
-            <input
-              id="input-checkbox-is-active"
-              name="active"
-              type="checkbox"
-              checked={isActive}
-              onChange={() => setIsActive(!isActive)}
-            />
+            <Switch onClick={() => setIsActive(!isActive)}>
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={() => console.log(!isActive)}
+              />
+              <span className="slider round" />
+            </Switch>
           </div>
         </div>
 
         <div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div>
             <Label>Observações?</Label>
-            <textarea
+            <InputTextArea
               name="observation"
               value={observation}
               onChange={e => setObservation(e.target.value)}

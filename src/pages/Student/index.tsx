@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
 import CardStudent from '../../components/CardStudent';
 
 import {
@@ -13,6 +12,7 @@ import {
   Result,
   ButtonCreateStudent,
   ContainerCardsStudents,
+  ListStudentEmpty,
 } from './styles';
 
 import api from '../../services/api';
@@ -37,8 +37,6 @@ const Student: React.FC = () => {
   const [students, setStudents] = useState<StudentProps[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const history = useHistory();
-
   useEffect(() => {
     api.get('/users').then(response => {
       setStudents(response.data);
@@ -53,8 +51,22 @@ const Student: React.FC = () => {
     async (id: string) => {
       const findUser = students.find(student => student.id === id);
 
+      if (!findUser) {
+        return;
+      }
+
       try {
-        await api.put(`/users/${id}`, { active: findUser?.active });
+        await api.patch(`/users/change-active/${id}`, {
+          active: !findUser?.active,
+        });
+
+        setStudents(oldStudents =>
+          oldStudents.map(oldStudent =>
+            oldStudent.id === id
+              ? { ...oldStudent, active: !findUser.active }
+              : oldStudent,
+          ),
+        );
       } catch ({ err }) {
         console.log(err);
       }
@@ -114,25 +126,26 @@ const Student: React.FC = () => {
           </ButtonCreateStudent>
         </HeaderContent>
         <ContainerCardsStudents>
-          {students.map(
-            ({ id, last_acess, full_name, photo, active, plan_type }) => (
-              <CardStudent
-                key={id}
-                id={id}
-                isActive={active}
-                last_access={last_acess}
-                name={full_name}
-                photo={photo}
-                plan_type={plan_type}
-                onClick={() => {
-                  history.push('/trainings', {
-                    idSelected: id,
-                    studentName: full_name,
-                  });
-                }}
-                handleToggleActiveUser={() => handleToggleActiveUser(id)}
-              />
-            ),
+          {students.length ? (
+            students.map(
+              ({ id, last_acess, full_name, photo, active, plan_type }) => (
+                <CardStudent
+                  key={id}
+                  id={id}
+                  isActive={active}
+                  last_access={last_acess}
+                  name={full_name}
+                  photo={photo}
+                  plan_type={plan_type}
+                  handleToggleActiveUser={() => handleToggleActiveUser(id)}
+                />
+              ),
+            )
+          ) : (
+            <ListStudentEmpty>
+              Você não possui alunos cadastrados. Clique no botão
+              &quot;Cadastrar Aluno&quot; para que eles sejam exibidos aqui!
+            </ListStudentEmpty>
           )}
         </ContainerCardsStudents>
       </Main>
