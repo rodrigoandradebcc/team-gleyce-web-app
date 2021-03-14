@@ -1,43 +1,64 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { Props } from '.';
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 16px 16px 16px 24px;
+  border-radius: 8px;
+  margin-bottom: 12px;
 
-  &:first-child {
-    margin-left: 20px;
-  }
+  box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
+  background-color: #fff;
 
-  &:last-child {
-    margin-right: 20px;
-  }
+  flex: 1;
 
-  height: 320px;
-  width: 100%;
-  background: #fff;
-  /* border: 1px solid #e0e0e0; */
-  border-radius: 10px;
-
-  a {
-    margin-top: 40px;
-    text-decoration: none;
-    color: #673ab7;
-  }
-
-  & + div {
-    margin-left: 20px;
+  &:not(:last-child) {
+    margin-right: 24px;
   }
 `;
 
-export const Title = styled.h1<Props>`
-  color: ${props => (props.numberColor ? props.numberColor : '')};
+export const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Title = styled.span`
+  color: #3d3d3d;
+  font-size: 12px;
+`;
+
+export const Quantity = styled.span`
   margin-top: 16px;
-  font-size: 100px;
-  line-height: 0;
-  font-weight: normal;
-  margin-bottom: 3.75rem;
+  color: #3d3d3d;
+  font-size: 36px;
+`;
+
+interface GoProps {
+  colortype: string;
+}
+
+export const Go = styled(Link)<GoProps>`
+  text-decoration: none;
+  border: 1px solid ${props => props.colortype};
+  padding: 7px;
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  transition: all 0.8s;
+
+  svg {
+    color: ${props => props.colortype};
+    font-size: 24px;
+  }
+
+  &:hover {
+    background-color: ${props => props.colortype};
+
+    svg {
+      color: #fff;
+    }
+  }
 `;

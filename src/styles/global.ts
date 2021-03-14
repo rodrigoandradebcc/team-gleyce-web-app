@@ -17,7 +17,6 @@ export default createGlobalStyle`
     height: 100vh;
     width: 100vw;
     display: flex;
-    padding: 12px;
   }
 
   body, input, button {
@@ -41,7 +40,7 @@ export default createGlobalStyle`
     --twitter-dark-hover: #011017;
     --twitter-light-hover: #2C8ED6;
     --background: #FAFAFA;
-    --background-content:#EDEEF0;
+    --background-content:#E9ECEF;
     --wine: #D61E29;
     --yellow: #FAC600;
   }

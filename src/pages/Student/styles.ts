@@ -6,10 +6,8 @@ export const Container = styled.div`
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  border-radius: 24px;
   padding: 12px;
 
-  max-height: 99vh;
   overflow-y: auto;
 `;
 
@@ -65,5 +63,17 @@ export const ButtonCreateStudent = styled.button`
 
 export const ContainerCardsStudents = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  > div {
+    margin-right: 10px;
+  }
+`;
+
+export const ListStudentEmpty = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
 `;

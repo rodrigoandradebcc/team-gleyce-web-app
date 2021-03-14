@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.button`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,11 @@ export const Container = styled.button`
   margin-bottom: 20px;
 `;
 
-export const StatusStudent = styled.div`
+interface StatusStudentProps {
+  isActive?: boolean;
+}
+
+export const StatusStudent = styled.div<StatusStudentProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +24,15 @@ export const StatusStudent = styled.div`
   margin-bottom: 28px;
 
   border-radius: 50%;
-  border: 5px solid var(--yellow);
+
+  ${props =>
+    props.isActive
+      ? css`
+          border: 5px solid var(--yellow);
+        `
+      : css`
+          border: 5px solid #3b3728;
+        `}
 `;
 
 export const StudentPhoto = styled.img`
@@ -60,12 +72,18 @@ export const SendMessage = styled.p`
   margin-bottom: 20px;
 `;
 
+export const SwitchContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+`;
+
 export const Switch = styled.div`
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
-
   input {
     opacity: 0;
     width: 0;
@@ -117,5 +135,36 @@ export const Switch = styled.div`
 
   .slider.round:before {
     border-radius: 50%;
+  }
+`;
+
+export const ActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  width: 100%;
+`;
+
+export const Go = styled.div`
+  padding: 5px;
+  cursor: pointer;
+
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    background: #fac600;
+    border-radius: 24px;
+    width: 60px;
+    color: #000;
+    transition: color 0.4s;
+    padding: 5px;
+
+    &:hover {
+      color: #999;
+    }
   }
 `;

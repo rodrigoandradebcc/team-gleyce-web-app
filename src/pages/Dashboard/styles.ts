@@ -11,7 +11,7 @@ export const Container = styled.div`
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  border-radius: 24px;
+  padding: 12px;
 `;
 
 export const Welcome = styled.div`
@@ -28,9 +28,8 @@ export const Welcome = styled.div`
 
 export const CardList = styled.div`
   display: flex;
-  margin: 16px 0;
-
-  width: 100%;
+  margin: 16px;
+  flex-wrap: wrap;
 `;
 
 export const NearestClasses = styled.div`
@@ -38,10 +37,7 @@ export const NearestClasses = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
-  margin-left: 2.5%;
-
-  width: 95%;
+  margin: 0 16px;
 `;
 
 export const HeadNearestClasses = styled.div`
