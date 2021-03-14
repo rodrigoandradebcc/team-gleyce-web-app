@@ -6,9 +6,9 @@ export const Container = styled.div`
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  border-radius: 24px;
   padding: 12px;
 
+  overflow-y: auto;
   h2,
   strong {
     margin: 16px 16px;

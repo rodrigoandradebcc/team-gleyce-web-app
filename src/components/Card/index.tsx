@@ -1,6 +1,7 @@
 import React from 'react';
+import { FiCalendar } from 'react-icons/fi';
 
-import { Container, Title } from './styles';
+import { Container, InfoContainer, Title, Quantity, Go } from './styles';
 
 export interface Props {
   numberColor?: string;
@@ -15,9 +16,13 @@ const Card: React.FC<Props> = ({
 }) => {
   return (
     <Container>
-      <Title numberColor={numberColor}>{quantity}</Title>
-      <p>{cardName}</p>
-      <a href="/">VISUALIZAR</a>
+      <InfoContainer>
+        <Title>{cardName}</Title>
+        <Quantity>{quantity}</Quantity>
+      </InfoContainer>
+      <Go to="/" colortype={numberColor}>
+        <FiCalendar />
+      </Go>
     </Container>
   );
 };

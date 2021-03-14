@@ -6,10 +6,8 @@ export const Container = styled.div`
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  border-radius: 24px;
   padding: 12px;
 
-  max-height: 99vh;
   overflow-y: auto;
 `;
 

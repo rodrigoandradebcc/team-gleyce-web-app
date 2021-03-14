@@ -2,8 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  width: 100%;
   flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+  background-color: var(--background-content);
+  padding: 12px;
 `;
 
 export const ContainerCards = styled.div`
