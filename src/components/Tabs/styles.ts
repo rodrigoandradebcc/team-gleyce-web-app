@@ -5,8 +5,8 @@ interface Prop {
 }
 
 export const Container = styled.div`
-  /* margin-top: 32px;
-  margin-bottom: 32px; */
+  /* margin-top: 32px; */
+  margin-bottom: 32px;
   display: flex;
   width: 100%;
 
@@ -41,7 +41,7 @@ export const Tab = styled.button<Prop>`
     height: 2px;
     width: ${props => (props.active ? '100%' : '0%')};
 
-    background-color: #057c6b;
+    background-color: #3d3d3d;
   }
 
   &:hover::after,

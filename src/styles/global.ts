@@ -43,5 +43,8 @@ export default createGlobalStyle`
     --background-content:#E9ECEF;
     --wine: #D61E29;
     --yellow: #FAC600;
+
+    --white: #ffffff;
+    --border-input: #F1EFEF;
   }
 `;

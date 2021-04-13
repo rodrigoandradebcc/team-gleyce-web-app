@@ -9,16 +9,37 @@ export const Container = styled.div`
   padding: 12px;
 `;
 
-export const ContainerCards = styled.div`
-  margin: 16px 16px;
-
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(352px, auto));
-  grid-gap: 64px 32px;
-  grid-auto-rows: 100px;
-`;
-
 export const ContainerExercises = styled.div`
   width: 100%;
   background: red;
+`;
+
+export const SelectContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  .css-2b097c-container {
+    width: 80%;
+  }
+
+  .css-yk16xz-control {
+    min-height: 40px;
+  }
+
+  button {
+    min-height: 40px;
+  }
+`;
+
+export const SelectAndButton = styled.div`
+  /* background: #e13; */
+  width: 50%;
+  display: flex;
+
+  button {
+    margin-left: 8px;
+    flex: 1;
+    min-height: 40px;
+  }
 `;

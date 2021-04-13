@@ -18,6 +18,8 @@ import {
   Go,
 } from './styles';
 
+import Avatar from '../Avatar';
+
 interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isActive: boolean;
   photo: string;
@@ -55,7 +57,8 @@ const CardStudent: React.FC<CardStudentProps> = ({
   return (
     <Container>
       <StatusStudent isActive={isActive}>
-        <StudentPhoto src={photo} />
+        {/* <StudentPhoto src={photo} /> */}
+        <Avatar src="" userName={name} />
         <Status>{isActive ? 'Ativo' : 'Inativo'}</Status>
       </StatusStudent>
 

@@ -18,6 +18,8 @@ export const StatusStudent = styled.div<StatusStudentProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 9.375rem;
+  height: 9.375rem;
 
   position: relative;
 
