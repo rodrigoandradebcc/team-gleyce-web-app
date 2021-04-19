@@ -36,7 +36,7 @@ export const Container = styled.button<ButtonProp>`
     props.background ? `${props.background}` : '#027A69'};
   font-size: ${props => props.fontSize && `${props.fontSize}px`};
   color: ${props => (props.fontColor ? `${props.fontColor}` : '#fff')};
-  border-radius: 0.25rem;
+  border-radius: 2px;
   border: 0;
   width: ${props => (props.fullWidth ? '100%' : 'fit-content')};
 

@@ -6,15 +6,18 @@ interface AvatarProps {
   src: string;
   userName: string;
   alt?: string;
+  size?: number;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
   src = '',
   userName = '',
   alt = '',
+  size,
+  ...props
 }) => {
   return (
-    <Container>
+    <Container {...props} size={size}>
       {src === '' ? (
         <AvatarContainer>
           <p>{userName[0]}</p>

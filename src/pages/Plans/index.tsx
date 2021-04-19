@@ -58,12 +58,6 @@ const Plans: React.FC = () => {
     });
   }, []);
 
-  console.log('heuaheuae', selectedExercises);
-
-  // useEffect(() => {
-  //   console.log(exercises);
-  // }, [exercises]);
-
   const getPlansToUser = (id: string): void => {
     api.get(`/plans/${id}`).then(response => {
       setPlans(response.data);

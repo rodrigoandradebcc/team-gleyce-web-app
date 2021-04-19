@@ -9,7 +9,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: var(--background);
+    background: var(--new-background);
     --webkit-font-smoothing: antialiased;
   }
 
@@ -20,7 +20,8 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font: 16px Roboto, sans-serif;
+    font: 16px 'IBM Plex Sans', sans-serif;
+    color: --text-body;
   }
 
   button{
@@ -31,7 +32,7 @@ export default createGlobalStyle`
     --primary: #000;
     --secondary: #15181C;
     --search: #202327;
-    --white: #D9D9D9;
+    /* --white: #D9D9D9; */
     --gray: #7A7A7A;
     --outline: #2F3336;
     --retweet: #00C06B;
@@ -46,5 +47,10 @@ export default createGlobalStyle`
 
     --white: #ffffff;
     --border-input: #F1EFEF;
+
+
+    --new-background: #f7f7f7;
+    --text-body: #1E1E1E;
+    --tab-yellow: #FFC62D;
   }
 `;
