@@ -7,7 +7,7 @@ export const Container = styled.div`
   background-color: var(--background);
   padding: 1rem 1rem;
   width: 18rem;
-  height: 13rem;
+  height: auto;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0.125rem;
 `;
@@ -190,6 +190,7 @@ export const Top = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 16px;
 `;
 
 export const Data = styled.div`
@@ -201,8 +202,8 @@ export const Data = styled.div`
 export const Bottom = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: auto;
   width: 100%;
+  margin-top: auto;
 `;
 
 export const StudentPhoto = styled.div<StatusStudentProps>`

@@ -54,9 +54,7 @@ export const ContainerCardsStudents = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
 
-  > div {
-    margin-right: 10px;
-  }
+  gap: 16px;
 `;
 
 export const ListStudentEmpty = styled.span`
