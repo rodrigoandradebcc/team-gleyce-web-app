@@ -4,10 +4,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   background-color: var(--background);
-  border-radius: 10px;
-  margin-bottom: 20px;
+  padding: 1rem 1rem;
+  width: 18rem;
+  height: 13rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0.125rem;
 `;
 
 interface StatusStudentProps {
@@ -16,10 +18,10 @@ interface StatusStudentProps {
 
 export const StatusStudent = styled.div<StatusStudentProps>`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 9.375rem;
-  height: 9.375rem;
+  width: 292px;
+  height: 203px;
 
   position: relative;
 
@@ -37,55 +39,73 @@ export const StatusStudent = styled.div<StatusStudentProps>`
         `}
 `;
 
-export const StudentPhoto = styled.img`
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-  border: 5px solid white;
-`;
-
 export const Status = styled.div`
   position: absolute;
   transform: translate(-50%);
   left: 50%;
-  bottom: -15px;
+  bottom: -1rem;
 
-  padding: 5px 10px;
+  padding: 0.32rem 0.625rem;
   color: var(--yellow);
   background-color: #3b3728;
 
-  border-radius: 10px;
+  border-radius: 0.625rem;
 `;
 
 export const StudentName = styled.h3`
-  margin-bottom: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 `;
 
-export const Plan = styled.p`
-  margin-bottom: 10px;
+export const Plan = styled.p<StatusStudentProps>`
+  color: ${props => !props.isActive && `#bbb`};
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 800;
+  font-size: 0.625rem;
+  margin-bottom: 0.25rem;
 `;
 
 export const LastAccess = styled.p`
-  margin-bottom: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.625rem;
+  color: #bbb;
 `;
 
 export const SendMessage = styled.p`
+  width: 9.125rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.81rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--yellow);
+  border: 1.5px solid var(--yellow);
+  border-radius: 3px;
   cursor: pointer;
-  margin-bottom: 20px;
+
+  svg {
+    height: 1rem;
+    width: 1rem;
+  }
 `;
 
 export const SwitchContainer = styled.div`
+  margin-bottom: auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
 `;
 
 export const Switch = styled.div`
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 2.75rem;
+  height: 1.375rem;
   input {
     opacity: 0;
     width: 0;
@@ -107,10 +127,11 @@ export const Switch = styled.div`
   .slider:before {
     position: absolute;
     content: '';
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    top: 0.125rem;
+    height: 1.13rem;
+    width: 1.13rem;
+    left: 0.125rem;
+    bottom: 0.25rem;
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
@@ -125,9 +146,9 @@ export const Switch = styled.div`
   }
 
   input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(1.375rem);
+    -ms-transform: translateX(1.375rem);
+    transform: translateX(1.375rem);
   }
 
   /* Rounded sliders */
@@ -144,29 +165,46 @@ export const ActionsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px;
+  margin-bottom: auto;
   width: 100%;
 `;
 
 export const Go = styled.div`
-  padding: 5px;
   cursor: pointer;
-
+  width: 6.125rem;
+  height: 2.5rem;
+  background: var(--yellow);
+  color: white;
   display: flex;
-  flex: 1;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  font-size: 0.625rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 0.125rem;
+`;
 
-  svg {
-    background: #fac600;
-    border-radius: 24px;
-    width: 60px;
-    color: #000;
-    transition: color 0.4s;
-    padding: 5px;
+export const Top = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
-    &:hover {
-      color: #999;
-    }
-  }
+export const Data = styled.div`
+  display: flex;
+  flex-direction: column;
+  line-height: 12px;
+`;
+
+export const Bottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  width: 100%;
+`;
+
+export const StudentPhoto = styled.div<StatusStudentProps>`
+  filter: ${props => !props.isActive && `grayscale(1)`};
 `;

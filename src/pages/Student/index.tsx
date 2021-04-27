@@ -1,22 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
 import CardStudent from '../../components/CardStudent';
-
+import ModalAddStudent from '../../components/ModalAddStudent';
+import Tabs from '../../components/TabsT';
+import api from '../../services/api';
+import Button from '../../components/ButtonRod';
+import SearchInput from '../../components/SearchInput';
 import {
   Container,
-  Welcome,
-  Message,
-  ScreenName,
-  Main,
-  HeaderContent,
-  Result,
-  ButtonCreateStudent,
   ContainerCardsStudents,
+  HeaderContent,
   ListStudentEmpty,
+  Main,
+  Result,
+  ActionArea,
 } from './styles';
-
-import api from '../../services/api';
-import ModalAddStudent from '../../components/ModalAddStudent';
 
 interface StudentProps {
   id: string;
@@ -36,6 +33,12 @@ interface StudentProps {
 const Student: React.FC = () => {
   const [students, setStudents] = useState<StudentProps[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const trainingTypes = [
+    { id: '1', description: 'Todos' },
+    { id: '2', description: 'Ativos' },
+    { id: '3', description: 'Inativos' },
+  ];
 
   useEffect(() => {
     api.get('/users').then(response => {
@@ -113,17 +116,25 @@ const Student: React.FC = () => {
 
   return (
     <Container>
-      <Welcome>
-        <Message>Bem vindo, FULANO DE TAL</Message>
-        <ScreenName>Alunos | Ativos | Inativos</ScreenName>
-      </Welcome>
+      <h1>Alunos</h1>
+      <Tabs tabsApi={trainingTypes} />
+
+      <ActionArea>
+        <SearchInput
+          placeholder="Pesquise por nome, sobrenome, e-mail ou CPF"
+          name="search"
+        />
+        <Button
+          background="#1E1E1E"
+          onClick={() => handleToggleModalAddStudent()}
+        >
+          CADASTRAR ALUNO
+        </Button>
+      </ActionArea>
 
       <Main>
         <HeaderContent>
           <Result>{students.length} resultados</Result>
-          <ButtonCreateStudent onClick={() => handleToggleModalAddStudent()}>
-            Cadastrar aluno
-          </ButtonCreateStudent>
         </HeaderContent>
         <ContainerCardsStudents>
           {students.length ? (

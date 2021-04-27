@@ -6,9 +6,13 @@ export const Container = styled.div`
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  padding: 12px;
+  padding: 2.69rem;
 
   overflow-y: auto;
+
+  h1 {
+    font: 500 1.5rem 'IBM Plex Sans', sans-serif;
+  }
 `;
 
 export const Welcome = styled.div`
@@ -28,7 +32,7 @@ export const ScreenName = styled.h3`
 export const Main = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 1rem 0;
 `;
 
 export const HeaderContent = styled.div`
@@ -36,29 +40,13 @@ export const HeaderContent = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 5px;
-  margin-bottom: 10px;
+  padding-bottom: 1rem;
+  margin-bottom: 0.625rem;
 `;
 
 export const Result = styled.div`
-  text-transform: uppercase;
-`;
-
-export const ButtonCreateStudent = styled.button`
-  text-transform: uppercase;
-  border: 0;
-  padding: 10px;
-  color: #fff;
-  background-color: var(--wine);
-  outline: 0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: filter 0.4s;
-
-  &:hover {
-    filter: brightness(0.8);
-  }
+  font: 400 1rem 'IBM Plex Sans', sans-serif;
+  text-transform: capitalize;
 `;
 
 export const ContainerCardsStudents = styled.div`
@@ -76,4 +64,22 @@ export const ListStudentEmpty = styled.span`
   align-items: center;
   justify-content: center;
   height: 70vh;
+`;
+
+export const ActionArea = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  div {
+    flex: 6;
+  }
+
+  button {
+    font: 500 0.875rem 'IBM Plex Sans', sans-serif;
+    flex: 1;
+    width: 13.25rem;
+    height: 2.5rem;
+    border-radius: 0.125rem;
+  }
 `;

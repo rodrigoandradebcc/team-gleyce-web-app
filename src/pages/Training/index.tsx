@@ -69,7 +69,7 @@ const Training: React.FC = () => {
       <S.NameAndLogoContainer>
         <p>{studentName}</p>
 
-        <Avatar src="" userName={studentName} size={32} />
+        <Avatar src="" userName={studentName} size={2} />
       </S.NameAndLogoContainer>
 
       <Tabs tabsApi={trainingTypes} />

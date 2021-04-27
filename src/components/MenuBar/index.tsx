@@ -41,7 +41,7 @@ const MenuBar: React.FC = () => {
       },
       {
         to: '/schedule',
-        title: 'Agenda de Aulas',
+        title: 'Agenda',
         icon: AgendaIcon,
         selected: false,
       },

@@ -1,20 +1,19 @@
 import styled from 'styled-components';
 
 interface AvatarProps {
-  size?: number;
+  size: number;
 }
 
 export const Container = styled.div<AvatarProps>`
-  width: 100%;
-  height: 100%;
-
-  max-width: ${props => props.size && `${props.size}px`};
-  max-height: ${props => props.size && `${props.size}px`};
+  width: ${props => props.size && `${props.size}rem`};
+  height: ${props => props.size && `${props.size}rem`};
 
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  font-size: 4rem;
 
   img {
     width: 100%;
@@ -27,7 +26,7 @@ export const Image = styled.img`
   border-radius: 50%;
 `;
 
-export const AvatarContainer = styled.div`
+export const AvatarContainer = styled.div<AvatarProps>`
   width: 100%;
   height: 100%;
 
@@ -41,9 +40,8 @@ export const AvatarContainer = styled.div`
   border: 2px solid #ffc62d;
 
   p {
-    /* font-size: calc(6rem); */
-    font-size: auto;
-    font-weight: 600;
+    font-size: ${props => props.size && `${props.size * 0.9}`}rem;
+    font-weight: 400;
     color: #ffc62d;
     line-height: 1;
   }

@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes, useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { format } from 'date-fns';
+import { ImWhatsapp } from 'react-icons/im';
 import { FiChevronRight } from 'react-icons/fi';
 
 import {
@@ -16,6 +17,9 @@ import {
   SwitchContainer,
   Switch,
   Go,
+  Top,
+  Data,
+  Bottom,
 } from './styles';
 
 import Avatar from '../Avatar';
@@ -54,37 +58,75 @@ const CardStudent: React.FC<CardStudentProps> = ({
     });
   }
 
+  // return (
+  //   <Container>
+  //     <StatusStudent isActive={isActive}>
+  //       {/* <StudentPhoto src={photo} /> */}
+  //       <Avatar src="" userName={name} />
+  //       <Status>{isActive ? 'Ativo' : 'Inativo'}</Status>
+  //     </StatusStudent>
+
+  //     <StudentName>{name}</StudentName>
+  //     <Plan>Plano: {plan_type}</Plan>
+  //     <LastAccess>Último acesso: {dateFormatted}</LastAccess>
+  //     <SendMessage>Enviar mensagem</SendMessage>
+
+  // <ActionsContainer>
+  //   <SwitchContainer>
+  //     <Switch onClick={handleToggleSwitch}>
+  //       <input
+  //         type="checkbox"
+  //         checked={isActive}
+  //         onChange={() => console.log(!isActive)}
+  //       />
+  //       <span className="slider round" />
+  //     </Switch>
+  //   </SwitchContainer>
+
+  //   {isActive && (
+  //     <Go onClick={handleGoToTrainingsPage}>
+  //       <FiChevronRight size={34} />
+  //     </Go>
+  //   )}
+  // </ActionsContainer>
+  //   </Container>
+  // );
+
   return (
     <Container>
-      <StatusStudent isActive={isActive}>
-        {/* <StudentPhoto src={photo} /> */}
-        <Avatar src="" userName={name} />
-        <Status>{isActive ? 'Ativo' : 'Inativo'}</Status>
-      </StatusStudent>
+      <Top>
+        <Data>
+          <SwitchContainer>
+            <Switch onClick={handleToggleSwitch}>
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={() => console.log(!isActive)}
+              />
+              <span className="slider round" />
+            </Switch>
+          </SwitchContainer>
 
-      <StudentName>{name}</StudentName>
-      <Plan>Plano: {plan_type}</Plan>
-      <LastAccess>Último acesso: {dateFormatted}</LastAccess>
-      <SendMessage>Enviar mensagem</SendMessage>
+          <Plan isActive={isActive}>{plan_type}</Plan>
+          <LastAccess>Venc. {dateFormatted}</LastAccess>
+        </Data>
 
-      <ActionsContainer>
-        <SwitchContainer>
-          <Switch onClick={handleToggleSwitch}>
-            <input
-              type="checkbox"
-              checked={isActive}
-              onChange={() => console.log(!isActive)}
-            />
-            <span className="slider round" />
-          </Switch>
-        </SwitchContainer>
+        <StudentPhoto isActive={isActive}>
+          <Avatar size={5} src="" userName={name} />
+        </StudentPhoto>
+      </Top>
 
-        {isActive && (
-          <Go onClick={handleGoToTrainingsPage}>
-            <FiChevronRight size={34} />
-          </Go>
-        )}
-      </ActionsContainer>
+      <Bottom>
+        <StudentName>{name}</StudentName>
+
+        <ActionsContainer>
+          <SendMessage>
+            <ImWhatsapp />
+            Enviar mensagem
+          </SendMessage>
+          <Go onClick={handleGoToTrainingsPage}>Ver Treinos</Go>
+        </ActionsContainer>
+      </Bottom>
     </Container>
   );
 };

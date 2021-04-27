@@ -14,6 +14,8 @@ import {
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0 1.37rem;
+  width: 9rem;
   background: #ffffff;
   border-radius: 24px;
 `;
@@ -43,14 +45,14 @@ export const MenuButton = styled(Link)<MenuButtonProps>`
   min-height: 80px;
   min-width: 100%;
 
-  padding: 0 15px;
-
-  background-color: ${props => (props.selected ? '#fca311' : '#ffffff')};
+  /* background-color: ${props => (props.selected ? '#fca311' : '#ffffff')}; */
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  /* justify-content: flex-start; */
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+
   flex-shrink: 0;
   text-decoration: none;
   color: black;
@@ -69,22 +71,35 @@ export const MenuButton = styled(Link)<MenuButtonProps>`
   }
 
   > span {
-    display: inline;
-    font-weight: bold;
-    margin-top: 5px;
-    font-size: 14px;
-    color: ${props => (props.selected ? '#ffffff' : '#6c757d')};
+    /* display: inline; */
+    display: block;
+    margin-left: 0.375rem;
+    flex: 1;
+    text-align: left;
+    font-weight: 500;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.75rem;
+    color: ${props => (props.selected ? '#1e1e1e' : '#bbb')};
+    transition: all 0.4s;
+    /* color: ${props => (props.selected ? '#ffffff' : '#6c757d')}; */
   }
 
   svg {
-    color: ${props => (props.selected ? '#ffffff' : '#6c757d')};
+    padding: 0.6rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    color: ${props => (props.selected ? '#ffffff' : '#bbb')};
+    background: ${props => props.selected && `#fca311`};
+    transition: all 0.4s;
   }
 
   &:hover {
-    background-color: #fca311;
-
+    svg {
+      background: #fca311;
+    }
     > span {
-      color: #fff;
+      color: #1e1e1e;
     }
 
     svg {

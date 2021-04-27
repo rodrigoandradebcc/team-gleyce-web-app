@@ -5,8 +5,8 @@ import { Container, Image, AvatarContainer } from './styles';
 interface AvatarProps {
   src: string;
   userName: string;
+  size: number;
   alt?: string;
-  size?: number;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -19,7 +19,7 @@ const Avatar: React.FC<AvatarProps> = ({
   return (
     <Container {...props} size={size}>
       {src === '' ? (
-        <AvatarContainer>
+        <AvatarContainer size={size}>
           <p>{userName[0]}</p>
         </AvatarContainer>
       ) : (
