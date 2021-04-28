@@ -17,7 +17,6 @@ export const Container = styled.div`
   padding: 0 1.37rem;
   width: 9rem;
   background: #ffffff;
-  border-radius: 24px;
 `;
 
 export const ContainerLogo = styled.div`

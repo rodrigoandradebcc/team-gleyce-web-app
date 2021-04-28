@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, useCallback } from 'react';
+import React, { ButtonHTMLAttributes, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { format } from 'date-fns';
 import { ImWhatsapp } from 'react-icons/im';
@@ -57,6 +57,8 @@ const CardStudent: React.FC<CardStudentProps> = ({
       studentName: name,
     });
   }
+
+  useEffect(() => {}, [isActive]);
 
   // return (
   //   <Container>
