@@ -12,6 +12,9 @@ export const Container = styled.div`
   box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
   background-color: #fff;
 
+  min-width: 18.25rem;
+  flex-shrink: 0;
+
   flex: 1;
 
   /* &:not(:last-child) {

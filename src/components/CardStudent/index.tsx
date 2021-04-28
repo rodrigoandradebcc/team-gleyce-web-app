@@ -2,15 +2,12 @@ import React, { ButtonHTMLAttributes, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { format } from 'date-fns';
 import { ImWhatsapp } from 'react-icons/im';
-import { FiChevronRight } from 'react-icons/fi';
 
 import {
   Container,
   LastAccess,
   Plan,
   SendMessage,
-  Status,
-  StatusStudent,
   StudentName,
   StudentPhoto,
   ActionsContainer,
@@ -36,7 +33,6 @@ interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const CardStudent: React.FC<CardStudentProps> = ({
   isActive,
-  photo,
   name,
   plan_type,
   last_access,
@@ -57,42 +53,6 @@ const CardStudent: React.FC<CardStudentProps> = ({
       studentName: name,
     });
   }
-
-  useEffect(() => {}, [isActive]);
-
-  // return (
-  //   <Container>
-  //     <StatusStudent isActive={isActive}>
-  //       {/* <StudentPhoto src={photo} /> */}
-  //       <Avatar src="" userName={name} />
-  //       <Status>{isActive ? 'Ativo' : 'Inativo'}</Status>
-  //     </StatusStudent>
-
-  //     <StudentName>{name}</StudentName>
-  //     <Plan>Plano: {plan_type}</Plan>
-  //     <LastAccess>Último acesso: {dateFormatted}</LastAccess>
-  //     <SendMessage>Enviar mensagem</SendMessage>
-
-  // <ActionsContainer>
-  //   <SwitchContainer>
-  //     <Switch onClick={handleToggleSwitch}>
-  //       <input
-  //         type="checkbox"
-  //         checked={isActive}
-  //         onChange={() => console.log(!isActive)}
-  //       />
-  //       <span className="slider round" />
-  //     </Switch>
-  //   </SwitchContainer>
-
-  //   {isActive && (
-  //     <Go onClick={handleGoToTrainingsPage}>
-  //       <FiChevronRight size={34} />
-  //     </Go>
-  //   )}
-  // </ActionsContainer>
-  //   </Container>
-  // );
 
   return (
     <Container>
