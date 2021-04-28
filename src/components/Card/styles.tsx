@@ -5,18 +5,18 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 16px 16px 24px;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  padding: 1.56rem 1.5rem;
+  border-radius: 0.125rem;
+  /* margin-bottom: 12px; */
 
   box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
   background-color: #fff;
 
   flex: 1;
 
-  &:not(:last-child) {
+  /* &:not(:last-child) {
     margin-right: 24px;
-  }
+  } */
 `;
 
 export const InfoContainer = styled.div`
@@ -26,13 +26,18 @@ export const InfoContainer = styled.div`
 
 export const Title = styled.span`
   color: #3d3d3d;
-  font-size: 12px;
+  font-size: 1rem;
+  font-family: 'Roboto', serif;
+  font-weight: 600;
+  text-transform: capitalize;
 `;
 
 export const Quantity = styled.span`
   margin-top: 16px;
   color: #3d3d3d;
-  font-size: 36px;
+  font-size: 2.25rem;
+  font-family: 'Roboto', serif;
+  font-weight: 600;
 `;
 
 interface GoProps {
@@ -42,8 +47,14 @@ interface GoProps {
 export const Go = styled(Link)<GoProps>`
   text-decoration: none;
   border: 1px solid ${props => props.colortype};
-  padding: 7px;
-  border-radius: 14px;
+  border-radius: 0.875rem;
+
+  width: 2.5rem;
+  height: 2.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   cursor: pointer;
 
@@ -52,6 +63,8 @@ export const Go = styled(Link)<GoProps>`
   svg {
     color: ${props => props.colortype};
     font-size: 24px;
+    width: 1.375rem;
+    height: 1.375rem;
   }
 
   &:hover {
