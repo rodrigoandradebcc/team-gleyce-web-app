@@ -17,6 +17,7 @@ export const Container = styled.div`
   padding: 0 1.37rem;
   width: 9rem;
   background: #ffffff;
+  overflow-y: auto;
 `;
 
 export const ContainerLogo = styled.div`

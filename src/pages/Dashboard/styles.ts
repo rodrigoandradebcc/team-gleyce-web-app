@@ -52,12 +52,16 @@ export const ClassesList = styled.div`
 `;
 
 export const ClassesContainer = styled.ul`
-  background: white;
+  position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
-  flex: 1;
+  flex-shrink: 0;
 
+  background: white;
+  box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
+
+  min-width: 18.25rem;
   padding: 1rem;
   gap: 1.5rem !important;
 `;
@@ -67,6 +71,7 @@ export const ClassesTitle = styled.li<ClassesContainerProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: auto;
 
   h3 {
     font: 600 1rem 'IBM Plex Sans', sans-serif;

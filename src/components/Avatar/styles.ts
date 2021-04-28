@@ -44,5 +44,6 @@ export const AvatarContainer = styled.div<AvatarProps>`
     font-weight: 400;
     color: #ffc62d;
     line-height: 1;
+    height: 100%;
   }
 `;
