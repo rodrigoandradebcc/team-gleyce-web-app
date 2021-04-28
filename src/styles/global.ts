@@ -19,6 +19,15 @@ export default createGlobalStyle`
     display: flex;
   }
 
+  html { 
+    @media (max-width: 1080px){
+      font-size: 93.75%;
+    }
+    @media (max-width: 720px){
+      font-size: 87.5%;
+    }
+  }
+
   body, input, button {
     font: 16px 'IBM Plex Sans', sans-serif;
     color: --text-body;
