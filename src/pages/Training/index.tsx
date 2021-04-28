@@ -1,5 +1,5 @@
 import { format, parseISO } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { IoMdCalendar } from 'react-icons/io';
 import { MdModeEdit } from 'react-icons/md';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Avatar from '../../components/Avatar';
 import ButtonIcon from '../../components/ButtonIcon';
 import ButtonRod from '../../components/ButtonRod';
 import DropdownMenu from '../../components/DropdownMenu';
+import ModalAddTraining from '../../components/ModalAddTraining';
 import Tabs from '../../components/TabsT';
 import api from '../../services/api';
 import * as S from './styles';
@@ -30,6 +31,12 @@ interface DropdownMenuProps {
 }
 
 const Training: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleToggleModalAddTraining = useCallback(() => {
+    setModalOpen(!modalOpen);
+  }, [modalOpen]);
+
   const trainingTypes = [
     { id: '1', description: 'Todos' },
     { id: '2', description: 'Ativos' },
@@ -75,7 +82,15 @@ const Training: React.FC = () => {
       <Tabs tabsApi={trainingTypes} />
 
       <S.ButtonArea>
-        <ButtonRod background="#FCA311">CADASTRAR TREINO</ButtonRod>
+        <ButtonRod
+          background="#FCA311"
+          onClick={() => {
+            // console.log('manel');
+            handleToggleModalAddTraining();
+          }}
+        >
+          CADASTRAR TREINO
+        </ButtonRod>
       </S.ButtonArea>
 
       <S.ContainerCards>
@@ -114,6 +129,10 @@ const Training: React.FC = () => {
       {/* <strong>TREINOS ATIVOS ({trainings?.length})</strong> */}
 
       {/* <S.InactiveTraininigs>TREINOS INATIVOS (0)</S.InactiveTraininigs> */}
+      <ModalAddTraining
+        isOpen={modalOpen}
+        setIsOpen={handleToggleModalAddTraining}
+      />
     </S.Container>
   );
 };
