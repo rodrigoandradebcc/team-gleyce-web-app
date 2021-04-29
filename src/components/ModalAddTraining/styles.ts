@@ -1,12 +1,41 @@
 import styled from 'styled-components';
 
-
-export const Label = styled.label`
-  color: #e6b600;
-  /* padding-left: 0.12rem; */
-  /* font-family: Roboto; */
+export const Label = styled.p`
   font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  margin-bottom: 5rem;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+`;
+
+export const ContainerModal = styled.div`
+  padding: 44px 48px;
+
+  button {
+    margin-top: 32px;
+    font-weight: 600;
+  }
+`;
+
+export const LabelAndInputArea = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & + & {
+    margin-top: 1rem;
+  }
+`;
+
+export const LogoAndTitleModal = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  p {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  svg {
+    margin-right: 10px;
+  }
 `;

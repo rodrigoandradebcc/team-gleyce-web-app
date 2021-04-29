@@ -1,8 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { MdFitnessCenter } from 'react-icons/md';
 import { NewInput } from '../NewInput';
+import { InputTextArea } from '../InputTextArea';
+
 import Modal from '../Modal';
-import { Label } from './styles';
+import * as S from './styles';
+import ButtonRod from '../ButtonRod';
 
 interface TrainingProps {
   name: string;
@@ -18,10 +22,6 @@ interface IModalProps {
   //   handleAddStudent: (student: TrainingProps) => Promise<void>;
 }
 
-interface FormDataProps {
-  full_name: string;
-}
-
 const ModalAddTraining: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
@@ -30,21 +30,43 @@ const ModalAddTraining: React.FC<IModalProps> = ({
   const { register, handleSubmit } = useForm();
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  function handle({ full_name }: FormDataProps) {
-    console.log(full_name);
+  function handle(data: TrainingProps) {
+    console.log(data);
   }
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <form onSubmit={handleSubmit(handle)}>
-        <Label>Nome do aluno</Label>
-        <NewInput
-          placeholder="Ex: Fulano de tal"
-          required
-          {...register('full_name')}
-        />
-        <button type="submit">TESTE</button>
-      </form>
+      <S.ContainerModal>
+        <S.LogoAndTitleModal>
+          <MdFitnessCenter size={24} />
+          <p>Cadastrar treino</p>
+        </S.LogoAndTitleModal>
+        <form onSubmit={handleSubmit(handle)}>
+          <S.LabelAndInputArea>
+            <S.Label>Nome do treino</S.Label>
+            <NewInput placeholder="Ex: Supino" required {...register('name')} />
+          </S.LabelAndInputArea>
+          <S.LabelAndInputArea>
+            <S.Label>Data de expiração</S.Label>
+            <NewInput required type="date" {...register('expiration_date')} />
+          </S.LabelAndInputArea>
+          <S.LabelAndInputArea>
+            <S.Label>Observações para o aluno</S.Label>
+            <InputTextArea
+              placeholder="Ex: Observações para o aluno"
+              {...register('observation')}
+            />
+          </S.LabelAndInputArea>
+          <S.LabelAndInputArea>
+            <S.Label>Anotações</S.Label>
+            <InputTextArea placeholder="Ex: Anotações" {...register('note')} />
+          </S.LabelAndInputArea>
+
+          <ButtonRod fullWidth heightSize="large" type="submit">
+            Cadastrar
+          </ButtonRod>
+        </form>
+      </S.ContainerModal>
     </Modal>
   );
 };

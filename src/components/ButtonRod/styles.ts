@@ -33,7 +33,7 @@ export const Container = styled.button<ButtonProp>`
   position: relative;
 
   background: ${props =>
-    props.background ? `${props.background}` : '#027A69'};
+    props.background ? `${props.background}` : 'var(--yellow)'};
   font-size: ${props => props.fontSize && `${props.fontSize}px`};
   color: ${props => (props.fontColor ? `${props.fontColor}` : '#fff')};
   border-radius: 2px;

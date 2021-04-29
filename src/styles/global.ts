@@ -51,7 +51,7 @@ export default createGlobalStyle`
     --background: #FAFAFA;
     --background-content:#E9ECEF;
     --wine: #D61E29;
-    --yellow: #FAC600;
+    --yellow: #FFBA01;
 
     --white: #ffffff;
     --border-input: #F1EFEF;
@@ -59,6 +59,6 @@ export default createGlobalStyle`
 
     --new-background: #f7f7f7;
     --text-body: #1E1E1E;
-    --tab-yellow: #FFC62D;
+    --tab-yellow: #FFBA01;
   }
 `;

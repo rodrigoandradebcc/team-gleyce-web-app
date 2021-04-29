@@ -1,23 +1,20 @@
-import React, { TextareaHTMLAttributes, useState } from 'react';
-
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  TextareaHTMLAttributes,
+} from 'react';
 import { Container } from './styles';
 
-interface InputTextArea extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface InputTextAreaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
 }
 
-const InputTextArea: React.FC<InputTextArea> = ({ name, children }) => {
-  const [value, setValue] = useState('');
-
-  return (
-    <Container
-      name={name}
-      value={value}
-      onChange={e => setValue(e.target.value)}
-    >
-      {children}
-    </Container>
-  );
+const InputTextAreaBase: ForwardRefRenderFunction<
+  HTMLTextAreaElement,
+  InputTextAreaProps
+> = ({ name, ...rest }: InputTextAreaProps, ref) => {
+  return <Container id={name} ref={ref} name={name} {...rest} />;
 };
 
-export default InputTextArea;
+export const InputTextArea = forwardRef(InputTextAreaBase);

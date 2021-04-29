@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { FiCheckSquare } from 'react-icons/fi';
 
 import Modal from '../Modal';
-import Input from '../Input';
+import LegacyInput from '../LegacyInput';
 
 import { Form, Label } from './styles';
 
@@ -52,18 +52,26 @@ const ModalAddExercise: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Nome Exercício</Label>
-            <Input name="name" placeholder="Ex: Banco Tríceps''" />
+            <LegacyInput name="name" placeholder="Ex: Banco Tríceps''" />
           </div>
           <div>
             <Label>Grupo do exercício</Label>
-            <Input name="exercise_group" type="text" placeholder="Tríceps" />
+            <LegacyInput
+              name="exercise_group"
+              type="text"
+              placeholder="Tríceps"
+            />
           </div>
         </div>
 
         <div>
           <div>
             <Label>Link do vídeo</Label>
-            <Input name="link" type="text" placeholder="https://youtube.com" />
+            <LegacyInput
+              name="link"
+              type="text"
+              placeholder="https://youtube.com"
+            />
           </div>
         </div>
 

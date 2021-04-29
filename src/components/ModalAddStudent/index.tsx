@@ -3,11 +3,11 @@ import { FormHandles } from '@unform/core';
 import { FiCheckSquare } from 'react-icons/fi';
 
 import Modal from '../Modal';
-import Input from '../Input';
+import LegacyInput from '../LegacyInput';
 
 import { Form, Label, Switch } from './styles';
 import InputSelect from '../InputSelect';
-import InputTextArea from '../InputTextArea';
+import { InputTextArea } from '../InputTextArea';
 
 interface StudentProps {
   full_name: string;
@@ -86,7 +86,11 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Nome do aluno</Label>
-            <Input name="full_name" placeholder="Ex: Fulano de tal" required />
+            <LegacyInput
+              name="full_name"
+              placeholder="Ex: Fulano de tal"
+              required
+            />
           </div>
           <div>
             <Label>Tipo de plano</Label>
@@ -102,11 +106,16 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>CPF</Label>
-            <Input name="cpf" type="text" placeholder="00011122233" required />
+            <LegacyInput
+              name="cpf"
+              type="text"
+              placeholder="00011122233"
+              required
+            />
           </div>
           <div>
             <Label>Data de nascimento</Label>
-            <Input
+            <LegacyInput
               name="date_of_birth"
               type="date"
               placeholder="01/12/2000"
@@ -118,7 +127,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Contato</Label>
-            <Input
+            <LegacyInput
               name="phone"
               type="tel"
               placeholder="(88) 9 1122-3344"
@@ -127,7 +136,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           </div>
           <div>
             <Label>Email</Label>
-            <Input
+            <LegacyInput
               name="email"
               type="email"
               placeholder="fulano@tal.com"
@@ -139,11 +148,15 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Senha</Label>
-            <Input name="password" type="password" required />
+            <LegacyInput name="password" type="password" required />
           </div>
           <div>
             <Label>Confirmação de senha</Label>
-            <Input name="password_confirmation" type="password" required />
+            <LegacyInput
+              name="password_confirmation"
+              type="password"
+              required
+            />
           </div>
         </div>
 

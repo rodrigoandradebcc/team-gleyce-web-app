@@ -1,15 +1,18 @@
 import styled from 'styled-components';
 
 export const Container = styled.textarea`
-  margin-top: 0.25rem;
   display: flex;
   align-items: center;
   background: #fff;
-  border-radius: 8px;
-  padding: 18px 24px;
+  border-radius: 2px;
+  padding: 16px 16px;
   font-size: 16px;
   border: 0;
   min-width: 100%;
   min-height: 120px;
   resize: none;
+
+  &::placeholder {
+    color: #b7b7cc;
+  }
 `;
