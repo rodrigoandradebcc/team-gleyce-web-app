@@ -5,13 +5,17 @@ import Routes from './routes';
 import GlobalStyle from './styles/global';
 
 import MenuBar from './components/MenuBar';
+import Header from './components/Header';
 
 const App: React.FC = () => (
   <>
     <BrowserRouter>
       <GlobalStyle />
       <MenuBar />
-      <Routes />
+      <div id="mainContainer">
+        <Header />
+        <Routes />
+      </div>
     </BrowserRouter>
   </>
 );

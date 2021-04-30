@@ -86,16 +86,3 @@ const Dashboard: React.FC<PropsPersonalClass> = ({ clientName }) => {
 };
 
 export default Dashboard;
-
-/* <NearestClasses> */
-// <HeadNearestClasses>
-// <p>Aulas de personais mais próximas</p>
-//   // <p>Ver todas as aulas</p>
-// </HeadNearestClasses>
-// <BodyNearestClasses>
-/* <PersonalClass clientName={clientName} /> */
-//     <PersonalClass />
-//     <PersonalClass />
-//     <PersonalClass />
-//   </BodyNearestClasses>
-// </NearestClasses>

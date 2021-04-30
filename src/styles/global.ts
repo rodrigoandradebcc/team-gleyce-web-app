@@ -11,6 +11,7 @@ export default createGlobalStyle`
   body {
     background: var(--new-background);
     --webkit-font-smoothing: antialiased;
+    font-family: 'Poppins';
   }
 
   #root {
@@ -29,7 +30,7 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font: 16px 'IBM Plex Sans', sans-serif;
+    font-size: 1rem;
     color: --text-body;
   }
 
@@ -60,5 +61,13 @@ export default createGlobalStyle`
     --new-background: #f7f7f7;
     --text-body: #1E1E1E;
     --tab-yellow: #FFBA01;
+  }
+
+  #mainContainer {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
   }
 `;

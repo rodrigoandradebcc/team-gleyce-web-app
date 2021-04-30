@@ -19,7 +19,6 @@ export const Tab = styled.button<Prop>`
   width: 100%;
 
   font-size: 16px;
-  font-family: 'IBM Plex Sans', sans-serif;
   padding-bottom: 8px;
 
   position: relative;

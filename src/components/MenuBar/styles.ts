@@ -15,8 +15,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 1.37rem;
-  width: 9rem;
-  background: #ffffff;
+  width: 6rem;
+  background: #fcfcfc;
   overflow-y: auto;
 `;
 
@@ -28,13 +28,14 @@ export const ContainerLogo = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 135px;
+  width: 4.5rem;
 `;
 
 export const ContainerLinks = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 0.843rem;
 `;
 
 interface MenuButtonProps {
@@ -42,7 +43,7 @@ interface MenuButtonProps {
 }
 
 export const MenuButton = styled(Link)<MenuButtonProps>`
-  min-height: 80px;
+  padding: 0.843rem 0;
   min-width: 100%;
 
   /* background-color: ${props => (props.selected ? '#fca311' : '#ffffff')}; */
@@ -50,7 +51,7 @@ export const MenuButton = styled(Link)<MenuButtonProps>`
   display: flex;
   flex-direction: row;
   /* justify-content: flex-start; */
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
   flex-shrink: 0;
@@ -77,7 +78,6 @@ export const MenuButton = styled(Link)<MenuButtonProps>`
     flex: 1;
     text-align: left;
     font-weight: 500;
-    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.75rem;
     color: ${props => (props.selected ? '#1e1e1e' : '#bbb')};
     transition: all 0.4s;

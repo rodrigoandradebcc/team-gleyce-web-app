@@ -12,7 +12,7 @@ export const Container = styled.div`
   /* padding-left: 2.875rem;
   padding-right: 0.75rem; */
 
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
   background: white;
 
   display: flex;

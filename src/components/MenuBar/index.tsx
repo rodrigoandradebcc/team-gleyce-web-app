@@ -17,7 +17,7 @@ import {
   ExitIcon,
 } from './styles';
 
-import logoImg from '../../assets/logowhite.svg';
+import logoImg from '../../assets/logoblack.svg';
 
 interface Link {
   to: string;
@@ -117,11 +117,11 @@ const MenuBar: React.FC = () => {
 
   return (
     <Container>
-      {/* <ContainerLogo>
+      <ContainerLogo>
         <Logo src={logoImg} alt="Logo Gleyce Cristina" />
-      </ContainerLogo> */}
+      </ContainerLogo>
       <ContainerLinks>
-        {links.map(({ to, title, icon: Icon, selected }, index) => (
+        {links.map(({ to, icon: Icon, selected }, index) => (
           <MenuButton
             to={to}
             // eslint-disable-next-line react/no-array-index-key
@@ -130,7 +130,6 @@ const MenuBar: React.FC = () => {
             selected={selected}
           >
             <Icon />
-            <span>{title}</span>
           </MenuButton>
         ))}
       </ContainerLinks>

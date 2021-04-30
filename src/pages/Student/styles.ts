@@ -6,12 +6,13 @@ export const Container = styled.div`
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  padding: 2.69rem;
+  padding: 0.8125rem 2.69rem;
 
   overflow-y: auto;
 
   h1 {
-    font: 500 1.5rem 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
   }
 `;
 
@@ -45,7 +46,8 @@ export const HeaderContent = styled.div`
 `;
 
 export const Result = styled.div`
-  font: 400 1rem 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
   text-transform: capitalize;
 `;
 
@@ -74,9 +76,10 @@ export const ActionArea = styled.div`
   }
 
   button {
-    font: 500 0.875rem 'IBM Plex Sans', sans-serif;
-    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 500;
     width: 13.25rem;
+    flex-shrink: 0;
     height: 2.5rem;
     border-radius: 0.125rem;
   }

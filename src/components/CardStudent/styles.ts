@@ -8,7 +8,7 @@ export const Container = styled.div`
   padding: 1rem 1rem;
   width: 18rem;
   height: auto;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
   border-radius: 0.125rem;
 `;
 
@@ -53,7 +53,6 @@ export const Status = styled.div`
 `;
 
 export const StudentName = styled.h3`
-  font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 500;
   font-size: 1rem;
   margin-bottom: 1rem;
@@ -61,14 +60,12 @@ export const StudentName = styled.h3`
 
 export const Plan = styled.p<StatusStudentProps>`
   color: ${props => !props.isActive && `#bbb`};
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 800;
+  font-weight: 500;
   font-size: 0.625rem;
   margin-bottom: 0.25rem;
 `;
 
 export const LastAccess = styled.p`
-  font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 500;
   font-size: 0.625rem;
   color: #bbb;
@@ -81,7 +78,6 @@ export const SendMessage = styled.p`
   align-items: center;
   justify-content: space-between;
   padding: 0 0.81rem;
-  font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.625rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -179,7 +175,6 @@ export const Go = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 0.625rem;
-  font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   border-radius: 0.125rem;

@@ -15,12 +15,13 @@ export const Container = styled.div`
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  padding: 2.69rem;
+  padding: 0.8125rem 2.69rem;
 
-  overflow-y: auto;
+  /* overflow-y: auto; */
 
   h1 {
-    font: 500 1.5rem 'IBM Plex Sans', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
   }
 `;
 
@@ -73,14 +74,15 @@ export const ClassesTitle = styled.li<ClassesContainerProps>`
   justify-content: space-between;
   margin-bottom: auto;
 
-  h3 {
-    font: 600 1rem 'IBM Plex Sans', sans-serif;
-  }
-
   svg {
     width: 1.25rem;
     height: 1.25rem;
     color: ${props => props.color};
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: 1rem;
   }
 `;
 
@@ -105,7 +107,8 @@ export const Class = styled.li`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    font: 600 0.75rem 'IBM Plex Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
     margin-bottom: 0.2rem;
   }
 
@@ -113,7 +116,8 @@ export const Class = styled.li`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    font: 600 0.625rem 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.625rem;
     color: #bbbbbb;
   }
 `;
