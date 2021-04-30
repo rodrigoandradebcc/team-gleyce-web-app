@@ -164,7 +164,7 @@ const Student: React.FC = () => {
       <ModalAddStudent
         isOpen={modalOpen}
         setIsOpen={handleToggleModalAddStudent}
-        handleAddStudent={handleAddStudent}
+        // handleAddStudent={handleAddStudent}
       />
     </Container>
   );

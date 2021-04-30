@@ -11,7 +11,11 @@ export default createGlobalStyle`
   body {
     background: var(--new-background);
     --webkit-font-smoothing: antialiased;
-    font-family: 'Poppins';
+  }
+
+  body, input, textarea, button{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
   }
 
   #root {
@@ -31,7 +35,7 @@ export default createGlobalStyle`
 
   body, input, button {
     font-size: 1rem;
-    color: --text-body;
+    color: var(--text-body);
   }
 
   button{

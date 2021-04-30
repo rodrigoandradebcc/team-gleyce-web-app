@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { FiCheckSquare } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
-import InputSelect from '../InputSelect';
+import { FiCheckSquare } from 'react-icons/fi';
+import api from '../../services/api';
 import { InputTextArea } from '../InputTextArea';
-import { NewInput } from '../NewInput';
 import Modal from '../Modal';
+import { NewInput } from '../NewInput';
+import { NewSelect } from '../NewSelect';
 import { Form, Label, Switch } from './styles';
 
 interface StudentProps {
@@ -26,19 +27,28 @@ type FormProps = StudentProps & { password_confirmation: string };
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddStudent: (student: StudentProps) => Promise<void>;
+  // handleAddStudent: (student: StudentProps) => Promise<void>;
 }
 
 const ModalAddStudent: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
-  handleAddStudent,
+  // handleAddStudent,
 }) => {
   const { register, handleSubmit } = useForm();
 
   const [isActive, setIsActive] = useState(false);
   const [observation, setObservation] = useState('');
-  const [planSelected, setPlanSelected] = useState('');
+
+  function handle(data: StudentProps): void {
+    const currentDate = String(new Date(Date.now()));
+    console.log('data de hoje', currentDate);
+
+    const newData = { ...data, last_acess: currentDate };
+
+    handleStudentSubmit(newData);
+    setIsOpen();
+  }
 
   const plans = [
     { label: 'Quinzenal', value: 'Quinzenal' },
@@ -47,39 +57,21 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   ];
 
   const handleStudentSubmit = useCallback(
-    async ({
-      cpf,
-      date_of_birth,
-      email,
-      photo,
-      phone,
-      full_name,
-      last_acess,
-      password,
-    }: FormProps) => {
-      handleAddStudent({
-        active: isActive,
-        cpf,
-        date_of_birth,
-        email,
-        photo,
-        phone,
-        full_name,
-        last_acess,
-        password,
-        plan_type: planSelected,
-        observation,
-      });
+    async (student: StudentProps): Promise<void> => {
+      try {
+        const response = await api.post('/users', student);
 
-      setIsOpen();
-      setIsActive(false);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    [handleAddStudent, isActive, observation, planSelected, setIsOpen],
+    [],
   );
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form onSubmit={handleSubmit(handleStudentSubmit)}>
+      <Form onSubmit={handleSubmit(handle)}>
         <h1>Novo aluno</h1>
 
         <div className="two-inputs">
@@ -93,13 +85,12 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           </div>
           <div>
             <Label>Tipo de plano</Label>
-            <InputSelect
-              options={plans}
-              isClearable
-              setPlanSelected={(value: string) => setPlanSelected(value)}
-              required
-              {...register('full_name')}
-            />
+            {/* <select {...register('plan_type')}>
+              <option value="Quinzenal">Quinzenal</option>
+              <option value="Semestral">Semestral</option>
+              <option value="Personal">Personal</option>
+            </select> */}
+            <NewSelect values={plans} {...register('plan_type')} />
           </div>
         </div>
 
@@ -107,19 +98,19 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           <div>
             <Label>CPF</Label>
             <NewInput
-              name="cpf"
               type="text"
               placeholder="00011122233"
               required
+              {...register('cpf')}
             />
           </div>
           <div>
             <Label>Data de nascimento</Label>
             <NewInput
-              name="date_of_birth"
               type="date"
               placeholder="01/12/2000"
               required
+              {...register('date_of_birth')}
             />
           </div>
         </div>
@@ -128,19 +119,19 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           <div>
             <Label>Contato</Label>
             <NewInput
-              name="phone"
               type="tel"
               placeholder="(88) 9 1122-3344"
               required
+              {...register('phone')}
             />
           </div>
           <div>
             <Label>Email</Label>
             <NewInput
-              name="email"
               type="email"
               placeholder="fulano@tal.com"
               required
+              {...register('email')}
             />
           </div>
         </div>
@@ -148,7 +139,8 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Senha</Label>
-            <NewInput name="password" type="password" required />
+
+            <NewInput type="password" required {...register('password')} />
           </div>
           <div>
             <Label>Confirmação de senha</Label>
@@ -163,7 +155,8 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               <input
                 type="checkbox"
                 checked={isActive}
-                onChange={() => console.log(!isActive)}
+                // onChange={() => console.log(!isActive)}
+                {...register('active')}
               />
               <span className="slider round" />
             </Switch>
@@ -174,9 +167,10 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           <div>
             <Label>Observações?</Label>
             <InputTextArea
-              name="observation"
-              value={observation}
-              onChange={e => setObservation(e.target.value)}
+              // value={observation}
+              {...register('observation')}
+
+              // onChange={e => setObservation(e.target.value)}
             />
           </div>
         </div>
