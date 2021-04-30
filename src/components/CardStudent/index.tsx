@@ -48,6 +48,7 @@ const CardStudent: React.FC<CardStudentProps> = ({
   const dateFormatted = format(new Date(last_access), 'dd/mm/yyyy');
 
   function handleGoToTrainingsPage(): void {
+    console.log(id);
     history.push('/trainings', {
       idSelected: id,
       studentName: name,

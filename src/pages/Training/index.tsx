@@ -54,8 +54,9 @@ const Training: React.FC = () => {
   const [idAtualSelecionado, setIdAtualSelecionado] = useState('');
 
   useEffect(() => {
-    console.log('O SELECIONADO NA PARTE DE FORA', idAtualSelecionado);
-  }, [idAtualSelecionado]);
+    console.log('O SELECIONADO', idSelected);
+    setIdAtualSelecionado(idSelected);
+  }, [idSelected]);
 
   const getTrainings = (id: string): void => {
     api.get(`/trainings/${id}`).then(response => {
@@ -95,7 +96,7 @@ const Training: React.FC = () => {
 
       <S.ContainerCards>
         {trainings?.map(({ name, expiration_date, observation, id }) => (
-          <S.TrainingCard>
+          <S.TrainingCard key={id}>
             <S.NameAndExpirationDate>
               <strong>{name}</strong>
               <div>

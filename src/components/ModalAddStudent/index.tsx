@@ -1,13 +1,11 @@
-import React, { useRef, useCallback, useState } from 'react';
-import { FormHandles } from '@unform/core';
+import React, { useCallback, useState } from 'react';
 import { FiCheckSquare } from 'react-icons/fi';
-
-import Modal from '../Modal';
-import LegacyInput from '../LegacyInput';
-
-import { Form, Label, Switch } from './styles';
+import { useForm } from 'react-hook-form';
 import InputSelect from '../InputSelect';
 import { InputTextArea } from '../InputTextArea';
+import { NewInput } from '../NewInput';
+import Modal from '../Modal';
+import { Form, Label, Switch } from './styles';
 
 interface StudentProps {
   full_name: string;
@@ -36,7 +34,8 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   setIsOpen,
   handleAddStudent,
 }) => {
-  const formRef = useRef<FormHandles>(null);
+  const { register, handleSubmit } = useForm();
+
   const [isActive, setIsActive] = useState(false);
   const [observation, setObservation] = useState('');
   const [planSelected, setPlanSelected] = useState('');
@@ -47,7 +46,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
     { label: 'Personal', value: 'Personal' },
   ];
 
-  const handleSubmit = useCallback(
+  const handleStudentSubmit = useCallback(
     async ({
       cpf,
       date_of_birth,
@@ -80,16 +79,16 @@ const ModalAddStudent: React.FC<IModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form ref={formRef} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit(handleStudentSubmit)}>
         <h1>Novo aluno</h1>
 
         <div className="two-inputs">
           <div>
             <Label>Nome do aluno</Label>
-            <LegacyInput
-              name="full_name"
+            <NewInput
               placeholder="Ex: Fulano de tal"
               required
+              {...register('full_name')}
             />
           </div>
           <div>
@@ -99,6 +98,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               isClearable
               setPlanSelected={(value: string) => setPlanSelected(value)}
               required
+              {...register('full_name')}
             />
           </div>
         </div>
@@ -106,7 +106,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>CPF</Label>
-            <LegacyInput
+            <NewInput
               name="cpf"
               type="text"
               placeholder="00011122233"
@@ -115,7 +115,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           </div>
           <div>
             <Label>Data de nascimento</Label>
-            <LegacyInput
+            <NewInput
               name="date_of_birth"
               type="date"
               placeholder="01/12/2000"
@@ -127,7 +127,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Contato</Label>
-            <LegacyInput
+            <NewInput
               name="phone"
               type="tel"
               placeholder="(88) 9 1122-3344"
@@ -136,7 +136,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           </div>
           <div>
             <Label>Email</Label>
-            <LegacyInput
+            <NewInput
               name="email"
               type="email"
               placeholder="fulano@tal.com"
@@ -148,15 +148,11 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div className="two-inputs">
           <div>
             <Label>Senha</Label>
-            <LegacyInput name="password" type="password" required />
+            <NewInput name="password" type="password" required />
           </div>
           <div>
             <Label>Confirmação de senha</Label>
-            <LegacyInput
-              name="password_confirmation"
-              type="password"
-              required
-            />
+            <NewInput name="password_confirmation" type="password" required />
           </div>
         </div>
 

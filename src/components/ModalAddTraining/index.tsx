@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdFitnessCenter } from 'react-icons/md';
-import { NewInput } from '../NewInput';
-import { InputTextArea } from '../InputTextArea';
-
-import Modal from '../Modal';
-import * as S from './styles';
+import { useLocation } from 'react-router';
+import api from '../../services/api';
 import ButtonRod from '../ButtonRod';
+import { InputTextArea } from '../InputTextArea';
+import Modal from '../Modal';
+import { NewInput } from '../NewInput';
+import * as S from './styles';
 
 interface TrainingProps {
   name: string;
@@ -16,23 +17,43 @@ interface TrainingProps {
   user_id: string;
 }
 
+interface HistoryProps {
+  idSelected: string;
+}
+
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  //   handleAddStudent: (student: TrainingProps) => Promise<void>;
 }
 
 const ModalAddTraining: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
-  //   handleAddStudent,
 }) => {
   const { register, handleSubmit } = useForm();
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  function handle(data: TrainingProps) {
-    console.log(data);
+  const location = useLocation<HistoryProps>();
+
+  const { idSelected } = location.state;
+
+  function handleAddTrainingSubmit(data: TrainingProps): void {
+    const newData = { ...data, user_id: idSelected };
+    handleAddTraining(newData);
+    setIsOpen();
   }
+
+  const handleAddTraining = useCallback(
+    async (training: TrainingProps): Promise<void> => {
+      try {
+        const response = await api.post('/trainings', training);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [],
+  );
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -41,7 +62,7 @@ const ModalAddTraining: React.FC<IModalProps> = ({
           <MdFitnessCenter size={24} />
           <p>Cadastrar treino</p>
         </S.LogoAndTitleModal>
-        <form onSubmit={handleSubmit(handle)}>
+        <form onSubmit={handleSubmit(handleAddTrainingSubmit)}>
           <S.LabelAndInputArea>
             <S.Label>Nome do treino</S.Label>
             <NewInput placeholder="Ex: Supino" required {...register('name')} />
