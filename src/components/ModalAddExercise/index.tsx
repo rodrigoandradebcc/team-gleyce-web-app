@@ -1,11 +1,8 @@
-import React, { useRef, useCallback } from 'react';
-import { FormHandles } from '@unform/core';
-import { v4 as uuid } from 'uuid';
+import React, { useCallback } from 'react';
 import { FiCheckSquare } from 'react-icons/fi';
-
+import { v4 as uuid } from 'uuid';
+import { NewInput } from '../NewInput';
 import Modal from '../Modal';
-import LegacyInput from '../LegacyInput';
-
 import { Form, Label } from './styles';
 
 interface IExercise {
@@ -26,8 +23,6 @@ const ModalAddExercise: React.FC<IModalProps> = ({
   setIsOpen,
   handleAddExercise,
 }) => {
-  const formRef = useRef<FormHandles>(null);
-
   const handleSubmit = useCallback(
     async ({ name, link, exercise_group }: IExercise) => {
       handleAddExercise({
@@ -44,28 +39,24 @@ const ModalAddExercise: React.FC<IModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form ref={formRef} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <h1>Novo exercício</h1>
 
         <div className="two-inputs">
           <div>
             <Label>Nome Exercício</Label>
-            <LegacyInput name="name" placeholder="Ex: Banco Tríceps''" />
+            <NewInput name="name" placeholder="Ex: Banco Tríceps''" />
           </div>
           <div>
             <Label>Grupo do exercício</Label>
-            <LegacyInput
-              name="exercise_group"
-              type="text"
-              placeholder="Tríceps"
-            />
+            <NewInput name="exercise_group" type="text" placeholder="Tríceps" />
           </div>
         </div>
 
         <div>
           <div>
             <Label>Link do vídeo</Label>
-            <LegacyInput
+            <NewInput
               name="link"
               type="text"
               placeholder="https://youtube.com"

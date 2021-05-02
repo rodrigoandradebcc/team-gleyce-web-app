@@ -12,7 +12,11 @@ export default createGlobalStyle`
     background: #fcfcfc;
     /* background: var(--new-background); */
     --webkit-font-smoothing: antialiased;
-    font-family: 'Poppins';
+  }
+
+  body, input, textarea, button{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
   }
 
   #root {

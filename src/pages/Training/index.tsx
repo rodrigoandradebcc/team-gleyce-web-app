@@ -17,17 +17,12 @@ interface HistoryProps {
   studentName: string;
 }
 
-interface TraingProps {
+interface TrainingProps {
   id: string;
   name: string;
   observation: string;
   note: string;
   expiration_date: string;
-}
-
-interface DropdownMenuProps {
-  isActive: boolean;
-  actualTrainningIdSelected: string;
 }
 
 const Training: React.FC = () => {
@@ -47,15 +42,16 @@ const Training: React.FC = () => {
 
   const { idSelected, studentName } = location.state;
 
-  const [trainings, setTrainings] = useState<TraingProps[]>();
+  const [trainings, setTrainings] = useState<TrainingProps[]>();
 
   const history = useHistory();
 
   const [idAtualSelecionado, setIdAtualSelecionado] = useState('');
 
   useEffect(() => {
-    console.log('O SELECIONADO NA PARTE DE FORA', idAtualSelecionado);
-  }, [idAtualSelecionado]);
+    console.log('O SELECIONADO', idSelected);
+    setIdAtualSelecionado(idSelected);
+  }, [idSelected]);
 
   const getTrainings = (id: string): void => {
     api.get(`/trainings/${id}`).then(response => {
@@ -63,7 +59,7 @@ const Training: React.FC = () => {
     });
   };
 
-  async function handleUpdateSelectedTrainning(id: string): Promise<void> {
+  async function handleUpdateSelectedTraining(id: string): Promise<void> {
     setIdAtualSelecionado(id);
   }
 
@@ -85,7 +81,6 @@ const Training: React.FC = () => {
         <ButtonRod
           background="#FCA311"
           onClick={() => {
-            // console.log('manel');
             handleToggleModalAddTraining();
           }}
         >
@@ -95,7 +90,7 @@ const Training: React.FC = () => {
 
       <S.ContainerCards>
         {trainings?.map(({ name, expiration_date, observation, id }) => (
-          <S.TrainingCard>
+          <S.TrainingCard key={id}>
             <S.NameAndExpirationDate>
               <strong>{name}</strong>
               <div>
@@ -110,7 +105,6 @@ const Training: React.FC = () => {
                   history.push('/plans', {
                     idSelected: id,
                   });
-                  // console.log(id);
                 }}
               >
                 <MdModeEdit size={16} />
@@ -118,11 +112,10 @@ const Training: React.FC = () => {
               </ButtonIcon>
               <DropdownMenu
                 id={id}
-                handleUpdateSelectedTrainning={handleUpdateSelectedTrainning}
+                handleUpdateSelectedTrainning={handleUpdateSelectedTraining}
                 idActualSelectedTeste={idAtualSelecionado}
               />
             </S.ButtonActionsContainer>
-            {/* <p>{observation}</p> */}
           </S.TrainingCard>
         ))}
       </S.ContainerCards>
