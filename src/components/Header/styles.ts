@@ -35,7 +35,7 @@ import styled from 'styled-components';
 export const Container = styled.header`
   display: flex;
   align-items: center;
-  padding: 0 4rem;
+  padding: 1.4375rem 2.69rem;
 
   background: #fcfcfc;
   border-bottom: 1px solid #ddd;
