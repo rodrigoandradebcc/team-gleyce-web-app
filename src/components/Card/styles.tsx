@@ -30,7 +30,6 @@ export const InfoContainer = styled.div`
 export const Title = styled.span`
   color: #3d3d3d;
   font-size: 1rem;
-  font-family: 'Roboto', serif;
   font-weight: 600;
   text-transform: capitalize;
 `;
@@ -39,7 +38,6 @@ export const Quantity = styled.span`
   margin-top: 16px;
   color: #3d3d3d;
   font-size: 2.25rem;
-  font-family: 'Roboto', serif;
   font-weight: 600;
 `;
 

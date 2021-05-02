@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Select, { OptionsType } from 'react-select';
+import { useForm, FormProvider } from 'react-hook-form';
 import Button from '../../components/ButtonRod';
-import ExerciseRow from '../../components/ExerciseRow';
+import ExerciseRow from './components/ExerciseRow';
 import Tabs from '../../components/Tabs';
 import api from '../../services/api';
 import * as S from './styles';
@@ -31,11 +32,16 @@ interface OptionsProps {
 }
 
 const Plans: React.FC = () => {
+  const { register, handleSubmit } = useForm();
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const onSubmit = (data: any) => console.log('SUBMIT', data);
   const [plans, setPlans] = useState<PlanProps[]>([] as PlanProps[]);
   const [exercises, setExercises] = useState<Exercises[]>([]);
   const [selectedExercises, setSelectedExercises] = useState<OptionsProps[]>(
     [],
   );
+
+  console.log(exercises);
 
   const location = useLocation<HistoryProps>();
 
@@ -70,6 +76,8 @@ const Plans: React.FC = () => {
     setSelectedExercises(exercisesSel as OptionsProps[]);
   }
 
+  console.log(selectedExercises);
+
   useEffect(() => {
     getPlansToUser(idSelected);
   }, [idSelected]);
@@ -77,39 +85,57 @@ const Plans: React.FC = () => {
   return (
     <S.Container>
       <h1>Plan</h1>
-      {/* <S.ContainerCards>
-        {plans?.map(({ id, description }) => (
-          <S.PlanCard>{description}</S.PlanCard>
-        ))}
-      </S.ContainerCards> */}
 
-      <Tabs tabsApi={plans} />
-      <S.SelectContainer>
-        <S.SelectAndButton>
-          <Select
-            options={options}
-            isMulti
-            onChange={(e: OptionsType<OptionsProps>) => {
-              handleSetSelectedExercises(e);
-            }}
-          />
-          <Button background="#FCA311">APLICAR</Button>
-        </S.SelectAndButton>
-        <Button outlined outlinedColor="#1976D2">
-          CADASTRAR EXERCÍCIO
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* <Tabs tabsApi={plans} /> */}
+        <S.SelectContainer>
+          <S.SelectAndButton>
+            <Select
+              {...register('select_exercises')}
+              options={options}
+              isMulti
+              onChange={(e: OptionsType<OptionsProps>) => {
+                handleSetSelectedExercises(e);
+              }}
+            />
+          </S.SelectAndButton>
+          <Button outlined outlinedColor="#1976D2">
+            CADASTRAR EXERCÍCIO
+          </Button>
+        </S.SelectContainer>
+
+        {/* {selectedExercises &&
+          selectedExercises.map(({ label, value }) => (
+            <ExerciseRow key={value}>{label}</ExerciseRow>
+          ))} */}
+
+        {/* <S.ContainerExercises>EXERCÍCIOS</S.ContainerExercises> */}
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Séries</th>
+              <th>Repetições</th>
+              <th>Carga</th>
+              <th>Intervalo</th>
+              <th>Observação</th>
+              <th>Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {selectedExercises &&
+                selectedExercises.map(({ label, value }) => (
+                  <ExerciseRow key={value}>{label}</ExerciseRow>
+                ))}
+            </tr>
+          </tbody>
+        </table>
+
+        <Button outlined outlinedColor="#4CAF50" type="submit">
+          SALVAR TREINO
         </Button>
-      </S.SelectContainer>
-
-      {selectedExercises &&
-        selectedExercises.map(({ label, value }) => (
-          <ExerciseRow key={value}>{label}</ExerciseRow>
-        ))}
-
-      {/* <S.ContainerExercises>EXERCÍCIOS</S.ContainerExercises> */}
-
-      <Button outlined outlinedColor="#4CAF50" onClick={() => {}}>
-        SALVAR TREINO
-      </Button>
+      </form>
     </S.Container>
   );
 };

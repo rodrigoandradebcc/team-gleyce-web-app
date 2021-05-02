@@ -50,7 +50,6 @@ export const MenuButton = styled(Link)<MenuButtonProps>`
 
   display: flex;
   flex-direction: row;
-  /* justify-content: flex-start; */
   justify-content: center;
   align-items: center;
 
@@ -81,7 +80,6 @@ export const MenuButton = styled(Link)<MenuButtonProps>`
     font-size: 0.75rem;
     color: ${props => (props.selected ? '#1e1e1e' : '#bbb')};
     transition: all 0.4s;
-    /* color: ${props => (props.selected ? '#ffffff' : '#6c757d')}; */
   }
 
   svg {
