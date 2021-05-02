@@ -9,7 +9,8 @@ export default createGlobalStyle`
   }
 
   body {
-    background: var(--new-background);
+    background: #fcfcfc;
+    /* background: var(--new-background); */
     --webkit-font-smoothing: antialiased;
     font-family: 'Poppins';
   }
@@ -31,7 +32,7 @@ export default createGlobalStyle`
 
   body, input, button {
     font-size: 1rem;
-    color: --text-body;
+    color: var(--text-body);
   }
 
   button{

@@ -17,11 +17,12 @@ export const Container = styled.div`
   padding: 0 1.37rem;
   width: 6rem;
   background: #fcfcfc;
+  height: 100%;
   overflow-y: auto;
 `;
 
 export const ContainerLogo = styled.div`
-  margin-top: 24px;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,6 +30,7 @@ export const ContainerLogo = styled.div`
 
 export const Logo = styled.img`
   width: 4.5rem;
+  height: 2.875rem‬;
 `;
 
 export const ContainerLinks = styled.div`
