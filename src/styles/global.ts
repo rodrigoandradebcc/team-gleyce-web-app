@@ -9,7 +9,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #fcfcfc;
+    background: var(--background-menu);
     /* background: var(--new-background); */
     --webkit-font-smoothing: antialiased;
   }
@@ -34,7 +34,7 @@ export default createGlobalStyle`
     }
   }
 
-  body, input, button {
+  body, button {
     font-size: 1rem;
     color: var(--text-body);
   }
@@ -55,18 +55,16 @@ export default createGlobalStyle`
     --twitter-dark-hover: #011017;
     --twitter-light-hover: #2C8ED6;
     --background: #FAFAFA;
-;
+
     --wine: #D61E29;
     --yellow: #FFBA01;
 
     --white: #ffffff;
     --border-input: #F1EFEF;
 
-
-    --new-background: #f7f7f7;
     --text-body: #1E1E1E;
-    --tab-yellow: #FFBA01;
     --background-content:#f7f7f7;
+    --background-menu: #fcfcfc;
 
   }
 

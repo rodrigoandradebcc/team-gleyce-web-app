@@ -45,5 +45,6 @@ export const AvatarContainer = styled.div<AvatarProps>`
     color: #ffc62d;
     line-height: 1;
     cursor: default;
+    text-transform: uppercase;
   }
 `;

@@ -35,7 +35,7 @@ export const Tab = styled.button<Prop>`
     height: 2px;
     width: ${props => (props.active ? '100%' : '0%')};
 
-    background-color: var(--tab-yellow);
+    background-color: var(--yellow);
   }
 
   &:hover::after,

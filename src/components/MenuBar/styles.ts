@@ -16,9 +16,10 @@ export const Container = styled.div`
   flex-direction: column;
   padding: 0 1.37rem;
   width: 6rem;
-  background: #fcfcfc;
+  background: var(--background-menu);
   height: 100%;
   overflow-y: auto;
+  flex-shrink: 0;
 `;
 
 export const ContainerLogo = styled.div`

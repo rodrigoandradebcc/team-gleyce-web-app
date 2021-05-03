@@ -37,7 +37,7 @@ export const Container = styled.header`
   align-items: center;
   padding: 1.4375rem 2.69rem;
 
-  background: #fcfcfc;
+  background: var(--background-menu);
   border-bottom: 1px solid #ddd;
 
   width: 100%;

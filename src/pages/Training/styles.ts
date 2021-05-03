@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   flex: 1;
-  background-color: var(new-background);
+  background-color: var(--background-content);
   padding: 12px;
 
   overflow-y: auto;

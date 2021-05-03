@@ -3,11 +3,18 @@ import styled from 'styled-components';
 export const LabelAndButton = styled.div``;
 
 export const Container = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   padding: 0 64px;
 
-  margin-top: 4rem;
+  margin-top: 4rem; */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+  background-color: var(--background-content);
+  padding: 0.8125rem 2.69rem;
 
   table {
     width: 100%;
