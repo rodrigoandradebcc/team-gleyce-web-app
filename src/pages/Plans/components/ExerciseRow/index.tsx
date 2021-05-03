@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import * as S from './styles';
 
 interface PrescriptionProps {
   repetition: string;
@@ -26,7 +25,7 @@ const ExerciseRow: React.FC = ({ children }) => {
   }
 
   return (
-    <>
+    <tr>
       <td>{children}</td>
       <td>
         <input
@@ -63,7 +62,7 @@ const ExerciseRow: React.FC = ({ children }) => {
         />
       </td>
       <td>Excluir</td>
-    </>
+    </tr>
   );
 };
 

@@ -1,47 +1,48 @@
 import styled from 'styled-components';
 
+export const LabelAndButton = styled.div``;
+
 export const Container = styled.div`
   display: flex;
-  width: 100%;
   flex-direction: column;
+  padding: 0 64px;
 
-  /* 
-  justify-content: flex-start;
-  
-  background-color: var(--background-content); */
-  /* padding: 12px; */
-  /* flex: 1; */
+  margin-top: 4rem;
 
   table {
     width: 100%;
     border-spacing: 0 0.5rem;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
-
   th {
     color: var(--text-body);
     font-weight: 400;
-    padding: 1rem 2rem;
+    /* padding: 1rem 2rem; */
+    padding: 0.375rem 1rem;
+
     text-align: left;
     line-height: 1.5rem;
   }
-
   td {
-    padding: 1rem 2rem;
+    /* padding: 0.375rem 1rem; */
     border: 0;
-    background: #ffffff;
     color: var(--text-body);
+  }
+
+  tbody tr td {
+    padding: 0.375rem 1rem;
+  }
+
+  tbody tr td input {
+    height: 36px;
+    border: 1px solid #f1f1f1;
   }
 
   tbody tr {
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.1));
     border-radius: 0.25rem;
+    background: #ffffff;
   }
-`;
-
-export const ContainerExercises = styled.div`
-  width: 100%;
-  background: red;
 `;
 
 export const SelectContainer = styled.div`

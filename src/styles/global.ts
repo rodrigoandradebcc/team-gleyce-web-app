@@ -55,7 +55,7 @@ export default createGlobalStyle`
     --twitter-dark-hover: #011017;
     --twitter-light-hover: #2C8ED6;
     --background: #FAFAFA;
-    --background-content:#E9ECEF;
+;
     --wine: #D61E29;
     --yellow: #FFBA01;
 
@@ -66,6 +66,8 @@ export default createGlobalStyle`
     --new-background: #f7f7f7;
     --text-body: #1E1E1E;
     --tab-yellow: #FFBA01;
+    --background-content:#f7f7f7;
+
   }
 
   #mainContainer {

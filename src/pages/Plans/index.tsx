@@ -84,58 +84,49 @@ const Plans: React.FC = () => {
 
   return (
     <S.Container>
-      <h1>Plan</h1>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* <Tabs tabsApi={plans} /> */}
-        <S.SelectContainer>
-          <S.SelectAndButton>
-            <Select
-              {...register('select_exercises')}
-              options={options}
-              isMulti
-              onChange={(e: OptionsType<OptionsProps>) => {
-                handleSetSelectedExercises(e);
-              }}
-            />
-          </S.SelectAndButton>
-          <Button outlined outlinedColor="#1976D2">
-            CADASTRAR EXERCÍCIO
-          </Button>
-        </S.SelectContainer>
-
-        {/* {selectedExercises &&
-          selectedExercises.map(({ label, value }) => (
-            <ExerciseRow key={value}>{label}</ExerciseRow>
-          ))} */}
-
-        {/* <S.ContainerExercises>EXERCÍCIOS</S.ContainerExercises> */}
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Séries</th>
-              <th>Repetições</th>
-              <th>Carga</th>
-              <th>Intervalo</th>
-              <th>Observação</th>
-              <th>Excluir</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {selectedExercises &&
-                selectedExercises.map(({ label, value }) => (
-                  <ExerciseRow key={value}>{label}</ExerciseRow>
-                ))}
-            </tr>
-          </tbody>
-        </table>
-
+      <S.LabelAndButton>
+        <h1>Plan</h1>
         <Button outlined outlinedColor="#4CAF50" type="submit">
           SALVAR TREINO
         </Button>
-      </form>
+      </S.LabelAndButton>
+
+      {/* <Tabs tabsApi={plans} /> */}
+      <S.SelectContainer>
+        <S.SelectAndButton>
+          <Select
+            {...register('select_exercises')}
+            options={options}
+            isMulti
+            onChange={(e: OptionsType<OptionsProps>) => {
+              handleSetSelectedExercises(e);
+            }}
+          />
+        </S.SelectAndButton>
+        <Button outlined outlinedColor="#1976D2">
+          CADASTRAR EXERCÍCIO
+        </Button>
+      </S.SelectContainer>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Séries</th>
+            <th>Repetições</th>
+            <th>Carga</th>
+            <th>Intervalo</th>
+            <th>Observação</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedExercises &&
+            selectedExercises.map(({ label, value }) => (
+              <ExerciseRow key={value}>{label}</ExerciseRow>
+            ))}
+        </tbody>
+      </table>
     </S.Container>
   );
 };
