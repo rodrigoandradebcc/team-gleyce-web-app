@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin: 0 1rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   flex: 1;
   background-color: var(--background-content);
-  padding: 12px;
+  padding: 0.8125rem 2.69rem;
 
   overflow-y: auto;
 

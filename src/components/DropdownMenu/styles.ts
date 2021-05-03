@@ -24,7 +24,7 @@ export const Container = styled.div`
     flex-direction: column;
     z-index: 2;
     top: 2rem;
-    left: -32px;
+    transform: translate(-50%, 0);
     background: var(--white);
 
     height: auto;

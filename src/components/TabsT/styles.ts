@@ -9,7 +9,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   border-bottom: 1px solid #dddddd;
-  padding-bottom: 8px;
+  padding-bottom: 0.5rem;
 `;
 
 export const Tab = styled.button<Prop>`
@@ -18,8 +18,8 @@ export const Tab = styled.button<Prop>`
   outline: none;
   width: 100%;
 
-  font-size: 16px;
-  padding-bottom: 8px;
+  font-size: 1rem;
+  padding-bottom: 0.5rem;
 
   position: relative;
   color: ${props => (props.active ? '#1e1e1e' : '#bbbbbb')};
@@ -28,11 +28,11 @@ export const Tab = styled.button<Prop>`
 
   &::after {
     position: absolute;
-    bottom: 0;
+    bottom: 0.1875rem;
     left: 0;
 
     content: '';
-    height: 2px;
+    height: 0.1875rem;
     width: ${props => (props.active ? '100%' : '0%')};
 
     background-color: var(--yellow);
@@ -47,11 +47,11 @@ export const Tab = styled.button<Prop>`
 
 export const ContainerTabs = styled.div`
   display: flex;
-  margin-top: 32px;
+  margin-top: 2rem;
   width: 100%;
-  height: 20px;
+  height: 1.25rem;
   align-items: center;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 128px);
+  grid-template-columns: repeat(auto-fit, 8rem);
   /* grid-gap: 30px 32px; */
 `;
