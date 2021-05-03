@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
-export const LabelAndButton = styled.div``;
+export const LabelAndButton = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 export const Container = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  padding: 0 64px;
-
-  margin-top: 4rem; */
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

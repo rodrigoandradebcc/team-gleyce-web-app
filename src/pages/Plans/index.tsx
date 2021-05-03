@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Select, { OptionsType } from 'react-select';
-import { useForm, FormProvider } from 'react-hook-form';
 import Button from '../../components/ButtonRod';
-import ExerciseRow from './components/ExerciseRow';
 import Tabs from '../../components/Tabs';
 import api from '../../services/api';
+import ExerciseRow from './components/ExerciseRow';
 import * as S from './styles';
 
 interface HistoryProps {
@@ -32,9 +31,7 @@ interface OptionsProps {
 }
 
 const Plans: React.FC = () => {
-  const { register, handleSubmit } = useForm();
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const onSubmit = (data: any) => console.log('SUBMIT', data);
   const [plans, setPlans] = useState<PlanProps[]>([] as PlanProps[]);
   const [exercises, setExercises] = useState<Exercises[]>([]);
   const [selectedExercises, setSelectedExercises] = useState<OptionsProps[]>(
@@ -86,16 +83,15 @@ const Plans: React.FC = () => {
     <S.Container>
       <S.LabelAndButton>
         <h1>Plan</h1>
-        <Button outlined outlinedColor="#4CAF50" type="submit">
+        <Button outlined outlinedColor="#FFBA01" type="submit">
           SALVAR TREINO
         </Button>
       </S.LabelAndButton>
 
-      {/* <Tabs tabsApi={plans} /> */}
+      <Tabs tabsApi={plans} />
       <S.SelectContainer>
         <S.SelectAndButton>
           <Select
-            {...register('select_exercises')}
             options={options}
             isMulti
             onChange={(e: OptionsType<OptionsProps>) => {
@@ -103,9 +99,7 @@ const Plans: React.FC = () => {
             }}
           />
         </S.SelectAndButton>
-        <Button outlined outlinedColor="#1976D2">
-          CADASTRAR EXERCÍCIO
-        </Button>
+        <Button background="#FFBA01">CADASTRAR EXERCÍCIO</Button>
       </S.SelectContainer>
 
       <table>
