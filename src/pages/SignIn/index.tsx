@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import logoImg from '../../assets/logo-login.svg';
 import Button from '../../components/ButtonRod';
 import { useAuth } from '../../hooks/AuthContext';
@@ -17,10 +18,19 @@ interface SignInFormData {
   password: string;
 }
 
+const signInFormSchema = yup.object().shape({
+  email: yup.string().required('Email obrigatório').email('E-mail inválido'),
+  password: yup.string().required('Senha obrigatória'),
+});
+
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(signInFormSchema),
+  });
+
+  const { errors } = formState;
 
   const handleSubmitSignIn = useCallback(
     (data: SignInFormData) => {
@@ -40,12 +50,19 @@ const SignIn: React.FC = () => {
           <form action="" onSubmit={handleSubmit(handleSubmitSignIn)}>
             <h2>Fazer login</h2>
 
-            <Input placeholder="E-mail" {...register('email')} />
+            <Input
+              placeholder="E-mail"
+              {...register('email')}
+              error={errors.email}
+            />
+
             <Input
               type="password"
               placeholder="Senha"
               {...register('password')}
+              error={errors.password}
             />
+
             <Button type="submit" fullWidth heightSize="big">
               Acessar Plataforma
             </Button>

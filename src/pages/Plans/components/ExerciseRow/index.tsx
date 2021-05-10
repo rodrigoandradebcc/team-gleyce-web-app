@@ -14,7 +14,7 @@ const ExerciseRow: React.FC = ({ children }) => {
   );
 
   function handleOnChange(name: string, event: string): void {
-    const newValue = Object.assign(name, event);
+    // const newValue = Object.assign(name, event);
 
     setPrescription(
       Object.assign(prescription, {

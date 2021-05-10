@@ -6,14 +6,6 @@ export const Input = styled(NewInput)`
   height: 4.5rem;
 
   border: 1px solid #dce2e6;
-
-  &:first-child {
-    border-radius: 22px 2px 0px 0px;
-  }
-
-  &:last-child {
-    border-radius: 0px 0px 2px 2px;
-  }
 `;
 
 const appearFromRight = keyframes`
@@ -41,12 +33,18 @@ export const AnimationContainer = styled.div`
     margin-top: 3.5rem;
     width: 26rem;
 
-    ${Input} {
-    }
-
     h2 {
       margin-bottom: 24px;
     }
+
+    /* ${Input} {
+      &:first-child {
+        border-radius: 22px 2px 0px 0px;
+      }
+      &:last-child {
+        border-radius: 0px 0px 2px 2px;
+      }
+    } */
 
     button {
       margin-top: 28px;

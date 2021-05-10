@@ -1,25 +1,23 @@
-import React, { ButtonHTMLAttributes, useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router';
 import { format } from 'date-fns';
+import React, { ButtonHTMLAttributes, useCallback } from 'react';
 import { ImWhatsapp } from 'react-icons/im';
-
+import { useHistory } from 'react-router';
+import Avatar from '../Avatar';
 import {
+  ActionsContainer,
+  Bottom,
   Container,
+  Data,
+  Go,
   LastAccess,
   Plan,
   SendMessage,
   StudentName,
   StudentPhoto,
-  ActionsContainer,
-  SwitchContainer,
   Switch,
-  Go,
+  SwitchContainer,
   Top,
-  Data,
-  Bottom,
 } from './styles';
-
-import Avatar from '../Avatar';
 
 interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isActive: boolean;

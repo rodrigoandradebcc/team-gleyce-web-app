@@ -4,23 +4,26 @@ import React, {
   InputHTMLAttributes,
 } from 'react';
 import { IconBaseProps } from 'react-icons';
-import { Container } from './styles';
+import { FieldError } from 'react-hook-form';
+import { Container, Error } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
+  error?: FieldError;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const NewInputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { name, ...rest }: InputProps,
+  { name, error, ...rest }: InputProps,
   ref,
 ) => {
   return (
-    <Container>
+    <Container isErrored={!!error}>
       {/* {Icon && <Icon size={20} />} */}
 
       <input id={name} ref={ref} name={name} {...rest} />
+      {error && <Error>{error.message}</Error>}
     </Container>
   );
 };

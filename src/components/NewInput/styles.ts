@@ -1,12 +1,23 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps {
+  isErrored?: boolean;
+}
+
+export const Error = styled.div`
+  color: #c53030;
+  font-size: 0.75rem;
+`;
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+
   background: #fff;
   border-radius: 2px;
   width: 100%;
   font-size: 16px;
+  flex-direction: column;
 
   h1 {
     margin-bottom: 40px;
@@ -17,10 +28,17 @@ export const Container = styled.div`
 
   input {
     padding: 16px 16px;
+    width: 100%;
 
     flex: 1;
     background: transparent;
     color: #b7b7cc;
+
+    ${props =>
+      props.isErrored &&
+      css`
+        border-color: #c53030 !important;
+      `}
 
     &::placeholder {
       color: #b7b7cc;
