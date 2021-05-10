@@ -18,16 +18,19 @@ import {
 } from './styles';
 
 import logoImg from '../../assets/logoblack.svg';
+import { useAuth } from '../../hooks/AuthContext';
 
 interface Link {
   to: string;
   title: string;
   icon: IconType;
   selected: boolean;
+  callBack?: () => void;
 }
 
 const MenuBar: React.FC = () => {
   const { pathname } = useLocation();
+  const { signOut } = useAuth();
 
   const [links, setLinks] = useState<Link[]>([]);
 
@@ -76,10 +79,11 @@ const MenuBar: React.FC = () => {
         selected: false,
       },
       {
-        to: '/logout',
+        to: '/',
         title: 'Sair',
         icon: ExitIcon,
         selected: false,
+        callBack: signOut,
       },
     ];
 
@@ -95,7 +99,7 @@ const MenuBar: React.FC = () => {
     });
 
     setLinks(tempLinks);
-  }, [pathname]);
+  }, [pathname, signOut]);
 
   const handleSelectLinkMenu = useCallback((indexSend: number) => {
     setLinks(oldLinks =>
@@ -121,12 +125,17 @@ const MenuBar: React.FC = () => {
         <Logo src={logoImg} alt="Logo Gleyce Cristina" />
       </ContainerLogo>
       <ContainerLinks>
-        {links.map(({ to, icon: Icon, selected }, index) => (
+        {links.map(({ to, icon: Icon, selected, callBack }, index) => (
           <MenuButton
             to={to}
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            onClick={() => handleSelectLinkMenu(index)}
+            onClick={() => {
+              handleSelectLinkMenu(index);
+              if (callBack) {
+                callBack();
+              }
+            }}
             selected={selected}
           >
             <Icon />

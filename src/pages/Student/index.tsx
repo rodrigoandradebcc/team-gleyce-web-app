@@ -14,6 +14,8 @@ import {
   Result,
   ActionArea,
 } from './styles';
+import Header from '../../components/Header';
+import MenuBar from '../../components/MenuBar';
 
 interface StudentProps {
   id: string;
@@ -115,58 +117,64 @@ const Student: React.FC = () => {
   );
 
   return (
-    <Container>
-      <h1>Alunos</h1>
-      <Tabs tabsApi={trainingTypes} />
+    <>
+      <MenuBar />
 
-      <ActionArea>
-        <SearchInput
-          placeholder="Pesquise por nome, sobrenome, e-mail ou CPF"
-          name="search"
-        />
-        <Button
-          background="#1E1E1E"
-          onClick={() => handleToggleModalAddStudent()}
-        >
-          CADASTRAR ALUNO
-        </Button>
-      </ActionArea>
+      <div id="mainContainer">
+        <Header />
+        <Container>
+          <h1>Alunos</h1>
+          <Tabs tabsApi={trainingTypes} />
 
-      <Main>
-        <HeaderContent>
-          <Result>{students.length} resultados</Result>
-        </HeaderContent>
-        <ContainerCardsStudents>
-          {students.length ? (
-            students.map(
-              ({ id, last_acess, full_name, photo, active, plan_type }) => (
-                <CardStudent
-                  key={id}
-                  id={id}
-                  isActive={active}
-                  last_access={last_acess}
-                  name={full_name}
-                  photo={photo}
-                  plan_type={plan_type}
-                  handleToggleActiveUser={() => handleToggleActiveUser(id)}
-                />
-              ),
-            )
-          ) : (
-            <ListStudentEmpty>
-              Você não possui alunos cadastrados. Clique no botão
-              &quot;Cadastrar Aluno&quot; para que eles sejam exibidos aqui!
-            </ListStudentEmpty>
-          )}
-        </ContainerCardsStudents>
-      </Main>
+          <ActionArea>
+            <SearchInput
+              placeholder="Pesquise por nome, sobrenome, e-mail ou CPF"
+              name="search"
+            />
+            <Button
+              background="#1E1E1E"
+              onClick={() => handleToggleModalAddStudent()}
+            >
+              CADASTRAR ALUNO
+            </Button>
+          </ActionArea>
 
-      <ModalAddStudent
-        isOpen={modalOpen}
-        setIsOpen={handleToggleModalAddStudent}
-        // handleAddStudent={handleAddStudent}
-      />
-    </Container>
+          <Main>
+            <HeaderContent>
+              <Result>{students.length} resultados</Result>
+            </HeaderContent>
+            <ContainerCardsStudents>
+              {students.length ? (
+                students.map(
+                  ({ id, last_acess, full_name, photo, active, plan_type }) => (
+                    <CardStudent
+                      key={id}
+                      id={id}
+                      isActive={active}
+                      last_access={last_acess}
+                      name={full_name}
+                      photo={photo}
+                      plan_type={plan_type}
+                      handleToggleActiveUser={() => handleToggleActiveUser(id)}
+                    />
+                  ),
+                )
+              ) : (
+                <ListStudentEmpty>
+                  Você não possui alunos cadastrados. Clique no botão
+                  &quot;Cadastrar Aluno&quot; para que eles sejam exibidos aqui!
+                </ListStudentEmpty>
+              )}
+            </ContainerCardsStudents>
+          </Main>
+
+          <ModalAddStudent
+            isOpen={modalOpen}
+            setIsOpen={handleToggleModalAddStudent}
+          />
+        </Container>
+      </div>
+    </>
   );
 };
 

@@ -7,6 +7,8 @@ import Avatar from '../../components/Avatar';
 import ButtonIcon from '../../components/ButtonIcon';
 import ButtonRod from '../../components/ButtonRod';
 import DropdownMenu from '../../components/DropdownMenu';
+import Header from '../../components/Header';
+import MenuBar from '../../components/MenuBar';
 import ModalAddTraining from '../../components/ModalAddTraining';
 import Tabs from '../../components/TabsT';
 import api from '../../services/api';
@@ -68,65 +70,73 @@ const Training: React.FC = () => {
   }, [idSelected]);
 
   return (
-    <S.Container>
-      <S.NameAndLogoContainer>
-        <p>{studentName}</p>
+    <>
+      <MenuBar />
+      <div id="mainContainer">
+        <Header />
+        <S.Container>
+          <S.NameAndLogoContainer>
+            <p>{studentName}</p>
 
-        <Avatar src="" userName={studentName} size={2} />
-      </S.NameAndLogoContainer>
+            <Avatar src="" userName={studentName} size={2} />
+          </S.NameAndLogoContainer>
 
-      <Tabs tabsApi={trainingTypes} />
+          <Tabs tabsApi={trainingTypes} />
 
-      <S.ButtonArea>
-        <ButtonRod
-          background="#FCA311"
-          onClick={() => {
-            handleToggleModalAddTraining();
-          }}
-        >
-          CADASTRAR TREINO
-        </ButtonRod>
-      </S.ButtonArea>
+          <S.ButtonArea>
+            <ButtonRod
+              background="#FCA311"
+              onClick={() => {
+                handleToggleModalAddTraining();
+              }}
+            >
+              CADASTRAR TREINO
+            </ButtonRod>
+          </S.ButtonArea>
 
-      <S.ContainerCards>
-        {trainings?.map(({ name, expiration_date, observation, id }) => (
-          <S.TrainingCard key={id}>
-            <S.NameAndExpirationDate>
-              <strong>{name}</strong>
-              <div>
-                <IoMdCalendar size={16} />
-                <p>Venc: {format(parseISO(expiration_date), 'dd/MM/yyyy')}</p>
-              </div>
-            </S.NameAndExpirationDate>
+          <S.ContainerCards>
+            {trainings?.map(({ name, expiration_date, observation, id }) => (
+              <S.TrainingCard key={id}>
+                <S.NameAndExpirationDate>
+                  <strong>{name}</strong>
+                  <div>
+                    <IoMdCalendar size={16} />
+                    <p>
+                      Venc: {format(parseISO(expiration_date), 'dd/MM/yyyy')}
+                    </p>
+                  </div>
+                </S.NameAndExpirationDate>
 
-            <S.ButtonActionsContainer>
-              <ButtonIcon
-                onClick={() => {
-                  history.push('/plans', {
-                    idSelected: id,
-                  });
-                }}
-              >
-                <MdModeEdit size={16} />
-                EDITAR EXERCÍCIOS
-              </ButtonIcon>
-              <DropdownMenu
-                id={id}
-                handleUpdateSelectedTrainning={handleUpdateSelectedTraining}
-                idActualSelectedTeste={idAtualSelecionado}
-              />
-            </S.ButtonActionsContainer>
-          </S.TrainingCard>
-        ))}
-      </S.ContainerCards>
-      {/* <strong>TREINOS ATIVOS ({trainings?.length})</strong> */}
+                <S.ButtonActionsContainer>
+                  <ButtonIcon
+                    onClick={() => {
+                      history.push('/plans', {
+                        idSelected: id,
+                      });
+                    }}
+                  >
+                    <MdModeEdit size={16} />
+                    EDITAR EXERCÍCIOS
+                  </ButtonIcon>
+                  <DropdownMenu
+                    id={id}
+                    handleUpdateSelectedTrainning={handleUpdateSelectedTraining}
+                    idActualSelectedTeste={idAtualSelecionado}
+                  />
+                </S.ButtonActionsContainer>
+              </S.TrainingCard>
+            ))}
+          </S.ContainerCards>
+          {/* <strong>TREINOS ATIVOS ({trainings?.length})</strong> */}
 
-      {/* <S.InactiveTraininigs>TREINOS INATIVOS (0)</S.InactiveTraininigs> */}
-      <ModalAddTraining
-        isOpen={modalOpen}
-        setIsOpen={handleToggleModalAddTraining}
-      />
-    </S.Container>
+          {/* <S.InactiveTraininigs>TREINOS INATIVOS (0)</S.InactiveTraininigs> */}
+          <ModalAddTraining
+            isOpen={modalOpen}
+            setIsOpen={handleToggleModalAddTraining}
+          />
+        </S.Container>
+      </div>
+    </>
   );
 };
 

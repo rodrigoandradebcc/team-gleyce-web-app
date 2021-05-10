@@ -25,6 +25,8 @@ import {
   Actions,
   EmptySpace,
 } from './styles';
+import Header from '../../components/Header';
+import MenuBar from '../../components/MenuBar';
 
 interface IExercise {
   exercise_group: string;
@@ -117,76 +119,89 @@ const Exercises: React.FC = () => {
   );
 
   return (
-    <Container>
-      <Welcome>
-        <Message>Bem vindo, FULANO DE TAL</Message>
-        <ScreenName>Exercícios</ScreenName>
-      </Welcome>
+    <>
+      <MenuBar />
 
-      <ExerciseList>
-        <Head>
-          <HeadColumn>NOME</HeadColumn>
-          <HeadColumn>GRUPO DO EXERCÍCIO</HeadColumn>
-          <HeadColumn center>LINK DO VÍDEO</HeadColumn>
-          <HeadColumn center>AÇÕES</HeadColumn>
-          <HeadColumn>
-            <RegisterButton onClick={() => handleToggleModal()}>
-              CADASTRAR EXERCÍCIO
-            </RegisterButton>
-          </HeadColumn>
-        </Head>
-        <Body>
-          {exercises.map(({ id, name, exercise_group, link }) => (
-            <Line key={id}>
-              <Column>
-                <Name>{name}</Name>
-              </Column>
-              <Column>
-                <Group>{exercise_group}</Group>
-              </Column>
-              <Column center>
-                <LinkVideo href={link} target="_blank">
-                  <FiYoutube />
-                </LinkVideo>
-              </Column>
-              <Column>
-                <Actions>
-                  <FiEdit
-                    onClick={() => {
-                      handleEditExercise({ id, name, exercise_group, link });
-                    }}
-                  />
-                  <FiTrash2 onClick={() => handleToggleDeleteModal(id)} />
-                </Actions>
-              </Column>
-              <Column>
-                <EmptySpace />
-              </Column>
-            </Line>
-          ))}
-        </Body>
-      </ExerciseList>
+      <div id="mainContainer">
+        <Header />
 
-      <ModalAddExercise
-        isOpen={modalOpen}
-        setIsOpen={handleToggleModal}
-        handleAddExercise={handleAddExercise}
-      />
+        <Container>
+          <Welcome>
+            <Message>Bem vindo, FULANO DE TAL</Message>
+            <ScreenName>Exercícios</ScreenName>
+          </Welcome>
 
-      <ModalEditExercise
-        isOpen={editModalOpen}
-        setIsOpen={handleToggleEditModal}
-        handleUpdateExercise={handleUpdateExercise}
-        editingExercise={editingExercise}
-      />
+          <ExerciseList>
+            <Head>
+              <HeadColumn>NOME</HeadColumn>
+              <HeadColumn>GRUPO DO EXERCÍCIO</HeadColumn>
+              <HeadColumn center>LINK DO VÍDEO</HeadColumn>
+              <HeadColumn center>AÇÕES</HeadColumn>
+              <HeadColumn>
+                <RegisterButton onClick={() => handleToggleModal()}>
+                  CADASTRAR EXERCÍCIO
+                </RegisterButton>
+              </HeadColumn>
+            </Head>
+            <Body>
+              {exercises.map(({ id, name, exercise_group, link }) => (
+                <Line key={id}>
+                  <Column>
+                    <Name>{name}</Name>
+                  </Column>
+                  <Column>
+                    <Group>{exercise_group}</Group>
+                  </Column>
+                  <Column center>
+                    <LinkVideo href={link} target="_blank">
+                      <FiYoutube />
+                    </LinkVideo>
+                  </Column>
+                  <Column>
+                    <Actions>
+                      <FiEdit
+                        onClick={() => {
+                          handleEditExercise({
+                            id,
+                            name,
+                            exercise_group,
+                            link,
+                          });
+                        }}
+                      />
+                      <FiTrash2 onClick={() => handleToggleDeleteModal(id)} />
+                    </Actions>
+                  </Column>
+                  <Column>
+                    <EmptySpace />
+                  </Column>
+                </Line>
+              ))}
+            </Body>
+          </ExerciseList>
 
-      <ModalDeleteExercise
-        isOpen={deleteModalOpen}
-        setIsOpen={() => setDeleteModalOpen(!deleteModalOpen)}
-        handleDeleteExercise={handleDeleteExercise}
-        deletingExercise={deletingExercise}
-      />
-    </Container>
+          <ModalAddExercise
+            isOpen={modalOpen}
+            setIsOpen={handleToggleModal}
+            handleAddExercise={handleAddExercise}
+          />
+
+          <ModalEditExercise
+            isOpen={editModalOpen}
+            setIsOpen={handleToggleEditModal}
+            handleUpdateExercise={handleUpdateExercise}
+            editingExercise={editingExercise}
+          />
+
+          <ModalDeleteExercise
+            isOpen={deleteModalOpen}
+            setIsOpen={() => setDeleteModalOpen(!deleteModalOpen)}
+            handleDeleteExercise={handleDeleteExercise}
+            deletingExercise={deletingExercise}
+          />
+        </Container>
+      </div>
+    </>
   );
 };
 

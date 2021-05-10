@@ -20,14 +20,7 @@ const NewInputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
     <Container>
       {/* {Icon && <Icon size={20} />} */}
 
-      <input
-        // onFocus={handleInputFocus}
-        // onBlur={handleInputBlur}
-        id={name}
-        ref={ref}
-        name={name}
-        {...rest}
-      />
+      <input id={name} ref={ref} name={name} {...rest} />
     </Container>
   );
 };
