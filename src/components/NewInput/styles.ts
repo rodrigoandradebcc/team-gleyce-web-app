@@ -14,10 +14,12 @@ export const Container = styled.div<ContainerProps>`
   align-items: flex-start;
 
   background: #fff;
-  border-radius: 2px;
   width: 100%;
   font-size: 16px;
   flex-direction: column;
+
+  border: 1px solid #f1f1f1;
+  border-radius: 2px;
 
   h1 {
     margin-bottom: 40px;
@@ -29,6 +31,7 @@ export const Container = styled.div<ContainerProps>`
   input {
     padding: 16px 16px;
     width: 100%;
+    border: none;
 
     flex: 1;
     background: transparent;

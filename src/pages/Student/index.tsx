@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import CardStudent from '../../components/CardStudent';
-import ModalAddStudent from '../../components/ModalAddStudent';
-import Tabs from '../../components/TabsT';
-import api from '../../services/api';
 import Button from '../../components/ButtonRod';
+import CardStudent from '../../components/CardStudent';
+import Header from '../../components/Header';
+import MenuBar from '../../components/MenuBar';
+import ModalAddStudent from '../../components/ModalAddStudent';
 import SearchInput from '../../components/SearchInput';
+import Tabs from '../../components/TabsPlans';
+import api from '../../services/api';
 import {
+  ActionArea,
   Container,
   ContainerCardsStudents,
   HeaderContent,
   ListStudentEmpty,
   Main,
   Result,
-  ActionArea,
 } from './styles';
-import Header from '../../components/Header';
-import MenuBar from '../../components/MenuBar';
 
 interface StudentProps {
   id: string;

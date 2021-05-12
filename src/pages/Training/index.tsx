@@ -10,7 +10,7 @@ import DropdownMenu from '../../components/DropdownMenu';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
 import ModalAddTraining from '../../components/ModalAddTraining';
-import Tabs from '../../components/TabsT';
+import Tabs from '../../components/TabsPlans';
 import api from '../../services/api';
 import * as S from './styles';
 

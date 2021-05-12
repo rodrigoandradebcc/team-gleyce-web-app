@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ButtonIcon from '../ButtonIcon';
 
 interface Prop {
   active: boolean;
@@ -10,6 +11,17 @@ export const Container = styled.div`
   width: 100%;
   border-bottom: 1px solid #dddddd;
   padding-bottom: 0.5rem;
+`;
+
+export const AddTabButton = styled(ButtonIcon)`
+  padding-bottom: 0.5rem;
+  color: #bbbbbb;
+  width: fit-content;
+  height: auto;
+
+  svg {
+    margin-right: 0;
+  }
 `;
 
 export const Tab = styled.button<Prop>`

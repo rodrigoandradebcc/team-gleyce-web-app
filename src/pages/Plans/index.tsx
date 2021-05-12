@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Select, { OptionsType } from 'react-select';
 import Button from '../../components/ButtonRod';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
-import Tabs from '../../components/TabsT';
+import ModalAddPlan from '../../components/ModalAddPlan';
+import Tabs from '../../components/TabsPlans';
+import { useTrainingSetup } from '../../hooks/TrainingSetupContext';
 import api from '../../services/api';
 import ExerciseRow from './components/ExerciseRow';
 import * as S from './styles';
@@ -40,7 +42,33 @@ const Plans: React.FC = () => {
     [],
   );
 
-  console.log(exercises);
+  const [openModal, setOpenModal] = useState(false);
+  // estado do modal da page plans
+
+  const handleToggleModalAddPlan = useCallback(() => {
+    console.log('plans - estado openModal', !openModal);
+
+    setOpenModal(!openModal);
+  }, [openModal]);
+
+  const { setupTrainingCompletedItem, tab } = useTrainingSetup();
+
+  useEffect(() => {
+    // console.log('valor', tab);
+    console.log('no useEffect', openModal);
+  }, [openModal, tab]);
+
+  setupTrainingCompletedItem({
+    planName: 'tarara',
+    exercise: [],
+    prescription: [],
+  });
+
+  const planosTeste = [
+    { id: '1', description: 'A' },
+    { id: '2', description: 'B' },
+    { id: '3', description: 'C' },
+  ];
 
   const location = useLocation<HistoryProps>();
 
@@ -75,8 +103,6 @@ const Plans: React.FC = () => {
     setSelectedExercises(exercisesSel as OptionsProps[]);
   }
 
-  console.log(selectedExercises);
-
   useEffect(() => {
     getPlansToUser(idSelected);
   }, [idSelected]);
@@ -95,7 +121,10 @@ const Plans: React.FC = () => {
             </Button>
           </S.LabelAndButton>
 
-          <Tabs tabsApi={plans} />
+          <Tabs
+            tabsApi={planosTeste}
+            handleOpenModal={openModalState => setOpenModal(openModalState)}
+          />
           <S.SelectContainer>
             <S.SelectAndButton>
               <Select
@@ -124,11 +153,14 @@ const Plans: React.FC = () => {
             <tbody>
               {selectedExercises &&
                 selectedExercises.map(({ label, value }) => (
-                  <ExerciseRow key={value}>{label}</ExerciseRow>
+                  <ExerciseRow key={value} nameExercise={label}>
+                    {label}
+                  </ExerciseRow>
                 ))}
             </tbody>
           </table>
         </S.Container>
+        <ModalAddPlan isOpen={openModal} setIsOpen={handleToggleModalAddPlan} />
       </div>
     </>
   );

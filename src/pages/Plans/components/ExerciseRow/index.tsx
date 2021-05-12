@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+interface ExerciseRowProps {
+  nameExercise: string;
+}
+
 interface PrescriptionProps {
   repetition: string;
   serie: string;
@@ -8,10 +12,14 @@ interface PrescriptionProps {
   observation: string;
 }
 
-const ExerciseRow: React.FC = ({ children }) => {
+const ExerciseRow: React.FC<ExerciseRowProps> = ({
+  children,
+  nameExercise,
+}) => {
   const [prescription, setPrescription] = useState<PrescriptionProps>(
     {} as PrescriptionProps,
   );
+  const [nameExerciseRow, setNameExerciseRow] = useState(nameExercise);
 
   function handleOnChange(name: string, event: string): void {
     // const newValue = Object.assign(name, event);
