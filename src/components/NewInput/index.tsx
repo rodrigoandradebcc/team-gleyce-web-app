@@ -2,9 +2,11 @@ import React, {
   forwardRef,
   ForwardRefRenderFunction,
   InputHTMLAttributes,
+  useCallback,
+  useState,
 } from 'react';
-import { IconBaseProps } from 'react-icons';
 import { FieldError } from 'react-hook-form';
+import { IconBaseProps } from 'react-icons';
 import { Container, Error } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -18,12 +20,29 @@ const NewInputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   { name, error, ...rest }: InputProps,
   ref,
 ) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+  }, []);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
   return (
     <>
-      <Container isErrored={!!error}>
+      <Container isErrored={!!error} isFocused={isFocused}>
         {/* {Icon && <Icon size={20} />} */}
 
-        <input id={name} ref={ref} name={name} {...rest} />
+        <input
+          id={name}
+          ref={ref}
+          name={name}
+          {...rest}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+        />
       </Container>
       {error && <Error>{error.message}</Error>}
     </>

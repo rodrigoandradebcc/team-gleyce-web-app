@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface ContainerProps {
   isErrored?: boolean;
+  isFocused?: boolean;
 }
 
 export const Error = styled.div`
@@ -20,6 +21,12 @@ export const Container = styled.div<ContainerProps>`
 
   border: 1px solid #f1f1f1;
   border-radius: 2px;
+
+  ${props =>
+    props.isFocused &&
+    css`
+      border-color: var(--yellow);
+    `}
 
   h1 {
     margin-bottom: 40px;
