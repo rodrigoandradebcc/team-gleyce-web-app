@@ -29,7 +29,7 @@ const planFormSchema = yup.object().shape({
 });
 
 const ModalAddPlan: React.FC<IModalProps> = ({ isOpen = false, setIsOpen }) => {
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(planFormSchema),
   });
   const { errors } = formState;
@@ -41,6 +41,8 @@ const ModalAddPlan: React.FC<IModalProps> = ({ isOpen = false, setIsOpen }) => {
   function handleAddPlan(data: PlanProps): void {
     const newData = { ...data, training_id: idSelected };
     handlePlanSubmit(newData);
+    reset();
+
     setIsOpen();
   }
 
@@ -54,7 +56,13 @@ const ModalAddPlan: React.FC<IModalProps> = ({ isOpen = false, setIsOpen }) => {
   }, []);
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Modal
+      isOpen={isOpen}
+      setIsOpen={() => {
+        reset();
+        setIsOpen();
+      }}
+    >
       <S.ContainerModal>
         <S.LogoAndTitleModal>
           <IoReaderOutline size={24} />

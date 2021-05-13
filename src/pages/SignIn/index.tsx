@@ -1,7 +1,7 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import logoImg from '../../assets/logo-login.svg';
 import Button from '../../components/ButtonRod';
 import { useAuth } from '../../hooks/AuthContext';
