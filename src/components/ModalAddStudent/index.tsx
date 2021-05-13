@@ -38,11 +38,9 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   const { register, handleSubmit } = useForm();
 
   const [isActive, setIsActive] = useState(false);
-  const [observation, setObservation] = useState('');
 
   function handle(data: StudentProps): void {
     const currentDate = String(new Date(Date.now()));
-    console.log('data de hoje', currentDate);
 
     const newData = { ...data, last_acess: currentDate };
 
@@ -85,11 +83,6 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           </div>
           <div>
             <Label>Tipo de plano</Label>
-            {/* <select {...register('plan_type')}>
-              <option value="Quinzenal">Quinzenal</option>
-              <option value="Semestral">Semestral</option>
-              <option value="Personal">Personal</option>
-            </select> */}
             <NewSelect values={plans} {...register('plan_type')} />
           </div>
         </div>
@@ -166,12 +159,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         <div>
           <div>
             <Label>Observações?</Label>
-            <InputTextArea
-              // value={observation}
-              {...register('observation')}
-
-              // onChange={e => setObservation(e.target.value)}
-            />
+            <InputTextArea {...register('observation')} />
           </div>
         </div>
 

@@ -19,12 +19,14 @@ const NewInputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   ref,
 ) => {
   return (
-    <Container isErrored={!!error}>
-      {/* {Icon && <Icon size={20} />} */}
+    <>
+      <Container isErrored={!!error}>
+        {/* {Icon && <Icon size={20} />} */}
 
-      <input id={name} ref={ref} name={name} {...rest} />
+        <input id={name} ref={ref} name={name} {...rest} />
+      </Container>
       {error && <Error>{error.message}</Error>}
-    </Container>
+    </>
   );
 };
 

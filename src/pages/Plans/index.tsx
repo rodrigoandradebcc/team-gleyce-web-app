@@ -35,42 +35,27 @@ interface OptionsProps {
 }
 
 const Plans: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const location = useLocation<HistoryProps>();
+  const { idSelected: planIdSelected } = location.state;
+
   const [plans, setPlans] = useState<PlanProps[]>([] as PlanProps[]);
+  const [openModal, setOpenModal] = useState(false);
   const [exercises, setExercises] = useState<Exercises[]>([]);
   const [selectedExercises, setSelectedExercises] = useState<OptionsProps[]>(
     [],
   );
 
-  const [openModal, setOpenModal] = useState(false);
-  // estado do modal da page plans
-
   const handleToggleModalAddPlan = useCallback(() => {
-    console.log('plans - estado openModal', !openModal);
-
     setOpenModal(!openModal);
   }, [openModal]);
 
   const { setupTrainingCompletedItem, tab } = useTrainingSetup();
-
-  useEffect(() => {
-    // console.log('valor', tab);
-    console.log('no useEffect', openModal);
-  }, [openModal, tab]);
 
   setupTrainingCompletedItem({
     planName: 'tarara',
     exercise: [],
     prescription: [],
   });
-
-  const planosTeste = [
-    { id: '1', description: 'A' },
-    { id: '2', description: 'B' },
-    { id: '3', description: 'C' },
-  ];
-
-  const location = useLocation<HistoryProps>();
 
   const options = getNameExercises(exercises);
 
@@ -79,11 +64,8 @@ const Plans: React.FC = () => {
     const res = exercises.map(({ id, name }) => {
       return { value: id, label: name };
     });
-
     return res;
   }
-
-  const { idSelected } = location.state;
 
   useEffect(() => {
     api.get('/exercises').then(response => {
@@ -91,11 +73,14 @@ const Plans: React.FC = () => {
     });
   }, []);
 
-  const getPlansToUser = (id: string): void => {
-    api.get(`/plans/${id}`).then(response => {
-      setPlans(response.data);
-    });
-  };
+  useEffect(() => {
+    const getPlansToUser = async (id: string): Promise<void> => {
+      await api.get(`/plans/${id}`).then(response => {
+        setPlans(response.data);
+      });
+    };
+    getPlansToUser(planIdSelected);
+  }, [planIdSelected, plans]);
 
   function handleSetSelectedExercises(
     exercisesSel: OptionsType<OptionsProps>,
@@ -103,14 +88,9 @@ const Plans: React.FC = () => {
     setSelectedExercises(exercisesSel as OptionsProps[]);
   }
 
-  useEffect(() => {
-    getPlansToUser(idSelected);
-  }, [idSelected]);
-
   return (
     <>
       <MenuBar />
-
       <div id="mainContainer">
         <Header />
         <S.Container>
@@ -122,7 +102,7 @@ const Plans: React.FC = () => {
           </S.LabelAndButton>
 
           <Tabs
-            tabsApi={planosTeste}
+            tabsApi={plans}
             handleOpenModal={openModalState => setOpenModal(openModalState)}
           />
           <S.SelectContainer>

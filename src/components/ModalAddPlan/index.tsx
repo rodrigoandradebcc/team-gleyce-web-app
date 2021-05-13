@@ -1,19 +1,57 @@
-import React from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoReaderOutline } from 'react-icons/io5';
-import { NewInput } from '../NewInput';
-import Modal from '../Modal';
-
-import * as S from './styles';
+import { useLocation } from 'react-router-dom';
+import * as yup from 'yup';
+import api from '../../services/api';
 import ButtonRod from '../ButtonRod';
+import Modal from '../Modal';
+import { NewInput } from '../NewInput';
+import * as S from './styles';
 
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
 }
 
+interface HistoryProps {
+  idSelected: string;
+}
+
+interface PlanProps {
+  description: string;
+  training_id: string;
+}
+
+const planFormSchema = yup.object().shape({
+  description: yup.string().required('Descrição obrigatória'),
+});
+
 const ModalAddPlan: React.FC<IModalProps> = ({ isOpen = false, setIsOpen }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(planFormSchema),
+  });
+  const { errors } = formState;
+
+  const location = useLocation<HistoryProps>();
+
+  const { idSelected } = location.state;
+
+  function handleAddPlan(data: PlanProps): void {
+    const newData = { ...data, training_id: idSelected };
+    handlePlanSubmit(newData);
+    setIsOpen();
+  }
+
+  const handlePlanSubmit = useCallback(async (plan: PlanProps) => {
+    try {
+      const response = await api.post('/plans', plan);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -23,10 +61,14 @@ const ModalAddPlan: React.FC<IModalProps> = ({ isOpen = false, setIsOpen }) => {
           <p>Cadastrar plano</p>
         </S.LogoAndTitleModal>
 
-        <form action="">
+        <form onSubmit={handleSubmit(handleAddPlan)}>
           <S.LabelAndInputArea>
             <S.Label>Nome do plano</S.Label>
-            <NewInput placeholder="Ex: A" required {...register('name')} />
+            <NewInput
+              placeholder="Ex: A"
+              {...register('description')}
+              error={errors.description}
+            />
           </S.LabelAndInputArea>
           <ButtonRod fullWidth heightSize="large" type="submit">
             Cadastrar
