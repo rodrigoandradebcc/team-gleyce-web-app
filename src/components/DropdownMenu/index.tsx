@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FiMoreVertical, FiTrash2 } from 'react-icons/fi';
 import { MdModeEdit } from 'react-icons/md';
-import { ButtonIconMenu, Container } from './styles';
+import ButtonIcon from '../ButtonIcon';
+import { ButtonIconMenu, Container, ButtonIconDropdown } from './styles';
 
 interface DropdownMenuProps {
   id: string;
@@ -11,7 +12,7 @@ interface DropdownMenuProps {
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
   id,
-  handleUpdateSelectedTrainning,
+  handleUpdateSelectedTrainning: handleUpdateSelectedTraining,
   idActualSelectedTeste,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,25 +24,21 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
     console.log(`${idActualSelectedTeste === id}`);
   }, [id, idActualSelectedTeste]);
 
-  useEffect(() => {
-    console.log(`O SELECIONADO AGORA ${idActualSelectedTeste}`);
-  }, [idActualSelectedTeste]);
-
   return (
     <Container>
       <ButtonIconMenu
         onClick={() => {
           if (idActualSelectedTeste === id && isVisible) {
             setIsVisible(false);
-            handleUpdateSelectedTrainning('');
+            handleUpdateSelectedTraining('');
           } else if (
             idActualSelectedTeste === id ||
             idActualSelectedTeste === ''
           ) {
-            handleUpdateSelectedTrainning(id);
+            handleUpdateSelectedTraining(id);
             setIsVisible(true);
           } else if (idActualSelectedTeste !== id) {
-            handleUpdateSelectedTrainning(id);
+            handleUpdateSelectedTraining(id);
 
             setIsVisible(true);
           }
@@ -52,16 +49,16 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
         {isVisible && idActualSelectedTeste === id && (
           <ul>
             <li>
-              <a href="/">
+              <ButtonIconDropdown>
                 <MdModeEdit size={16} />
                 Editar
-              </a>
+              </ButtonIconDropdown>
             </li>
             <li>
-              <a href="/">
+              <ButtonIconDropdown>
                 <FiTrash2 size={16} />
                 Remover
-              </a>
+              </ButtonIconDropdown>
             </li>
           </ul>
         )}

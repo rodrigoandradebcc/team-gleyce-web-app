@@ -6,6 +6,8 @@ export const Container = styled.button`
   text-transform: uppercase;
 
   display: flex;
+  align-items: center;
+
   svg {
     margin-right: 1rem;
   }

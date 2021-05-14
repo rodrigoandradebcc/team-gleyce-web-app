@@ -10,6 +10,18 @@ const appearAnimation = keyframes`
   }
 `;
 
+export const ButtonIconDropdown = styled(ButtonIcon)`
+  color: #bbbbbb;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    color: var(--text-body);
+  }
+`;
+
 export const Container = styled.div`
   display: flex;
   align-items: center;
@@ -36,7 +48,7 @@ export const Container = styled.div`
     list-style-type: none;
     padding: 16px 24px;
 
-    a {
+    /* a {
       color: #bbbbbb;
       text-decoration: none;
       text-transform: capitalize;
@@ -46,16 +58,12 @@ export const Container = styled.div`
       svg {
         margin-right: 8px;
       }
-    }
-
-    a:hover {
-      color: var(--text-body);
-    }
+    } */
   }
 `;
 
 export const ButtonIconMenu = styled(ButtonIcon)`
-  svg {
+  > svg {
     margin-right: 0px;
   }
 `;

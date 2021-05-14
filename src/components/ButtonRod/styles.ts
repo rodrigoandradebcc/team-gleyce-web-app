@@ -13,6 +13,12 @@ interface ButtonProp {
   outlinedColor?: string;
 }
 
+const BackGroundMix = css<ButtonProp>`
+  ${props => {
+    return props.background ? `${props.background}` : '(--yellow)';
+  }}
+`;
+
 export const ContainerLoading = styled.div`
   display: flex;
   justify-content: center;
@@ -29,9 +35,7 @@ export const Container = styled.button<ButtonProp>`
   justify-content: center;
   align-items: center;
   min-width: 64px;
-
   position: relative;
-
   background: ${props =>
     props.background ? `${props.background}` : 'var(--yellow)'};
   font-size: ${props => props.fontSize && `${props.fontSize}px`};
@@ -39,9 +43,7 @@ export const Container = styled.button<ButtonProp>`
   border-radius: 2px;
   border: 0;
   width: ${props => (props.fullWidth ? '100%' : 'fit-content')};
-
   user-select: none;
-
   transition: filter 0.2s;
 
   ${props =>
@@ -54,17 +56,16 @@ export const Container = styled.button<ButtonProp>`
       background: #f5f5f5;
       border: 1px solid #d9d9d9;
     `}
-
   ${props =>
     !props.disabled &&
     !props.loading &&
     css`
       &:hover {
-        filter: brightness(0.9);
+        filter: brightness(1.1);
         box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
           0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+        background: ${BackGroundMix};
       }
-
       &:after {
         content: '';
         display: block;
@@ -81,15 +82,12 @@ export const Container = styled.button<ButtonProp>`
         opacity: 0;
         transition: transform 0.5s, opacity 1s;
       }
-
       &:active:after {
         transform: scale(0, 0);
         opacity: 0.3;
         transition: 0s;
       }
     `}
-
-
   ${props =>
     props.loading &&
     css`
@@ -97,7 +95,6 @@ export const Container = styled.button<ButtonProp>`
       cursor: not-allowed;
       opacity: 0.6;
     `}
-
   ${props =>
     props.outlined &&
     css`
@@ -108,7 +105,6 @@ export const Container = styled.button<ButtonProp>`
         background: ${lighten(0.9, '#000')};
       }
     `}
-
     ${props =>
     props.outlinedColor &&
     css`
@@ -118,34 +114,29 @@ export const Container = styled.button<ButtonProp>`
         background: ${lighten(0.9, '#000')};
       }
     `}
-
   ${props =>
     props.heightSize === 'small' &&
     css`
       height: 2rem;
       padding: 0.25rem 0.625px;
     `}
-
   ${props =>
     (props.heightSize === 'medium' || !props.heightSize) &&
     css`
       height: 2.25rem;
       padding: 0.375rem 1rem;
     `}
-
   ${props =>
     props.heightSize === 'large' &&
     css`
       height: 2.625rem;
       padding: 0.5rem 1.375rem;
     `}
-
     ${props =>
     props.heightSize === 'big' &&
     css`
       height: 56px;
     `}
-
   position: relative;
   overflow: hidden;
   transform: translate3d(0, 0, 0);
