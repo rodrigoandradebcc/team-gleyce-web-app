@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ButtonIcon from '../../components/ButtonIcon';
 
 export const Container = styled.div`
   display: flex;
@@ -13,6 +14,11 @@ export const Container = styled.div`
   > h2,
   > strong {
     margin: 1rem 0;
+  }
+`;
+export const BtnEditTraining = styled(ButtonIcon)`
+  svg {
+    margin-right: 1rem;
   }
 `;
 

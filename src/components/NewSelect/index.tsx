@@ -24,7 +24,9 @@ const NewSelectBase: ForwardRefRenderFunction<
     <Container>
       <Select ref={ref} {...rest}>
         {values.map(option => (
-          <Option value={option.label}>{option.value}</Option>
+          <Option key={option.label} value={option.label}>
+            {option.value}
+          </Option>
         ))}
       </Select>
     </Container>

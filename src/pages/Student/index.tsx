@@ -46,7 +46,7 @@ const Student: React.FC = () => {
     api.get('/users').then(response => {
       setStudents(response.data);
     });
-  }, []);
+  }, [students]);
 
   const handleToggleModalAddStudent = useCallback(() => {
     setModalOpen(!modalOpen);

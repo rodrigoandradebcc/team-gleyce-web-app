@@ -1,12 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FiCheckSquare } from 'react-icons/fi';
+import { FiUserPlus } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import api from '../../services/api';
+import ButtonRod from '../ButtonRod';
 import { InputTextArea } from '../InputTextArea';
 import Modal from '../Modal';
+import { LogoAndTitleModal } from '../ModalAddPlan/styles';
 import { NewInput } from '../NewInput';
 import { NewSelect } from '../NewSelect';
-import { Form, Label, Switch } from './styles';
+import { Form, Label, Switch, ContainerSwitch } from './styles';
 
 interface StudentProps {
   full_name: string;
@@ -22,7 +25,7 @@ interface StudentProps {
   observation: string;
 }
 
-type FormProps = StudentProps & { password_confirmation: string };
+// type FormProps = StudentProps & { password_confirmation: string };
 
 interface IModalProps {
   isOpen: boolean;
@@ -56,21 +59,31 @@ const ModalAddStudent: React.FC<IModalProps> = ({
 
   const handleStudentSubmit = useCallback(
     async (student: StudentProps): Promise<void> => {
+      console.log('to aqui');
+
       try {
         const response = await api.post('/users', student);
 
         console.log(response);
+
+        toast.success('Aluno cadastrado com sucesso!');
       } catch (error) {
         console.log(error);
+        toast.error(
+          'Ocorreu um erro ao cadastrar um aluno, tente novamente mais tarde!',
+        );
       }
     },
     [],
   );
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} typeModal="large">
       <Form onSubmit={handleSubmit(handle)}>
-        <h1>Novo aluno</h1>
+        <LogoAndTitleModal>
+          <FiUserPlus size={24} />
+          <p>Cadastrar aluno</p>
+        </LogoAndTitleModal>
 
         <div className="two-inputs">
           <div>
@@ -85,9 +98,6 @@ const ModalAddStudent: React.FC<IModalProps> = ({
             <Label>Tipo de plano</Label>
             <NewSelect values={plans} {...register('plan_type')} />
           </div>
-        </div>
-
-        <div className="two-inputs">
           <div>
             <Label>CPF</Label>
             <NewInput
@@ -97,6 +107,9 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               {...register('cpf')}
             />
           </div>
+        </div>
+
+        <div className="two-inputs">
           <div>
             <Label>Data de nascimento</Label>
             <NewInput
@@ -106,9 +119,6 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               {...register('date_of_birth')}
             />
           </div>
-        </div>
-
-        <div className="two-inputs">
           <div>
             <Label>Contato</Label>
             <NewInput
@@ -139,20 +149,19 @@ const ModalAddStudent: React.FC<IModalProps> = ({
             <Label>Confirmação de senha</Label>
             <NewInput name="password_confirmation" type="password" required />
           </div>
-        </div>
-
-        <div>
-          <div>
+          <div className="switch">
             <Label>Aluno ativo?</Label>
-            <Switch onClick={() => setIsActive(!isActive)}>
-              <input
-                type="checkbox"
-                checked={isActive}
-                // onChange={() => console.log(!isActive)}
-                {...register('active')}
-              />
-              <span className="slider round" />
-            </Switch>
+            <ContainerSwitch>
+              <Switch onClick={() => setIsActive(!isActive)}>
+                <input
+                  type="checkbox"
+                  checked={isActive}
+                  // onChange={() => console.log(!isActive)}
+                  {...register('active')}
+                />
+                <span className="slider round" />
+              </Switch>
+            </ContainerSwitch>
           </div>
         </div>
 
@@ -163,12 +172,16 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           </div>
         </div>
 
-        <button type="submit" data-testid="add-student-button">
+        <ButtonRod fullWidth heightSize="large" type="submit">
+          Cadastrar
+        </ButtonRod>
+
+        {/* <button type="submit" data-testid="add-student-button">
           <p className="text">Adicionar aluno</p>
           <div className="icon">
-            <FiCheckSquare size={24} />
+            <FiUserPlus size={24} />
           </div>
-        </button>
+        </button> */}
       </Form>
     </Modal>
   );

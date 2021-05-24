@@ -9,10 +9,9 @@ export const Select = styled.select`
   border: 1px solid #f1f1f1;
   border-radius: 2px;
   background: white;
-  /* box-shadow: 0 1px 3px -2px #9098a9; */
   cursor: pointer;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 13px;
   transition: all 150ms ease;
 `;
 

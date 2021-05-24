@@ -29,9 +29,29 @@ interface Exercises {
   updatedAt: Date;
 }
 
-interface OptionsProps {
-  value: any;
+interface ExercisesSelectedProps {
+  value: string;
   label: string;
+}
+
+interface Prescription {
+  prescriptionId: string;
+  repetition: string;
+  serie: string;
+  weight: string;
+  interval: string;
+  observation: string;
+}
+
+interface TrainingContextCompletedProps {
+  planName: string;
+  exercises: ExercisesSelectedContextProps[];
+}
+
+interface ExercisesSelectedContextProps {
+  value: string;
+  label: string;
+  prescription: Prescription;
 }
 
 const Plans: React.FC = () => {
@@ -41,26 +61,53 @@ const Plans: React.FC = () => {
   const [plans, setPlans] = useState<PlanProps[]>([] as PlanProps[]);
   const [openModal, setOpenModal] = useState(false);
   const [exercises, setExercises] = useState<Exercises[]>([]);
-  const [selectedExercises, setSelectedExercises] = useState<OptionsProps[]>(
-    [],
-  );
+  const [selectedExercises, setSelectedExercises] = useState<
+    ExercisesSelectedProps[]
+  >([]);
 
   const handleToggleModalAddPlan = useCallback(() => {
     setOpenModal(!openModal);
   }, [openModal]);
 
-  const { setupTrainingCompletedItem, tab } = useTrainingSetup();
+  const { setupPlan, tabPlanContext } = useTrainingSetup();
 
-  setupTrainingCompletedItem({
-    planName: 'tarara',
-    exercise: [],
-    prescription: [],
-  });
+  const mockPrescription = {
+    prescriptionId: '1',
+    repetition: 'string',
+    serie: 'string',
+    weight: 'string',
+    interval: 'string',
+    observation: 'string',
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function mountObjectTrainingCompleted(
+    selectedTab: string,
+  ): TrainingContextCompletedProps {
+    let newExercises: ExercisesSelectedContextProps[] = [];
+    newExercises = [];
+
+    selectedExercises.map(item => {
+      return newExercises.push({
+        ...item,
+        prescription: mockPrescription,
+      });
+    });
+
+    return {
+      planName: selectedTab,
+      exercises: newExercises,
+    };
+  }
+
+  useEffect(() => {
+    setupPlan(mountObjectTrainingCompleted(tabPlanContext));
+  }, [selectedExercises, tabPlanContext]);
 
   const options = getNameExercises(exercises);
 
   // eslint-disable-next-line no-shadow
-  function getNameExercises(exercises: Exercises[]): OptionsProps[] {
+  function getNameExercises(exercises: Exercises[]): ExercisesSelectedProps[] {
     const res = exercises.map(({ id, name }) => {
       return { value: id, label: name };
     });
@@ -83,9 +130,9 @@ const Plans: React.FC = () => {
   }, [planIdSelected, plans]);
 
   function handleSetSelectedExercises(
-    exercisesSel: OptionsType<OptionsProps>,
+    exercisesSel: OptionsType<ExercisesSelectedProps>,
   ): void {
-    setSelectedExercises(exercisesSel as OptionsProps[]);
+    setSelectedExercises(exercisesSel as ExercisesSelectedProps[]);
   }
 
   return (
@@ -105,12 +152,13 @@ const Plans: React.FC = () => {
             tabsApi={plans}
             handleOpenModal={openModalState => setOpenModal(openModalState)}
           />
+
           <S.SelectContainer>
             <S.SelectAndButton>
               <Select
                 options={options}
                 isMulti
-                onChange={(e: OptionsType<OptionsProps>) => {
+                onChange={(e: OptionsType<ExercisesSelectedProps>) => {
                   handleSetSelectedExercises(e);
                 }}
               />

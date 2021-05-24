@@ -3,8 +3,6 @@ import styled from 'styled-components';
 export const Container = styled.div``;
 
 export const ContainerModal = styled.div`
-  padding: 44px 48px;
-
   button {
     margin-top: 32px;
     font-weight: 600;

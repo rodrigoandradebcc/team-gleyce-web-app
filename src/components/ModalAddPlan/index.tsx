@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { IoReaderOutline } from 'react-icons/io5';
 import { useLocation } from 'react-router-dom';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import api from '../../services/api';
 import ButtonRod from '../ButtonRod';
 import Modal from '../Modal';
@@ -49,9 +50,13 @@ const ModalAddPlan: React.FC<IModalProps> = ({ isOpen = false, setIsOpen }) => {
   const handlePlanSubmit = useCallback(async (plan: PlanProps) => {
     try {
       const response = await api.post('/plans', plan);
+
       console.log(response);
+      toast.success('Plano cadastrado com sucesso!');
     } catch (error) {
-      console.log(error);
+      toast.error(
+        'Ocorreu um erro ao cadastrar um Plano, tente novamente mais tarde!',
+      );
     }
   }, []);
 

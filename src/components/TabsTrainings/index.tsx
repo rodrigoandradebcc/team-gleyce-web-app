@@ -1,31 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FiPlus } from 'react-icons/fi';
-import { useTrainingSetup } from '../../hooks/TrainingSetupContext';
+import React, { useEffect, useState } from 'react';
 import { PlanProps } from '../../pages/Plans';
 import * as S from './styles';
 
 interface ITabsProps {
   tabsApi: PlanProps[];
-  handleOpenModal?: (openModal: boolean) => void;
+  setTypeTrainingActive: (description: string) => void;
 }
 
-const TabsPlans: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
+const TabsTrainings: React.FC<ITabsProps> = ({
+  tabsApi,
+  setTypeTrainingActive,
+}) => {
   const [tabActive, setTabActive] = useState(
     tabsApi ? tabsApi[0]?.description : '',
   );
-  const { changeTabPlanActive } = useTrainingSetup();
-
-  const handleToggleModalAddPlan = useCallback(() => {
-    if (handleOpenModal) {
-      handleOpenModal(true);
-    }
-  }, [handleOpenModal]);
 
   useEffect(() => {
     if (tabsApi[0]?.description) {
       const { description } = tabsApi[0];
       setTabActive(description);
-      changeTabPlanActive(description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabsApi[0]?.description]);
@@ -40,23 +33,15 @@ const TabsPlans: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
               key={item.description}
               onClick={() => {
                 setTabActive(item.description);
-                changeTabPlanActive(item.description);
+                setTypeTrainingActive(item.description);
               }}
             >
               {item.description}
             </S.Tab>
           ))}
-
-        <S.AddTabButton
-          onClick={() => {
-            handleToggleModalAddPlan();
-          }}
-        >
-          <FiPlus size={16} />
-        </S.AddTabButton>
       </S.ContainerTabs>
     </S.Container>
   );
 };
 
-export default TabsPlans;
+export default TabsTrainings;

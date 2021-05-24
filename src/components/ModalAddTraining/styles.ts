@@ -8,8 +8,6 @@ export const Label = styled.p`
 `;
 
 export const ContainerModal = styled.div`
-  padding: 44px 48px;
-
   button {
     margin-top: 32px;
     font-weight: 600;

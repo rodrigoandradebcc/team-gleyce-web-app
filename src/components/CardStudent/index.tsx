@@ -3,6 +3,7 @@ import React, { ButtonHTMLAttributes, useCallback } from 'react';
 import { ImWhatsapp } from 'react-icons/im';
 import { useHistory } from 'react-router';
 import Avatar from '../Avatar';
+import ButtonRod from '../ButtonRod';
 import {
   ActionsContainer,
   Bottom,

@@ -3,14 +3,14 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react';
-
-// import { Container } from './styles';
 
 interface Exercise {
   name: string;
   exerciseId: string;
+  prescription: Prescription;
 }
 
 interface Prescription {
@@ -22,17 +22,22 @@ interface Prescription {
   observation: string;
 }
 
-interface TrainingsProps {
+interface TrainingContextCompletedProps {
   planName: string;
-  exercise: Exercise[];
-  prescription: Prescription[];
+  exercises: ExercisesSelectedProps[];
+}
+
+interface ExercisesSelectedProps {
+  value: string;
+  label: string;
+  prescription: Prescription;
 }
 
 interface TrainingSetupContextProps {
-  trainingCompleted: TrainingsProps[];
-  setupTrainingCompletedItem: (training: TrainingsProps) => void;
-  tab: string;
-  changeTabActive: (name: string) => void;
+  trainingCompleted: TrainingContextCompletedProps[];
+  setupPlan: (training: TrainingContextCompletedProps) => void;
+  tabPlanContext: string;
+  changeTabPlanActive: (name: string) => void;
 }
 
 interface TrainingSetupProviderProps {
@@ -46,27 +51,44 @@ const TrainingSetupContext = createContext<TrainingSetupContextProps>(
 export const TrainingSetupProvider: React.FC<TrainingSetupProviderProps> = ({
   children,
 }) => {
-  const trainingCompleted: TrainingsProps[] = [];
+  // const trainingCompleted: TrainingsProps[] = [];
   const [tabContextActive, setTabContextActive] = useState('');
 
   function changeTabActive(name: string): void {
     setTabContextActive(name);
   }
 
-  const setupTrainingCompletedItem = useCallback(
-    async ({ planName, exercise, prescription }) => {
-      // console.log('cheguei no context', planName);
+  // COMPLETO
+  const [trainingCompleted, setTrainingCompleted] = useState<
+    TrainingContextCompletedProps[]
+  >({} as TrainingContextCompletedProps[]);
+
+  const changeCompletedTraining = useCallback(plan => {
+    const newTrainingCompleted = {
+      ...trainingCompleted,
+      plan,
+    };
+    console.log('novo objeto', newTrainingCompleted);
+    setTrainingCompleted(newTrainingCompleted);
+  }, []);
+
+  const setupPlan = useCallback(
+    plan => {
+      console.log('adicionando Exercício ao Plano', plan);
+
+      // changeCompletedTraining(plan);
+      changeCompletedTraining(plan);
     },
-    [],
+    [changeCompletedTraining],
   );
 
   return (
     <TrainingSetupContext.Provider
       value={{
         trainingCompleted,
-        changeTabActive,
-        setupTrainingCompletedItem,
-        tab: tabContextActive,
+        changeTabPlanActive: changeTabActive,
+        setupPlan,
+        tabPlanContext: tabContextActive,
       }}
     >
       {children}
@@ -78,7 +100,7 @@ export function useTrainingSetup(): TrainingSetupContextProps {
   const context = useContext(TrainingSetupContext);
 
   if (!context) {
-    throw new Error('useAuth must be used within an TrainingProvider');
+    throw new Error('use... must be used within an TrainingProvider');
   }
 
   return context;

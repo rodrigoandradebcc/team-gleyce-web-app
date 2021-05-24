@@ -4,13 +4,12 @@ import { IoMdCalendar } from 'react-icons/io';
 import { MdModeEdit } from 'react-icons/md';
 import { useHistory, useLocation } from 'react-router-dom';
 import Avatar from '../../components/Avatar';
-import ButtonIcon from '../../components/ButtonIcon';
 import ButtonRod from '../../components/ButtonRod';
 import DropdownMenu from '../../components/DropdownMenu';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
 import ModalAddTraining from '../../components/ModalAddTraining';
-import Tabs from '../../components/TabsPlans';
+import Tabs from '../../components/TabsTrainings';
 import api from '../../services/api';
 import * as S from './styles';
 
@@ -40,6 +39,10 @@ const Training: React.FC = () => {
     { id: '3', description: 'Inativos' },
   ];
 
+  const [typeTrainingActive, setTypeTrainingActive] = useState(
+    trainingTypes[0].description,
+  );
+
   const location = useLocation<HistoryProps>();
 
   const { idSelected, studentName } = location.state;
@@ -50,10 +53,10 @@ const Training: React.FC = () => {
 
   const [idAtualSelecionado, setIdAtualSelecionado] = useState('');
 
-  useEffect(() => {
-    console.log('O SELECIONADO', idSelected);
-    setIdAtualSelecionado(idSelected);
-  }, [idSelected]);
+  // useEffect(() => {
+  //   console.log('O SELECIONADO', idSelected);
+  //   setIdAtualSelecionado(idSelected);
+  // }, [idSelected]);
 
   const getTrainings = (id: string): void => {
     api.get(`/trainings/${id}`).then(response => {
@@ -61,13 +64,17 @@ const Training: React.FC = () => {
     });
   };
 
+  function teste(content: string): void {
+    setTypeTrainingActive(content);
+  }
+
   async function handleUpdateSelectedTraining(id: string): Promise<void> {
     setIdAtualSelecionado(id);
   }
 
   useEffect(() => {
     getTrainings(idSelected);
-  }, [idSelected]);
+  }, [idSelected, trainings]);
 
   return (
     <>
@@ -81,7 +88,7 @@ const Training: React.FC = () => {
             <Avatar src="" userName={studentName} size={2} />
           </S.NameAndLogoContainer>
 
-          <Tabs tabsApi={trainingTypes} />
+          <Tabs tabsApi={trainingTypes} setTypeTrainingActive={teste} />
 
           <S.ButtonArea>
             <ButtonRod
@@ -108,7 +115,7 @@ const Training: React.FC = () => {
                 </S.NameAndExpirationDate>
 
                 <S.ButtonActionsContainer>
-                  <ButtonIcon
+                  <S.BtnEditTraining
                     onClick={() => {
                       history.push('/plans', {
                         idSelected: id,
@@ -117,7 +124,7 @@ const Training: React.FC = () => {
                   >
                     <MdModeEdit size={16} />
                     EDITAR EXERCÍCIOS
-                  </ButtonIcon>
+                  </S.BtnEditTraining>
                   <DropdownMenu
                     id={id}
                     handleUpdateSelectedTrainning={handleUpdateSelectedTraining}
