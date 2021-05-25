@@ -53,18 +53,27 @@ const Training: React.FC = () => {
 
   const [idAtualSelecionado, setIdAtualSelecionado] = useState('');
 
-  // useEffect(() => {
-  //   console.log('O SELECIONADO', idSelected);
-  //   setIdAtualSelecionado(idSelected);
-  // }, [idSelected]);
+  useEffect(() => {
+    console.log('O SELECIONADO', typeTrainingActive);
+  }, [typeTrainingActive]);
 
   const getTrainings = (id: string): void => {
-    api.get(`/trainings/${id}`).then(response => {
-      setTrainings(response.data);
-    });
+    if (typeTrainingActive === 'Ativos') {
+      api.get(`/trainings/${id}?tab=active`).then(response => {
+        setTrainings(response.data);
+      });
+    } else if (typeTrainingActive === 'Inativos') {
+      api.get(`/trainings/${id}?tab=disabled`).then(response => {
+        setTrainings(response.data);
+      });
+    } else {
+      api.get(`/trainings/${id}`).then(response => {
+        setTrainings(response.data);
+      });
+    }
   };
 
-  function teste(content: string): void {
+  function changeTabsTrainingTypes(content: string): void {
     setTypeTrainingActive(content);
   }
 
@@ -88,7 +97,10 @@ const Training: React.FC = () => {
             <Avatar src="" userName={studentName} size={2} />
           </S.NameAndLogoContainer>
 
-          <Tabs tabsApi={trainingTypes} setTypeTrainingActive={teste} />
+          <Tabs
+            tabsApi={trainingTypes}
+            setTypeTrainingActive={changeTabsTrainingTypes}
+          />
 
           <S.ButtonArea>
             <ButtonRod
