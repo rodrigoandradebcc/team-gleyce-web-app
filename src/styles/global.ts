@@ -10,6 +10,15 @@ const modalTransition = keyframes`
   }
 `;
 
+const drawerTransition = keyframes`
+  from{
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+`;
+
 export default createGlobalStyle`
   *{
     margin: 0;
@@ -99,7 +108,32 @@ export default createGlobalStyle`
     justify-content: center;
   }
 
+  .react-drawer-overlay {
+    background: rgba(0, 0, 0, 0.5);
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .react-modal-content {
+    width: 100%;
+
+    background: var(--background);
+
+    padding: 44px 48px;
+    transition: bottom 0.3s ease-out;
+
+
+    position: relative;
+    border-radius: 0.24rem;
+  }
+
+  .react-drawer-content {
     width: 100%;
 
     background: var(--background);
@@ -114,6 +148,10 @@ export default createGlobalStyle`
 
   .ReactModal__Content {
     animation: ${modalTransition} ease 400ms;
+  }
+
+  .drawer-content {
+    animation: ${drawerTransition} ease 400ms;
   }
 
   .ReactModal__Overlay {
