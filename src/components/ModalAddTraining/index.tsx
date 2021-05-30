@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdFitnessCenter } from 'react-icons/md';
 import { useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import { parseISO } from 'date-fns';
 import api from '../../services/api';
 import ButtonRod from '../ButtonRod';
 import { InputTextArea } from '../InputTextArea';
@@ -24,11 +26,13 @@ interface HistoryProps {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
+  updateTrainings(): void;
 }
 
 const ModalAddTraining: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
+  updateTrainings,
 }) => {
   const { register, handleSubmit } = useForm();
 
@@ -37,7 +41,11 @@ const ModalAddTraining: React.FC<IModalProps> = ({
   const { idSelected } = location.state;
 
   function handleAddTrainingSubmit(data: TrainingProps): void {
-    const newData = { ...data, user_id: idSelected };
+    const newData = {
+      ...data,
+      user_id: idSelected,
+      expiration_date: parseISO(data.expiration_date).toISOString(),
+    };
     handleAddTraining(newData);
     setIsOpen();
   }
@@ -45,11 +53,13 @@ const ModalAddTraining: React.FC<IModalProps> = ({
   const handleAddTraining = useCallback(
     async (training: TrainingProps): Promise<void> => {
       try {
-        const response = await api.post('/trainings', training);
+        await api.post('/trainings', training);
+        updateTrainings();
 
-        console.log(response);
+        toast.success('Treino cadastrado com sucesso!');
       } catch (error) {
         console.log(error);
+        toast.error(error.response.data.error);
       }
     },
     [],

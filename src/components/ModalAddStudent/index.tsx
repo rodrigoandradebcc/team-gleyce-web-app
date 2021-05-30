@@ -30,12 +30,13 @@ interface StudentProps {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  // handleAddStudent: (student: StudentProps) => Promise<void>;
+  updateStudents(): void;
 }
 
 const ModalAddStudent: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
+  updateStudents,
   // handleAddStudent,
 }) => {
   const { register, handleSubmit } = useForm();
@@ -59,13 +60,10 @@ const ModalAddStudent: React.FC<IModalProps> = ({
 
   const handleStudentSubmit = useCallback(
     async (student: StudentProps): Promise<void> => {
-      console.log('to aqui');
-
       try {
-        const response = await api.post('/users', student);
+        await api.post('/users', student);
 
-        console.log(response);
-
+        updateStudents();
         toast.success('Aluno cadastrado com sucesso!');
       } catch (error) {
         console.log(error);
