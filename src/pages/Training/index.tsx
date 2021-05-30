@@ -53,29 +53,32 @@ const Training: React.FC = () => {
 
   const [idAtualSelecionado, setIdAtualSelecionado] = useState('');
 
-  useEffect(() => {
-    console.log('O SELECIONADO', typeTrainingActive);
-  }, [typeTrainingActive]);
-
-  const getTrainings = (id: string): void => {
-    if (typeTrainingActive === 'Ativos') {
-      api.get(`/trainings/${id}?tab=active`).then(response => {
-        setTrainings(response.data);
-      });
-    } else if (typeTrainingActive === 'Inativos') {
-      api.get(`/trainings/${id}?tab=disabled`).then(response => {
-        setTrainings(response.data);
-      });
-    } else {
-      api.get(`/trainings/${id}`).then(response => {
-        setTrainings(response.data);
-      });
-    }
-  };
+  const getTrainings = useCallback(
+    (id: string) => {
+      if (typeTrainingActive === 'Ativos') {
+        api.get(`/trainings/${id}?tab=active`).then(response => {
+          setTrainings(response.data);
+        });
+      } else if (typeTrainingActive === 'Inativos') {
+        api.get(`/trainings/${id}?tab=disabled`).then(response => {
+          setTrainings(response.data);
+        });
+      } else {
+        api.get(`/trainings/${id}`).then(response => {
+          setTrainings(response.data);
+        });
+      }
+    },
+    [typeTrainingActive],
+  );
 
   function changeTabsTrainingTypes(content: string): void {
     setTypeTrainingActive(content);
   }
+
+  const updateTrainings = useCallback(() => {
+    getTrainings(idSelected);
+  }, [getTrainings, idSelected]);
 
   async function handleUpdateSelectedTraining(id: string): Promise<void> {
     setIdAtualSelecionado(id);
@@ -83,7 +86,7 @@ const Training: React.FC = () => {
 
   useEffect(() => {
     getTrainings(idSelected);
-  }, [idSelected, trainings]);
+  }, [getTrainings, idSelected]);
 
   return (
     <>
@@ -152,6 +155,7 @@ const Training: React.FC = () => {
           <ModalAddTraining
             isOpen={modalOpen}
             setIsOpen={handleToggleModalAddTraining}
+            updateTrainings={updateTrainings}
           />
         </S.Container>
       </div>

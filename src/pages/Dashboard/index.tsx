@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiCalendar } from 'react-icons/fi';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
+import api from '../../services/api';
 
 import {
   Container,
@@ -20,6 +21,16 @@ export interface PropsPersonalClass {
 }
 
 const Dashboard: React.FC<PropsPersonalClass> = ({ clientName }) => {
+  const [trainingsExpirationToday, setTrainingsExpirationToday] = useState(0);
+
+  useEffect(() => {
+    api.get('/trainings/total-trainings-expiration').then(response => {
+      setTrainingsExpirationToday(response.data.trainingExpiredToday);
+    });
+  }, []);
+
+  console.log('aaa', trainingsExpirationToday);
+
   return (
     <>
       <MenuBar />
@@ -32,7 +43,7 @@ const Dashboard: React.FC<PropsPersonalClass> = ({ clientName }) => {
             <Card
               numberColor="#0096D1"
               cardName="Vencimentos de hoje"
-              quantity={5}
+              quantity={trainingsExpirationToday}
             />
             <Card
               numberColor="#F44336"

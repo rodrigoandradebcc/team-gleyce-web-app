@@ -7,6 +7,7 @@ import ModalAddStudent from '../../components/ModalAddStudent';
 import SearchInput from '../../components/SearchInput';
 import Tabs from '../../components/TabsPlans';
 import api from '../../services/api';
+import Drawer from '../../components/Drawer';
 import {
   ActionArea,
   Container,
@@ -35,6 +36,17 @@ interface StudentProps {
 const Student: React.FC = () => {
   const [students, setStudents] = useState<StudentProps[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    console.log(drawerOpen);
+  }, [drawerOpen]);
+
+  const updateStudents = useCallback(() => {
+    api.get('/users').then(response => {
+      setStudents(response.data);
+    });
+  }, []);
 
   const trainingTypes = [
     { id: '1', description: 'Todos' },
@@ -46,11 +58,15 @@ const Student: React.FC = () => {
     api.get('/users').then(response => {
       setStudents(response.data);
     });
-  }, [students]);
+  }, []);
 
   const handleToggleModalAddStudent = useCallback(() => {
     setModalOpen(!modalOpen);
   }, [modalOpen]);
+
+  const handleToggleDrawer = useCallback(() => {
+    setDrawerOpen(!drawerOpen);
+  }, [drawerOpen]);
 
   const handleToggleActiveUser = useCallback(
     async (id: string) => {
@@ -79,42 +95,42 @@ const Student: React.FC = () => {
     [students],
   );
 
-  const handleAddStudent = useCallback(
-    async ({
-      full_name,
-      cpf,
-      date_of_birth,
-      email,
-      phone,
-      password,
-      observation,
-      plan_type,
-      active,
-    }: Omit<StudentProps, 'id' | 'last_acess' | 'photo'>) => {
-      try {
-        const { data: studentCreated } = await api.post<StudentProps>(
-          '/users',
-          {
-            full_name,
-            cpf,
-            date_of_birth,
-            email,
-            phone,
-            password,
-            plan_type,
-            observation,
-            last_acess: new Date(),
-            active,
-          },
-        );
+  // const handleAddStudent = useCallback(
+  //   async ({
+  //     full_name,
+  //     cpf,
+  //     date_of_birth,
+  //     email,
+  //     phone,
+  //     password,
+  //     observation,
+  //     plan_type,
+  //     active,
+  //   }: Omit<StudentProps, 'id' | 'last_acess' | 'photo'>) => {
+  //     try {
+  //       const { data: studentCreated } = await api.post<StudentProps>(
+  //         '/users',
+  //         {
+  //           full_name,
+  //           cpf,
+  //           date_of_birth,
+  //           email,
+  //           phone,
+  //           password,
+  //           plan_type,
+  //           observation,
+  //           last_acess: new Date(),
+  //           active,
+  //         },
+  //       );
 
-        setStudents([...students, studentCreated]);
-      } catch ({ err }) {
-        console.log(err);
-      }
-    },
-    [students],
-  );
+  //       setStudents([...students, studentCreated]);
+  //     } catch ({ err }) {
+  //       console.log(err);
+  //     }
+  //   },
+  //   [students],
+  // );
 
   return (
     <>
@@ -156,6 +172,7 @@ const Student: React.FC = () => {
                       photo={photo}
                       plan_type={plan_type}
                       handleToggleActiveUser={() => handleToggleActiveUser(id)}
+                      handleToggleDrawer={handleToggleDrawer}
                     />
                   ),
                 )
@@ -171,7 +188,16 @@ const Student: React.FC = () => {
           <ModalAddStudent
             isOpen={modalOpen}
             setIsOpen={handleToggleModalAddStudent}
+            updateStudents={updateStudents}
           />
+
+          <Drawer
+            isOpen={drawerOpen}
+            setIsOpen={handleToggleDrawer}
+            typeDrawer="medium"
+          >
+            AAAA
+          </Drawer>
         </Container>
       </div>
     </>
