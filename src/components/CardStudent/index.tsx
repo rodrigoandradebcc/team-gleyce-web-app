@@ -1,14 +1,15 @@
 import { format } from 'date-fns';
 import React, { ButtonHTMLAttributes, useCallback } from 'react';
+import { FiMoreVertical } from 'react-icons/fi';
 import { ImWhatsapp } from 'react-icons/im';
 import { useHistory } from 'react-router';
 import Avatar from '../Avatar';
-import ButtonRod from '../ButtonRod';
 import {
   ActionsContainer,
   Bottom,
   Container,
   Data,
+  EditCardButton,
   Go,
   LastAccess,
   Plan,
@@ -28,6 +29,7 @@ interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   last_access: string;
   handleToggleActiveUser: (id: string) => Promise<void>;
   id: string;
+  handleToggleDrawer: () => void;
 }
 
 const CardStudent: React.FC<CardStudentProps> = ({
@@ -36,6 +38,7 @@ const CardStudent: React.FC<CardStudentProps> = ({
   plan_type,
   last_access,
   handleToggleActiveUser,
+  handleToggleDrawer,
   id,
 }) => {
   const history = useHistory();
@@ -47,7 +50,6 @@ const CardStudent: React.FC<CardStudentProps> = ({
   const dateFormatted = format(new Date(last_access), 'dd/mm/yyyy');
 
   function handleGoToTrainingsPage(): void {
-    console.log(id);
     history.push('/trainings', {
       idSelected: id,
       studentName: name,
@@ -56,6 +58,14 @@ const CardStudent: React.FC<CardStudentProps> = ({
 
   return (
     <Container>
+      <EditCardButton
+        onClick={() => {
+          console.log('aqui');
+          handleToggleDrawer();
+        }}
+      >
+        <FiMoreVertical />
+      </EditCardButton>
       <Top>
         <Data>
           <SwitchContainer>

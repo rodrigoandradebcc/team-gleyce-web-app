@@ -1,4 +1,12 @@
 import styled, { css } from 'styled-components';
+import ButtonIcon from '../ButtonIcon';
+
+export const EditCardButton = styled(ButtonIcon)`
+  position: absolute;
+  opacity: 1;
+  top: -4px;
+  right: -8px;
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -10,6 +18,7 @@ export const Container = styled.div`
   height: auto;
   box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
   border-radius: 0.125rem;
+  position: relative;
 `;
 
 interface StatusStudentProps {
