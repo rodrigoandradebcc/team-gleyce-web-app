@@ -5,6 +5,7 @@ import { MdModeEdit } from 'react-icons/md';
 import { useHistory, useLocation } from 'react-router-dom';
 import Avatar from '../../components/Avatar';
 import ButtonRod from '../../components/ButtonRod';
+import DrawerEditTraining from '../../components/DrawerEditTraining';
 import DropdownMenu from '../../components/DropdownMenu';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
@@ -24,14 +25,27 @@ interface TrainingProps {
   observation: string;
   note: string;
   expiration_date: string;
+  user_id: string;
 }
 
 const Training: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [trainingSelected, setTrainingSelected] = useState<TrainingProps>(
+    {} as TrainingProps,
+  );
+
+  useEffect(() => {
+    console.log('fora', trainingSelected);
+  }, [trainingSelected]);
 
   const handleToggleModalAddTraining = useCallback(() => {
     setModalOpen(!modalOpen);
   }, [modalOpen]);
+
+  const handleToggleDrawer = useCallback(() => {
+    setDrawerOpen(!drawerOpen);
+  }, [drawerOpen]);
 
   const trainingTypes = [
     { id: '1', description: 'Todos' },
@@ -117,14 +131,15 @@ const Training: React.FC = () => {
           </S.ButtonArea>
 
           <S.ContainerCards>
-            {trainings?.map(({ name, expiration_date, observation, id }) => (
-              <S.TrainingCard key={id}>
+            {trainings?.map(training => (
+              <S.TrainingCard key={String(training.id)}>
                 <S.NameAndExpirationDate>
-                  <strong>{name}</strong>
+                  <strong>{training.name}</strong>
                   <div>
                     <IoMdCalendar size={16} />
                     <p>
-                      Venc: {format(parseISO(expiration_date), 'dd/MM/yyyy')}
+                      Venc:{' '}
+                      {format(parseISO(training.expiration_date), 'dd/MM/yyyy')}
                     </p>
                   </div>
                 </S.NameAndExpirationDate>
@@ -133,7 +148,7 @@ const Training: React.FC = () => {
                   <S.BtnEditTraining
                     onClick={() => {
                       history.push('/plans', {
-                        idSelected: id,
+                        idSelected: training.id,
                       });
                     }}
                   >
@@ -141,20 +156,29 @@ const Training: React.FC = () => {
                     EDITAR EXERCÍCIOS
                   </S.BtnEditTraining>
                   <DropdownMenu
-                    id={id}
-                    handleUpdateSelectedTrainning={handleUpdateSelectedTraining}
+                    id={training.id}
+                    handleUpdateSelectedTraining={handleUpdateSelectedTraining}
                     idActualSelectedTeste={idAtualSelecionado}
+                    handleDrawer={handleToggleDrawer}
+                    training={training}
+                    setSelectedTraining={setTrainingSelected}
                   />
                 </S.ButtonActionsContainer>
               </S.TrainingCard>
             ))}
           </S.ContainerCards>
-          {/* <strong>TREINOS ATIVOS ({trainings?.length})</strong> */}
 
-          {/* <S.InactiveTraininigs>TREINOS INATIVOS (0)</S.InactiveTraininigs> */}
           <ModalAddTraining
             isOpen={modalOpen}
             setIsOpen={handleToggleModalAddTraining}
+            updateTrainings={updateTrainings}
+          />
+
+          <DrawerEditTraining
+            isOpen={drawerOpen}
+            setIsOpen={handleToggleDrawer}
+            titleDrawer="Editar treino"
+            training={trainingSelected}
             updateTrainings={updateTrainings}
           />
         </S.Container>

@@ -39,10 +39,11 @@ export const Container = styled.div<ContainerProps>`
     padding: 16px 16px;
     width: 100%;
     border: none;
+    font-size: 16px;
 
     flex: 1;
     background: transparent;
-    color: #b7b7cc;
+    color: #3d3d3d;
 
     ${props =>
       props.isErrored &&

@@ -60,7 +60,6 @@ const CardStudent: React.FC<CardStudentProps> = ({
     <Container>
       <EditCardButton
         onClick={() => {
-          console.log('aqui');
           handleToggleDrawer();
         }}
       >

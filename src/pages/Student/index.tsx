@@ -38,10 +38,6 @@ const Student: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(drawerOpen);
-  }, [drawerOpen]);
-
   const updateStudents = useCallback(() => {
     api.get('/users').then(response => {
       setStudents(response.data);

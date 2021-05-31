@@ -34,7 +34,7 @@ const ModalAddTraining: React.FC<IModalProps> = ({
   setIsOpen,
   updateTrainings,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const location = useLocation<HistoryProps>();
 
@@ -58,7 +58,7 @@ const ModalAddTraining: React.FC<IModalProps> = ({
 
         toast.success('Treino cadastrado com sucesso!');
       } catch (error) {
-        console.log(error);
+        reset();
         toast.error(error.response.data.error);
       }
     },
@@ -66,7 +66,13 @@ const ModalAddTraining: React.FC<IModalProps> = ({
   );
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Modal
+      isOpen={isOpen}
+      setIsOpen={() => {
+        reset();
+        setIsOpen();
+      }}
+    >
       <S.ContainerModal>
         <S.LogoAndTitleModal>
           <MdFitnessCenter size={24} />

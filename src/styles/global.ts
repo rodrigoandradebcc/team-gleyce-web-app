@@ -1,5 +1,5 @@
-import { createGlobalStyle, keyframes } from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
+import { createGlobalStyle, keyframes } from 'styled-components';
 
 const modalTransition = keyframes`
   from{
@@ -7,6 +7,15 @@ const modalTransition = keyframes`
   }
   to {
     transform: translate3d(0, 0, 0);
+  }
+`;
+
+const modalTransitionClose = keyframes`
+  from{
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 100%, 0);
   }
 `;
 
@@ -29,7 +38,6 @@ export default createGlobalStyle`
 
   body {
     background: var(--background-menu);
-    /* background: var(--new-background); */
     --webkit-font-smoothing: antialiased;
   }
 
@@ -138,7 +146,6 @@ export default createGlobalStyle`
 
     background: var(--background);
 
-    padding: 44px 48px;
     transition: bottom 0.3s ease-out;
 
 
@@ -154,9 +161,13 @@ export default createGlobalStyle`
     animation: ${drawerTransition} ease 400ms;
   }
 
+  .ReactModal__Content--before-close {
+    animation: ${modalTransitionClose} ease 400ms;
+  }
+
   .ReactModal__Overlay {
     opacity: 0;
-    transition: opacity 200ms ease-in-out;    
+    transition: opacity 200ms ease-in-out;
   }
 
   .ReactModal__Overlay--after-open{
@@ -165,6 +176,7 @@ export default createGlobalStyle`
 
   .ReactModal__Overlay--before-close{
     opacity: 0;
+    transition: opacity 400ms ease-in-out;
   }
  
 `;

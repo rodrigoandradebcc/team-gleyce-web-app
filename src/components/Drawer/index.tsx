@@ -6,7 +6,7 @@ interface DrawerProps {
   children: ReactNode;
   isOpen: boolean;
   setIsOpen: () => void;
-  typeDrawer?: 'large' | 'medium';
+  typeDrawer?: 'large' | 'medium' | 'small';
 }
 
 const Drawer: React.FC<DrawerProps> = ({

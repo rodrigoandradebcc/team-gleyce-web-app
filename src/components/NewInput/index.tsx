@@ -17,7 +17,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const NewInputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { name, error, ...rest }: InputProps,
+  { name, error, defaultValue, ...rest }: InputProps,
   ref,
 ) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -39,6 +39,7 @@ const NewInputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
           id={name}
           ref={ref}
           name={name}
+          defaultValue={defaultValue}
           {...rest}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
