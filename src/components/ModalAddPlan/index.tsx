@@ -49,9 +49,8 @@ const ModalAddPlan: React.FC<IModalProps> = ({ isOpen = false, setIsOpen }) => {
 
   const handlePlanSubmit = useCallback(async (plan: PlanProps) => {
     try {
-      const response = await api.post('/plans', plan);
+      await api.post('/plans', plan);
 
-      console.log(response);
       toast.success('Plano cadastrado com sucesso!');
     } catch (error) {
       toast.error(

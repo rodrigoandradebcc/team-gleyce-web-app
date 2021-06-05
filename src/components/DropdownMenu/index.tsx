@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FiMoreVertical, FiTrash2 } from 'react-icons/fi';
 import { MdModeEdit } from 'react-icons/md';
 import { ButtonIconDropdown, ButtonIconMenu, Container } from './styles';
@@ -17,6 +17,7 @@ interface DropdownMenuProps {
   handleUpdateSelectedTraining: (idActual: string) => void;
   idActualSelectedTeste: string;
   handleDrawer: () => void;
+  handleConfirmationModal: () => void;
   training: TrainingProps;
   setSelectedTraining: (training: TrainingProps) => void;
 }
@@ -28,6 +29,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   handleDrawer,
   setSelectedTraining,
   training,
+  handleConfirmationModal,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   // const [isActualVisible, isSetActualVisible] = useState(
@@ -74,7 +76,12 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
               </ButtonIconDropdown>
             </li>
             <li>
-              <ButtonIconDropdown>
+              <ButtonIconDropdown
+                onClick={() => {
+                  setSelectedTraining(training);
+                  handleConfirmationModal();
+                }}
+              >
                 <FiTrash2 size={16} />
                 Remover
               </ButtonIconDropdown>

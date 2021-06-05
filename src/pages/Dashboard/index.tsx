@@ -29,8 +29,6 @@ const Dashboard: React.FC<PropsPersonalClass> = ({ clientName }) => {
     });
   }, []);
 
-  console.log('aaa', trainingsExpirationToday);
-
   return (
     <>
       <MenuBar />

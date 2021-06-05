@@ -68,14 +68,11 @@ export const TrainingSetupProvider: React.FC<TrainingSetupProviderProps> = ({
       ...trainingCompleted,
       plan,
     };
-    console.log('novo objeto', newTrainingCompleted);
     setTrainingCompleted(newTrainingCompleted);
   }, []);
 
   const setupPlan = useCallback(
     plan => {
-      console.log('adicionando Exercício ao Plano', plan);
-
       // changeCompletedTraining(plan);
       changeCompletedTraining(plan);
     },

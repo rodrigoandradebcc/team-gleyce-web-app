@@ -13,7 +13,6 @@ const SearchInput: React.FC<SearchInputProps> = ({ name, type, ...rest }) => {
 
   function changeValue(): void {
     setValue(input.current?.value as string);
-    console.log(value);
   }
 
   function toggleFocus(): void {

@@ -1,4 +1,4 @@
-import { getDate, parseISO, format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdFitnessCenter } from 'react-icons/md';
@@ -31,7 +31,6 @@ type Inputs = {
 interface DrawerEditTraining {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleEditExercise?: (exercise: any) => void;
   titleDrawer: string;
   updateTrainings?(): void;
   training: TrainingProps;
@@ -48,14 +47,7 @@ const DrawerEditTraining: React.FC<DrawerEditTraining> = ({
   updateTrainings,
   training,
 }) => {
-  const { register, handleSubmit, reset } = useForm<Inputs>({
-    defaultValues: {
-      name: training?.name,
-      expiration_date: training?.expiration_date,
-      observation: training?.observation,
-      note: training?.note,
-    },
-  });
+  const { register, handleSubmit, reset } = useForm<Inputs>();
 
   let formattedDate;
   if (training?.expiration_date) {
@@ -64,7 +56,7 @@ const DrawerEditTraining: React.FC<DrawerEditTraining> = ({
 
   useEffect(() => {
     reset();
-  }, [training]);
+  }, [reset, training]);
 
   const location = useLocation<HistoryProps>();
   const { idSelected } = location.state;
@@ -78,7 +70,6 @@ const DrawerEditTraining: React.FC<DrawerEditTraining> = ({
     };
 
     handleAddTraining(newData);
-
     setIsOpen();
   }
 
@@ -95,7 +86,7 @@ const DrawerEditTraining: React.FC<DrawerEditTraining> = ({
         toast.error(error.response.data.error);
       }
     },
-    [],
+    [reset],
   );
 
   return (

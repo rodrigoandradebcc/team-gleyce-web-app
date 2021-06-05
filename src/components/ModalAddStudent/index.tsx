@@ -66,7 +66,6 @@ const ModalAddStudent: React.FC<IModalProps> = ({
         updateStudents();
         toast.success('Aluno cadastrado com sucesso!');
       } catch (error) {
-        console.log(error);
         toast.error(
           'Ocorreu um erro ao cadastrar um aluno, tente novamente mais tarde!',
         );

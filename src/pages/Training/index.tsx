@@ -10,6 +10,7 @@ import DropdownMenu from '../../components/DropdownMenu';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
 import ModalAddTraining from '../../components/ModalAddTraining';
+import ModalConfirmationDeleteTraining from '../../components/ModalConfirmationDeleteTraining';
 import Tabs from '../../components/TabsTrainings';
 import api from '../../services/api';
 import * as S from './styles';
@@ -31,17 +32,19 @@ interface TrainingProps {
 const Training: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
+
   const [trainingSelected, setTrainingSelected] = useState<TrainingProps>(
     {} as TrainingProps,
   );
 
-  useEffect(() => {
-    console.log('fora', trainingSelected);
-  }, [trainingSelected]);
-
   const handleToggleModalAddTraining = useCallback(() => {
     setModalOpen(!modalOpen);
   }, [modalOpen]);
+
+  const handleToggleModalConfirmation = useCallback(() => {
+    setModalConfirmationOpen(!modalConfirmationOpen);
+  }, [modalConfirmationOpen]);
 
   const handleToggleDrawer = useCallback(() => {
     setDrawerOpen(!drawerOpen);
@@ -160,6 +163,7 @@ const Training: React.FC = () => {
                     handleUpdateSelectedTraining={handleUpdateSelectedTraining}
                     idActualSelectedTeste={idAtualSelecionado}
                     handleDrawer={handleToggleDrawer}
+                    handleConfirmationModal={handleToggleModalConfirmation}
                     training={training}
                     setSelectedTraining={setTrainingSelected}
                   />
@@ -179,6 +183,13 @@ const Training: React.FC = () => {
             setIsOpen={handleToggleDrawer}
             titleDrawer="Editar treino"
             training={trainingSelected}
+            updateTrainings={updateTrainings}
+          />
+
+          <ModalConfirmationDeleteTraining
+            isOpen={modalConfirmationOpen}
+            setIsOpen={handleToggleModalConfirmation}
+            idSelected={trainingSelected.id}
             updateTrainings={updateTrainings}
           />
         </S.Container>

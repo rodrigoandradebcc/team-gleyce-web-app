@@ -18,7 +18,6 @@ const ModalDeleteExercise: React.FC<IModalProps> = ({
   handleDeleteExercise,
 }) => {
   function handleConfirmDelete(id: string): void {
-    console.log(id);
     handleDeleteExercise(id);
     setIsOpen();
   }

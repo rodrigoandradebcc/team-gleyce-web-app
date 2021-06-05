@@ -47,6 +47,7 @@ const ModalAddTraining: React.FC<IModalProps> = ({
       expiration_date: parseISO(data.expiration_date).toISOString(),
     };
     handleAddTraining(newData);
+    reset();
     setIsOpen();
   }
 
