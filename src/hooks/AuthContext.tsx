@@ -64,7 +64,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      toast.success('Credenciais inválidas!');
+      toast.success('Seja bem-vindo!');
 
       setData({ token, user });
     } catch (error) {
