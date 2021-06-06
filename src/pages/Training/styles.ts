@@ -25,24 +25,27 @@ export const BtnEditTraining = styled(ButtonIcon)`
 export const Message = styled.span``;
 
 export const ScreenName = styled.h3`
-  margin-top: 15px;
+  margin-top: 1rem;
 `;
 
 export const ContainerCards = styled.div`
   display: grid;
   grid-template-columns: repeat(1, minmax(352px, auto));
-  grid-gap: 8px 32px;
+  grid-gap: 0.5rem 2rem;
 `;
 
-export const NameAndExpirationDate = styled.div`
+export const NameAndExpirationDate = styled.div<TrainingCardProps>`
   display: flex;
   flex-direction: column;
   text-align: left;
 
   strong {
-    font-size: 18px;
-    font-weight: 600;
-    padding-bottom: 4px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    padding-bottom: 0.25rem;
+    text-transform: uppercase;
+
+    color: ${props => props.currentDate && '#BBBBBB'};
   }
 
   > div {
@@ -51,18 +54,22 @@ export const NameAndExpirationDate = styled.div`
     align-items: center;
 
     svg {
-      color: #4caf50;
+      color: ${props => (props.currentDate ? '#BBBBBB' : '#4caf50')};
       margin-right: 0.5rem;
-      width: 16px;
+      width: 1rem;
     }
   }
 
   > div p {
-    font-size: 16px;
-    color: #4caf50;
+    font-size: 1rem;
+    color: ${props => (props.currentDate ? '#BBBBBB' : '#4caf50')};
     font-weight: 500;
   }
 `;
+
+interface TrainingCardProps {
+  currentDate: boolean;
+}
 
 export const TrainingCard = styled.div`
   display: flex;
@@ -76,7 +83,7 @@ export const TrainingCard = styled.div`
   border-radius: 2px;
   align-items: center;
 
-  padding: 0 72px;
+  padding: 0 4.5rem;
   justify-content: space-between;
   text-align: center;
 `;
@@ -86,23 +93,17 @@ export const ButtonActionsContainer = styled.div`
   justify-content: center;
 
   > button:first-child {
-    margin-right: 32px;
+    margin-right: 2rem;
   }
 `;
 
-export const InactiveTraininigs = styled.strong`
-  /* padding-top: 32px; */
-`;
-
 export const NameAndLogoContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 1.875rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   width: 100%;
   min-height: 2rem;
-
-  /* background: red; */
 
   > p {
     margin-right: 0.5rem;

@@ -33,6 +33,7 @@ const Training: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
+  const currentDate = new Date();
 
   const [trainingSelected, setTrainingSelected] = useState<TrainingProps>(
     {} as TrainingProps,
@@ -136,7 +137,9 @@ const Training: React.FC = () => {
           <S.ContainerCards>
             {trainings?.map(training => (
               <S.TrainingCard key={String(training.id)}>
-                <S.NameAndExpirationDate>
+                <S.NameAndExpirationDate
+                  currentDate={new Date(training.expiration_date) < currentDate}
+                >
                   <strong>{training.name}</strong>
                   <div>
                     <IoMdCalendar size={16} />
@@ -146,7 +149,6 @@ const Training: React.FC = () => {
                     </p>
                   </div>
                 </S.NameAndExpirationDate>
-
                 <S.ButtonActionsContainer>
                   <S.BtnEditTraining
                     onClick={() => {
