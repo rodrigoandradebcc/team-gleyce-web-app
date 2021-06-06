@@ -82,7 +82,11 @@ const ModalAddTraining: React.FC<IModalProps> = ({
         <form onSubmit={handleSubmit(handleAddTrainingSubmit)}>
           <S.LabelAndInputArea>
             <S.Label>Nome do treino</S.Label>
-            <NewInput placeholder="Ex: Supino" required {...register('name')} />
+            <NewInput
+              placeholder="Ex: Emagrecimento"
+              required
+              {...register('name')}
+            />
           </S.LabelAndInputArea>
           <S.LabelAndInputArea>
             <S.Label>Data de expiração</S.Label>

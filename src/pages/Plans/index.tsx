@@ -102,7 +102,7 @@ const Plans: React.FC = () => {
 
   useEffect(() => {
     setupPlan(mountObjectTrainingCompleted(tabPlanContext));
-  }, [selectedExercises, tabPlanContext]);
+  }, [tabPlanContext]);
 
   const options = getNameExercises(exercises);
 
@@ -127,7 +127,7 @@ const Plans: React.FC = () => {
       });
     };
     getPlansToUser(planIdSelected);
-  }, [planIdSelected, plans]);
+  }, [planIdSelected]);
 
   function handleSetSelectedExercises(
     exercisesSel: OptionsType<ExercisesSelectedProps>,
