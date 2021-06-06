@@ -142,9 +142,9 @@ const DrawerEditTraining: React.FC<DrawerEditTraining> = ({
             />
           </S.LabelAndInputArea>
 
-          <ButtonRod fullWidth heightSize="large" type="submit">
+          <S.Button fullWidth heightSize="large" type="submit">
             Cadastrar
-          </ButtonRod>
+          </S.Button>
         </form>
       </S.DrawerBody>
     </Drawer>

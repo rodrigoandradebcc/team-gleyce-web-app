@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import Drawer from '../Drawer';
+import ButtonRod from '../ButtonRod';
+
+export const Button = styled(ButtonRod)`
+  margin-top: 1rem;
+`;
 
 export const DrawerHeader = styled.header`
   padding: 16px 24px;
