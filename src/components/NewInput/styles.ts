@@ -39,7 +39,7 @@ export const Container = styled.div<ContainerProps>`
     padding: 16px 16px;
     width: 100%;
     border: none;
-    font-size: 16px;
+    font-size: 1rem;
 
     flex: 1;
     background: transparent;

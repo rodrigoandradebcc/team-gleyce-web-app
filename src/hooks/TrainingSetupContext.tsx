@@ -3,15 +3,14 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from 'react';
 
-interface Exercise {
-  name: string;
-  exerciseId: string;
-  prescription: Prescription;
-}
+// interface Exercise {
+//   name: string;
+//   exerciseId: string;
+//   prescription: Prescription;
+// }
 
 interface Prescription {
   prescriptionId: string;

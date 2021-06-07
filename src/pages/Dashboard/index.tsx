@@ -1,17 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiCalendar } from 'react-icons/fi';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
 import api from '../../services/api';
-
 import {
-  Container,
   CardList,
+  Class,
+  ClassesContainer,
   ClassesList,
   ClassesTitle,
-  ClassesContainer,
-  Class,
+  Container,
 } from './styles';
 
 export interface PropsPersonalClass {
@@ -20,7 +19,7 @@ export interface PropsPersonalClass {
   date?: string;
 }
 
-const Dashboard: React.FC<PropsPersonalClass> = ({ clientName }) => {
+const Dashboard: React.FC<PropsPersonalClass> = () => {
   const [trainingsExpirationToday, setTrainingsExpirationToday] = useState(0);
 
   useEffect(() => {
