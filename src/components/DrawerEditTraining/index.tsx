@@ -5,7 +5,6 @@ import { MdFitnessCenter } from 'react-icons/md';
 import { useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
-import ButtonRod from '../ButtonRod';
 import Drawer from '../Drawer';
 import { InputTextArea } from '../InputTextArea';
 import { NewInput } from '../NewInput';
@@ -143,7 +142,7 @@ const DrawerEditTraining: React.FC<DrawerEditTraining> = ({
           </S.LabelAndInputArea>
 
           <S.Button fullWidth heightSize="large" type="submit">
-            Cadastrar
+            Atualizar
           </S.Button>
         </form>
       </S.DrawerBody>

@@ -7,7 +7,7 @@ export const Button = styled(ButtonRod)`
 
 export const DrawerHeader = styled.header`
   padding: 16px 24px;
-  font-weight: 600;
+  font-weight: 500;
 
   display: flex;
   align-items: center;
