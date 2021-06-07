@@ -1,20 +1,44 @@
 import styled, { css } from 'styled-components';
 import ButtonIcon from '../ButtonIcon';
 
-export const EditCardButton = styled(ButtonIcon)`
+export const ActionButtons = styled.div`
   position: absolute;
-  opacity: 1;
-  top: -4px;
-  right: -8px;
+  opacity: 0;
+  top: -30px;
+  right: 0;
+  background: #ffffff;
+  border-radius: 2px;
+
+  filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.1));
+  border: 1px solid rgba(241, 241, 241, 0.5);
+
+  display: flex;
+`;
+
+export const EditCardButton = styled(ButtonIcon)`
+  height: 24px;
+  svg {
+    color: #afafaf;
+  }
+
+  svg:hover {
+    color: #3d3d3d;
+  }
 `;
 
 export const Container = styled.div`
+  &:hover {
+    ${ActionButtons} {
+      opacity: 1;
+      transition: opacity 0.8s ease;
+    }
+  }
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--white);
   padding: 1rem 1rem;
-  width: 18rem;
+  width: 19rem;
   height: auto;
   box-shadow: 2px 4px 6px rgba(181, 181, 181, 0.25);
   border-radius: 0.125rem;
@@ -176,7 +200,7 @@ export const ActionsContainer = styled.div`
 
 export const Go = styled.div`
   cursor: pointer;
-  width: 6.125rem;
+  width: 7rem;
   height: 2.5rem;
   background: var(--yellow);
   color: white;

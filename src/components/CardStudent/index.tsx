@@ -1,10 +1,12 @@
 import { format } from 'date-fns';
 import React, { ButtonHTMLAttributes, useCallback } from 'react';
-import { FiMoreVertical } from 'react-icons/fi';
+import { FiTrash2 } from 'react-icons/fi';
 import { ImWhatsapp } from 'react-icons/im';
+import { MdModeEdit } from 'react-icons/md';
 import { useHistory } from 'react-router';
 import Avatar from '../Avatar';
 import {
+  ActionButtons,
   ActionsContainer,
   Bottom,
   Container,
@@ -30,6 +32,8 @@ interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   handleToggleActiveUser: (id: string) => Promise<void>;
   id: string;
   handleToggleDrawer: () => void;
+  handleToggleDeleteModal: () => void;
+  setSelectedIdStudents: (idSelected: string) => void;
 }
 
 const CardStudent: React.FC<CardStudentProps> = ({
@@ -39,6 +43,8 @@ const CardStudent: React.FC<CardStudentProps> = ({
   last_access,
   handleToggleActiveUser,
   handleToggleDrawer,
+  handleToggleDeleteModal,
+  setSelectedIdStudents,
   id,
 }) => {
   const history = useHistory();
@@ -58,13 +64,24 @@ const CardStudent: React.FC<CardStudentProps> = ({
 
   return (
     <Container>
-      <EditCardButton
-        onClick={() => {
-          handleToggleDrawer();
-        }}
-      >
-        <FiMoreVertical />
-      </EditCardButton>
+      <ActionButtons>
+        <EditCardButton
+          onClick={() => {
+            handleToggleDrawer();
+          }}
+        >
+          <MdModeEdit />
+        </EditCardButton>
+        <EditCardButton
+          onClick={() => {
+            handleToggleDeleteModal();
+            setSelectedIdStudents(id);
+          }}
+        >
+          <FiTrash2 />
+        </EditCardButton>
+      </ActionButtons>
+
       <Top>
         <Data>
           <SwitchContainer>
