@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
 import ModalAddStudent from '../../components/ModalAddStudent';
 import SearchInput from '../../components/SearchInput';
-import Tabs from '../../components/TabsPlans';
+import Tabs from '../../components/TabsStudents';
 import api from '../../services/api';
 import Drawer from '../../components/Drawer';
 import {
@@ -17,6 +17,7 @@ import {
   Main,
   Result,
 } from './styles';
+import ModalConfirmationDeleteStudent from '../../components/ModalConfirmationDeleteStudent';
 
 interface StudentProps {
   id: string;
@@ -35,8 +36,11 @@ interface StudentProps {
 
 const Student: React.FC = () => {
   const [students, setStudents] = useState<StudentProps[]>([]);
+  const [selectedIdStudent, setSelectedIdStudent] = useState('');
+
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
 
   const updateStudents = useCallback(() => {
     api.get('/users').then(response => {
@@ -63,6 +67,10 @@ const Student: React.FC = () => {
   const handleToggleDrawer = useCallback(() => {
     setDrawerOpen(!drawerOpen);
   }, [drawerOpen]);
+
+  const handleToggleModalConfirmation = useCallback(() => {
+    setModalConfirmationOpen(!modalConfirmationOpen);
+  }, [modalConfirmationOpen]);
 
   const handleToggleActiveUser = useCallback(
     async (id: string) => {
@@ -169,6 +177,8 @@ const Student: React.FC = () => {
                       plan_type={plan_type}
                       handleToggleActiveUser={() => handleToggleActiveUser(id)}
                       handleToggleDrawer={handleToggleDrawer}
+                      handleToggleDeleteModal={handleToggleModalConfirmation}
+                      setSelectedIdStudents={setSelectedIdStudent}
                     />
                   ),
                 )
@@ -194,6 +204,13 @@ const Student: React.FC = () => {
           >
             AAAA
           </Drawer>
+
+          <ModalConfirmationDeleteStudent
+            isOpen={modalConfirmationOpen}
+            setIsOpen={handleToggleModalConfirmation}
+            idUserSelected={selectedIdStudent}
+            updateUsers={updateStudents}
+          />
         </Container>
       </div>
     </>
