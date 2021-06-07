@@ -20,6 +20,7 @@ export const Content = styled.section`
 
   h1 {
     margin-top: 2rem;
+    font-weight: 500;
   }
 
   > p {

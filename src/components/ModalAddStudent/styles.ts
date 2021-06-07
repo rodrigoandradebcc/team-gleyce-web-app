@@ -1,9 +1,15 @@
 import SelectComponent from 'react-select';
 import styled, { css } from 'styled-components';
+import ButtonRod from '../ButtonRod';
+
+export const Button = styled(ButtonRod)`
+  width: 344px;
+  border-radius: 2px;
+`;
 
 export const Label = styled.p`
   font-weight: bold;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
 `;
@@ -22,12 +28,12 @@ export const LogoAndTitleModal = styled.div`
   margin-bottom: 1.5rem;
 
   p {
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 500;
   }
 
   svg {
-    margin-right: 10px;
+    margin-right: 0.625rem;
   }
 `;
 
@@ -41,13 +47,13 @@ export const Form = styled.form`
 
   h1 {
     font-weight: 600;
-    font-size: 36px;
-    line-height: 36px;
-    margin-bottom: 40px;
+    font-size: 2.25rem;
+    line-height: 2.25rem;
+    margin-bottom: 2.5rem;
   }
 
   button {
-    margin-top: 48px;
+    margin-top: 3rem;
     align-self: flex-end;
   }
 
@@ -55,7 +61,6 @@ export const Form = styled.form`
     padding-top: 1.25rem;
     display: flex;
     flex-direction: column;
-    /* padding-bottom: 16px; */
   }
 
   .switch {
@@ -84,8 +89,6 @@ export const Form = styled.form`
   }
 
   button {
-    font-weight: 600;
-    border-radius: 8px;
     border: 0;
     background: var(--yellow);
     color: #fff;
@@ -94,14 +97,14 @@ export const Form = styled.form`
     align-items: center;
 
     .text {
-      padding: 16px 24px;
+      padding: 1rem 1.5rem;
     }
 
     .icon {
       display: flex;
-      padding: 16px 16px;
+      padding: 1rem 1rem;
       background: var(--yellow);
-      border-radius: 0 8px 8px 0;
+      border-radius: 0 0.5rem 0.5rem 0;
       margin: 0 auto;
     }
 
@@ -114,8 +117,8 @@ export const Form = styled.form`
 export const Select = styled(SelectComponent)`
   margin-top: 0.25rem;
   width: 100%;
-  margin-right: 15px;
-  font-size: 16px;
+  margin-right: 0.9375rem;
+  font-size: 1rem;
   background-color: transparent;
 
   div {
@@ -187,7 +190,7 @@ export const Switch = styled.div`
 
   /* Rounded sliders */
   .slider.round {
-    border-radius: 34px;
+    border-radius: 2.125rem;
   }
 
   .slider.round:before {

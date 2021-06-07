@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { ReactModalComponent } from './styles';
 
 interface IModalProps {
-  children: any;
+  children: ReactNode;
   isOpen: boolean;
   setIsOpen: () => void;
   typeModal?: 'large' | 'medium' | 'small';

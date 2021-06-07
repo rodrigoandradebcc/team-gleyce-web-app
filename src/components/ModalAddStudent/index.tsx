@@ -3,13 +3,12 @@ import { useForm } from 'react-hook-form';
 import { FiUserPlus } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
-import ButtonRod from '../ButtonRod';
 import { InputTextArea } from '../InputTextArea';
 import Modal from '../Modal';
 import { LogoAndTitleModal } from '../ModalAddPlan/styles';
 import { NewInput } from '../NewInput';
 import { NewSelect } from '../NewSelect';
-import { Form, Label, Switch, ContainerSwitch } from './styles';
+import * as S from './styles';
 
 interface StudentProps {
   full_name: string;
@@ -76,7 +75,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} typeModal="large">
-      <Form onSubmit={handleSubmit(handle)}>
+      <S.Form onSubmit={handleSubmit(handle)}>
         <LogoAndTitleModal>
           <FiUserPlus size={24} />
           <p>Cadastrar aluno</p>
@@ -84,7 +83,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
 
         <div className="two-inputs">
           <div>
-            <Label>Nome do aluno</Label>
+            <S.Label>Nome do aluno</S.Label>
             <NewInput
               placeholder="Ex: Fulano de tal"
               required
@@ -92,11 +91,11 @@ const ModalAddStudent: React.FC<IModalProps> = ({
             />
           </div>
           <div>
-            <Label>Tipo de plano</Label>
+            <S.Label>Tipo de plano</S.Label>
             <NewSelect values={plans} {...register('plan_type')} />
           </div>
           <div>
-            <Label>CPF</Label>
+            <S.Label>CPF</S.Label>
             <NewInput
               type="text"
               placeholder="00011122233"
@@ -108,7 +107,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
 
         <div className="two-inputs">
           <div>
-            <Label>Data de nascimento</Label>
+            <S.Label>Data de nascimento</S.Label>
             <NewInput
               type="date"
               placeholder="01/12/2000"
@@ -117,7 +116,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
             />
           </div>
           <div>
-            <Label>Contato</Label>
+            <S.Label>Contato</S.Label>
             <NewInput
               type="tel"
               placeholder="(88) 9 1122-3344"
@@ -126,7 +125,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
             />
           </div>
           <div>
-            <Label>Email</Label>
+            <S.Label>Email</S.Label>
             <NewInput
               type="email"
               placeholder="fulano@tal.com"
@@ -138,18 +137,18 @@ const ModalAddStudent: React.FC<IModalProps> = ({
 
         <div className="two-inputs">
           <div>
-            <Label>Senha</Label>
+            <S.Label>Senha</S.Label>
 
             <NewInput type="password" required {...register('password')} />
           </div>
           <div>
-            <Label>Confirmação de senha</Label>
+            <S.Label>Confirmação de senha</S.Label>
             <NewInput name="password_confirmation" type="password" required />
           </div>
           <div className="switch">
-            <Label>Aluno ativo?</Label>
-            <ContainerSwitch>
-              <Switch onClick={() => setIsActive(!isActive)}>
+            <S.Label>Aluno ativo?</S.Label>
+            <S.ContainerSwitch>
+              <S.Switch onClick={() => setIsActive(!isActive)}>
                 <input
                   type="checkbox"
                   checked={isActive}
@@ -157,21 +156,21 @@ const ModalAddStudent: React.FC<IModalProps> = ({
                   {...register('active')}
                 />
                 <span className="slider round" />
-              </Switch>
-            </ContainerSwitch>
+              </S.Switch>
+            </S.ContainerSwitch>
           </div>
         </div>
 
         <div>
           <div>
-            <Label>Observações?</Label>
+            <S.Label>Observações?</S.Label>
             <InputTextArea {...register('observation')} />
           </div>
         </div>
 
-        <ButtonRod fullWidth heightSize="large" type="submit">
+        <S.Button heightSize="large" type="submit">
           Cadastrar
-        </ButtonRod>
+        </S.Button>
 
         {/* <button type="submit" data-testid="add-student-button">
           <p className="text">Adicionar aluno</p>
@@ -179,7 +178,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
             <FiUserPlus size={24} />
           </div>
         </button> */}
-      </Form>
+      </S.Form>
     </Modal>
   );
 };

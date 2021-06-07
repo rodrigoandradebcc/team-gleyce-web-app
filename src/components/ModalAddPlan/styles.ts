@@ -5,7 +5,6 @@ export const Container = styled.div``;
 export const ContainerModal = styled.div`
   button {
     margin-top: 32px;
-    font-weight: 600;
   }
 `;
 

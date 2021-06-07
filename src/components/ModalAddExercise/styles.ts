@@ -54,8 +54,6 @@ export const Form = styled(Unform)`
     }
   }
   button {
-    font-weight: 600;
-    border-radius: 8px;
     border: 0;
     background: #e6b600;
     color: #fff;
