@@ -7,13 +7,14 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ name, type, ...rest }) => {
-  const [value, setValue] = useState('');
+const SearchInput: React.FC<SearchInputProps> = ({
+  name,
+  type,
+  value,
+  onChange,
+  ...rest
+}) => {
   const input = useRef<HTMLInputElement>(null);
-
-  function changeValue(): void {
-    setValue(input.current?.value as string);
-  }
 
   function toggleFocus(): void {
     input.current?.focus();
@@ -25,7 +26,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ name, type, ...rest }) => {
       <input
         type={type}
         value={value}
-        onChange={changeValue}
+        onChange={onChange}
         name={name}
         ref={input}
         {...rest}

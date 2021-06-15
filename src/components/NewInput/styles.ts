@@ -16,7 +16,7 @@ export const Container = styled.div<ContainerProps>`
 
   background: #fff;
   width: 100%;
-  font-size: 16px;
+  font-size: 1rem;
   flex-direction: column;
 
   border: 1px solid #f1f1f1;

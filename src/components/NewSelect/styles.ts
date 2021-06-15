@@ -4,14 +4,14 @@ export const Container = styled.div``;
 
 export const Select = styled.select`
   -webkit-appearance: none;
-  padding: 14px 14px;
+  padding: 1rem 1rem;
   width: 100%;
   border: 1px solid #f1f1f1;
   border-radius: 2px;
   background: white;
   cursor: pointer;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 1rem;
   transition: all 150ms ease;
 `;
 
