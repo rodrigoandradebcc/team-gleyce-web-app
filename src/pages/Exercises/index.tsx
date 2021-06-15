@@ -101,7 +101,6 @@ const Exercises: React.FC = () => {
   }, []);
 
   const handleDeleteExercise = useCallback(async (id: string) => {
-    console.log(id);
     try {
       await api.delete(`/exercises/${id}`);
       setRefresh(!refresh);

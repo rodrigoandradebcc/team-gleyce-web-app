@@ -38,7 +38,7 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
       <td>
         <input
           type="text"
-          onChange={e => handleOnChange('repetion', e.target.value)}
+          onChange={e => handleOnChange('repetition', e.target.value)}
         />
       </td>
 
