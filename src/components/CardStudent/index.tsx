@@ -23,29 +23,37 @@ import {
   Top,
 } from './styles';
 
-interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  isActive: boolean;
+interface StudentProps {
+  id: string;
+  full_name: string;
+  cpf: string;
+  date_of_birth: string;
+  active: boolean;
+  email: string;
+  phone: string;
+  password: string;
+  last_acess: string;
   photo: string;
-  name: string;
-  plan_type?: string;
-  last_access: string;
+  plan_type: string;
+  observation: string;
+}
+
+interface CardStudentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  user: StudentProps;
   handleToggleActiveUser: (id: string) => Promise<void>;
   id: string;
   handleToggleDrawer: () => void;
   handleToggleDeleteModal: () => void;
-  setSelectedIdStudents: (idSelected: string) => void;
+  setSelectedStudent: (user: StudentProps) => void;
 }
 
 const CardStudent: React.FC<CardStudentProps> = ({
-  isActive,
-  name,
-  plan_type,
-  last_access,
   handleToggleActiveUser,
   handleToggleDrawer,
   handleToggleDeleteModal,
-  setSelectedIdStudents,
   id,
+  user,
+  setSelectedStudent,
 }) => {
   const history = useHistory();
 
@@ -53,12 +61,12 @@ const CardStudent: React.FC<CardStudentProps> = ({
     handleToggleActiveUser(id);
   }, [handleToggleActiveUser, id]);
 
-  const dateFormatted = format(new Date(last_access), 'dd/mm/yyyy');
+  const dateFormatted = format(new Date(user.last_acess), 'dd/mm/yyyy');
 
   function handleGoToTrainingsPage(): void {
     history.push('/trainings', {
       idSelected: id,
-      studentName: name,
+      studentName: user.full_name,
     });
   }
 
@@ -68,14 +76,15 @@ const CardStudent: React.FC<CardStudentProps> = ({
         <EditCardButton
           onClick={() => {
             handleToggleDrawer();
+            setSelectedStudent(user);
           }}
         >
           <MdModeEdit />
         </EditCardButton>
         <EditCardButton
           onClick={() => {
+            setSelectedStudent(user);
             handleToggleDeleteModal();
-            setSelectedIdStudents(id);
           }}
         >
           <FiTrash2 />
@@ -88,24 +97,24 @@ const CardStudent: React.FC<CardStudentProps> = ({
             <Switch onClick={handleToggleSwitch}>
               <input
                 type="checkbox"
-                checked={isActive}
-                onChange={() => console.log(!isActive)}
+                checked={user.active}
+                onChange={() => console.log(!user.active)}
               />
               <span className="slider round" />
             </Switch>
           </SwitchContainer>
 
-          <Plan isActive={isActive}>{plan_type}</Plan>
+          <Plan isActive={user.active}>{user.plan_type}</Plan>
           <LastAccess>Venc. {dateFormatted}</LastAccess>
         </Data>
 
-        <StudentPhoto isActive={isActive}>
-          <Avatar size={5} src="" userName={name} />
+        <StudentPhoto isActive={user.active}>
+          <Avatar size={5} src="" userName={user.full_name} />
         </StudentPhoto>
       </Top>
 
       <Bottom>
-        <StudentName>{name}</StudentName>
+        <StudentName>{user.full_name}</StudentName>
 
         <ActionsContainer>
           <SendMessage>

@@ -32,13 +32,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   handleConfirmationModal,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  // const [isActualVisible, isSetActualVisible] = useState(
-  //   idActualSelectedTeste === id,
-  // );
-
-  // useEffect(() => {
-  //   console.log(`${idActualSelectedTeste === id}`);
-  // }, [id, idActualSelectedTeste]);
 
   return (
     <Container>

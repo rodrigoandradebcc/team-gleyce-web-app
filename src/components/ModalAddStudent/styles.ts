@@ -1,6 +1,49 @@
 import SelectComponent from 'react-select';
 import styled, { css } from 'styled-components';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 import ButtonRod from '../ButtonRod';
+
+export const ContainerDatePicker = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+    background: var(--yellow);
+    border-radius: 100%;
+  }
+
+  .DayPicker-Day {
+    /* border-radius: 80%; */
+  }
+
+  .DayPickerInput {
+    display: block;
+    height: 100%;
+
+    background: red;
+    input {
+      flex: 1;
+      font-size: 1rem;
+      padding: 1rem 1rem;
+      border: 1px solid #f1f1f1;
+
+      width: 100% !important;
+      height: 100%;
+    }
+  }
+`;
+
+export const DayPicker = styled(DayPickerInput)`
+  /* .DayPickerInput {
+    display: block;
+    width: 100%;
+  } */
+
+  .DayPickerInput {
+    width: 400px !important;
+  }
+`;
 
 export const Button = styled(ButtonRod)`
   width: 344px;

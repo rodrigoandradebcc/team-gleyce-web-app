@@ -1,16 +1,19 @@
-import React, { useCallback, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { FiUserPlus } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import { useFormattedDate } from '../../hooks/FormattedDate';
 import api from '../../services/api';
 import { InputTextArea } from '../InputTextArea';
 import Modal from '../Modal';
 import { LogoAndTitleModal } from '../ModalAddPlan/styles';
 import { NewInput } from '../NewInput';
 import { NewSelect } from '../NewSelect';
+import NewSwitch from '../NewSwitch';
 import * as S from './styles';
 
 interface StudentProps {
+  id: string;
   full_name: string;
   cpf: string;
   date_of_birth: string;
@@ -24,28 +27,42 @@ interface StudentProps {
   observation: string;
 }
 
-// type FormProps = StudentProps & { password_confirmation: string };
-
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
+  resetUser(): void;
   updateStudents(): void;
+  editUser: StudentProps;
 }
 
 const ModalAddStudent: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
   updateStudents,
-  // handleAddStudent,
+  editUser,
+  resetUser,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset, control } = useForm();
+  const [defaultValues, setDefaultValues] = useState<StudentProps>(
+    {} as StudentProps,
+  );
 
-  const [isActive, setIsActive] = useState(false);
+  useEffect(() => {
+    if (editUser) {
+      setDefaultValues({ ...editUser });
+    }
+    reset(editUser);
+  }, [reset, editUser]);
 
   function handle(data: StudentProps): void {
     const currentDate = String(new Date(Date.now()));
 
-    const newData = { ...data, last_acess: currentDate };
+    const newData = {
+      ...data,
+      id: editUser.id && editUser.id,
+      last_acess: currentDate,
+      password: editUser.password ? editUser.password : data.password,
+    };
 
     handleStudentSubmit(newData);
     setIsOpen();
@@ -60,10 +77,15 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   const handleStudentSubmit = useCallback(
     async (student: StudentProps): Promise<void> => {
       try {
-        await api.post('/users', student);
+        if (student.id) {
+          await api.put(`/users/${student.id}`, student);
+          toast.success('Aluno atualizado com sucesso!');
+        } else {
+          await api.post('/users', student);
+          toast.success('Aluno cadastrado com sucesso!');
+        }
 
         updateStudents();
-        toast.success('Aluno cadastrado com sucesso!');
       } catch (error) {
         toast.error(
           'Ocorreu um erro ao cadastrar um aluno, tente novamente mais tarde!',
@@ -74,7 +96,15 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   );
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} typeModal="large">
+    <Modal
+      isOpen={isOpen}
+      setIsOpen={() => {
+        reset();
+        resetUser();
+        setIsOpen();
+      }}
+      typeModal="large"
+    >
       <S.Form onSubmit={handleSubmit(handle)}>
         <LogoAndTitleModal>
           <FiUserPlus size={24} />
@@ -88,11 +118,17 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               placeholder="Ex: Fulano de tal"
               required
               {...register('full_name')}
+              defaultValue={defaultValues?.full_name || ''}
             />
           </div>
           <div>
             <S.Label>Tipo de plano</S.Label>
-            <NewSelect values={plans} {...register('plan_type')} />
+
+            <NewSelect
+              values={plans}
+              {...register('plan_type')}
+              defaultValue={defaultValues?.plan_type}
+            />
           </div>
           <div>
             <S.Label>CPF</S.Label>
@@ -101,20 +137,25 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               placeholder="00011122233"
               required
               {...register('cpf')}
+              defaultValue={defaultValues?.cpf || ''}
             />
           </div>
         </div>
 
         <div className="two-inputs">
-          <div>
+          <S.ContainerDatePicker>
             <S.Label>Data de nascimento</S.Label>
-            <NewInput
-              type="date"
+            {/* <NewInput
               placeholder="01/12/2000"
               required
               {...register('date_of_birth')}
+              defaultValue={useFormattedDate(defaultValues.date_of_birth)}
+            /> */}
+            <S.DayPicker
+              value={useFormattedDate(defaultValues.date_of_birth)}
+              format="DD/MM/YYYY"
             />
-          </div>
+          </S.ContainerDatePicker>
           <div>
             <S.Label>Contato</S.Label>
             <NewInput
@@ -122,6 +163,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               placeholder="(88) 9 1122-3344"
               required
               {...register('phone')}
+              defaultValue={defaultValues?.phone || ''}
             />
           </div>
           <div>
@@ -131,53 +173,62 @@ const ModalAddStudent: React.FC<IModalProps> = ({
               placeholder="fulano@tal.com"
               required
               {...register('email')}
+              defaultValue={defaultValues?.email || ''}
             />
           </div>
         </div>
 
         <div className="two-inputs">
-          <div>
-            <S.Label>Senha</S.Label>
+          {defaultValues.id === '' && (
+            <>
+              <div>
+                <S.Label>Senha</S.Label>
 
-            <NewInput type="password" required {...register('password')} />
-          </div>
-          <div>
-            <S.Label>Confirmação de senha</S.Label>
-            <NewInput name="password_confirmation" type="password" required />
-          </div>
+                <NewInput type="password" required {...register('password')} />
+              </div>
+              <div>
+                <S.Label>Confirmação de senha</S.Label>
+                <NewInput
+                  name="password_confirmation"
+                  type="password"
+                  required
+                />
+              </div>
+            </>
+          )}
+
           <div className="switch">
             <S.Label>Aluno ativo?</S.Label>
-            <S.ContainerSwitch>
-              <S.Switch onClick={() => setIsActive(!isActive)}>
-                <input
-                  type="checkbox"
-                  checked={isActive}
-                  // onChange={() => console.log(!isActive)}
-                  {...register('active')}
-                />
-                <span className="slider round" />
-              </S.Switch>
-            </S.ContainerSwitch>
+
+            <Controller
+              name="active"
+              control={control}
+              defaultValue={defaultValues?.active}
+              render={props => {
+                return (
+                  <NewSwitch
+                    changeState={props.field.onChange}
+                    isActive={props.field.value}
+                  />
+                );
+              }}
+            />
           </div>
         </div>
 
         <div>
           <div>
             <S.Label>Observações?</S.Label>
-            <InputTextArea {...register('observation')} />
+            <InputTextArea
+              {...register('observation')}
+              defaultValue={defaultValues?.observation || ''}
+            />
           </div>
         </div>
 
         <S.Button heightSize="large" type="submit">
-          Cadastrar
+          {editUser.id === '' ? 'Cadastrar' : 'Atualizar'}
         </S.Button>
-
-        {/* <button type="submit" data-testid="add-student-button">
-          <p className="text">Adicionar aluno</p>
-          <div className="icon">
-            <FiUserPlus size={24} />
-          </div>
-        </button> */}
       </S.Form>
     </Modal>
   );
