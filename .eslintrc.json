@@ -34,6 +34,7 @@
     "react/require-default-props": "off",
     "react/jsx-one-expression-per-line": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "react/jsx-curly-newline": "off",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
