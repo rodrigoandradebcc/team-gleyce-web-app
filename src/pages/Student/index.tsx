@@ -1,13 +1,16 @@
+/* eslint-disable no-nested-ternary */
+import { formatISO } from 'date-fns';
 import React, { useCallback, useEffect, useState } from 'react';
 import Button from '../../components/ButtonRod';
 import CardStudent from '../../components/CardStudent';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
 import ModalAddStudent from '../../components/ModalAddStudent';
+import ModalConfirmationDeleteStudent from '../../components/ModalConfirmationDeleteStudent';
 import SearchInput from '../../components/SearchInput';
 import Tabs from '../../components/TabsStudents';
+import { useDebounce } from '../../hooks/Debounce';
 import api from '../../services/api';
-import Drawer from '../../components/Drawer';
 import {
   ActionArea,
   Container,
@@ -17,7 +20,6 @@ import {
   Main,
   Result,
 } from './styles';
-import ModalConfirmationDeleteStudent from '../../components/ModalConfirmationDeleteStudent';
 
 interface StudentProps {
   id: string;
@@ -34,19 +36,59 @@ interface StudentProps {
   observation: string;
 }
 
+// const currentDate = JSON.stringify(new Date());
+
 const Student: React.FC = () => {
-  const [students, setStudents] = useState<StudentProps[]>([]);
-  const [selectedIdStudent, setSelectedIdStudent] = useState('');
+  const [users, setUsers] = useState<StudentProps[]>([]);
+  const [usersFiltered, setUsersFiltered] = useState<StudentProps[]>([]);
+  const [selectedStudent, setSelectedStudent] = useState<StudentProps>(
+    {} as StudentProps,
+  );
+
+  function resetFilteredUsers(): void {
+    setUsersFiltered([]);
+  }
+
+  async function filterUsers(name: string): Promise<void> {
+    if (name === '') {
+      resetFilteredUsers();
+      updateStudents();
+    } else {
+      await api.get(`/users/filter-users?like=${name}`).then(response => {
+        setUsersFiltered(response.data);
+      });
+    }
+  }
+
+  const handleResetUser = useCallback(() => {
+    setSelectedStudent({} as StudentProps);
+  }, []);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
 
   const updateStudents = useCallback(() => {
     api.get('/users').then(response => {
-      setStudents(response.data);
+      setUsers(response.data);
     });
   }, []);
+
+  function clearUser(): void {
+    setSelectedStudent({
+      id: '',
+      full_name: '',
+      cpf: '',
+      date_of_birth: formatISO(new Date()),
+      active: false,
+      email: '',
+      phone: '',
+      password: '',
+      last_acess: '',
+      photo: '',
+      plan_type: '',
+      observation: '',
+    });
+  }
 
   const trainingTypes = [
     { id: '1', description: 'Todos' },
@@ -56,17 +98,16 @@ const Student: React.FC = () => {
 
   useEffect(() => {
     api.get('/users').then(response => {
-      setStudents(response.data);
+      setUsers(response.data);
     });
   }, []);
 
+  const { debounce } = useDebounce();
+
   const handleToggleModalAddStudent = useCallback(() => {
+    clearUser();
     setModalOpen(!modalOpen);
   }, [modalOpen]);
-
-  const handleToggleDrawer = useCallback(() => {
-    setDrawerOpen(!drawerOpen);
-  }, [drawerOpen]);
 
   const handleToggleModalConfirmation = useCallback(() => {
     setModalConfirmationOpen(!modalConfirmationOpen);
@@ -74,7 +115,7 @@ const Student: React.FC = () => {
 
   const handleToggleActiveUser = useCallback(
     async (id: string) => {
-      const findUser = students.find(student => student.id === id);
+      const findUser = users.find(student => student.id === id);
 
       if (!findUser) {
         return;
@@ -85,7 +126,7 @@ const Student: React.FC = () => {
           active: !findUser?.active,
         });
 
-        setStudents(oldStudents =>
+        setUsers(oldStudents =>
           oldStudents.map(oldStudent =>
             oldStudent.id === id
               ? { ...oldStudent, active: !findUser.active }
@@ -96,45 +137,8 @@ const Student: React.FC = () => {
         console.log(err);
       }
     },
-    [students],
+    [users],
   );
-
-  // const handleAddStudent = useCallback(
-  //   async ({
-  //     full_name,
-  //     cpf,
-  //     date_of_birth,
-  //     email,
-  //     phone,
-  //     password,
-  //     observation,
-  //     plan_type,
-  //     active,
-  //   }: Omit<StudentProps, 'id' | 'last_acess' | 'photo'>) => {
-  //     try {
-  //       const { data: studentCreated } = await api.post<StudentProps>(
-  //         '/users',
-  //         {
-  //           full_name,
-  //           cpf,
-  //           date_of_birth,
-  //           email,
-  //           phone,
-  //           password,
-  //           plan_type,
-  //           observation,
-  //           last_acess: new Date(),
-  //           active,
-  //         },
-  //       );
-
-  //       setStudents([...students, studentCreated]);
-  //     } catch ({ err }) {
-  //       console.log(err);
-  //     }
-  //   },
-  //   [students],
-  // );
 
   return (
     <>
@@ -150,6 +154,12 @@ const Student: React.FC = () => {
             <SearchInput
               placeholder="Pesquise por nome, sobrenome, e-mail ou CPF"
               name="search"
+              onChange={event =>
+                debounce({
+                  internalFunction: filterUsers,
+                  event,
+                })
+              }
             />
             <Button
               background="#1E1E1E"
@@ -161,27 +171,41 @@ const Student: React.FC = () => {
 
           <Main>
             <HeaderContent>
-              <Result>{students.length} resultados</Result>
+              <Result>{users.length} resultados</Result>
             </HeaderContent>
             <ContainerCardsStudents>
-              {students.length ? (
-                students.map(
-                  ({ id, last_acess, full_name, photo, active, plan_type }) => (
+              {usersFiltered.length ? (
+                <>
+                  {usersFiltered.map(user => (
                     <CardStudent
-                      key={id}
-                      id={id}
-                      isActive={active}
-                      last_access={last_acess}
-                      name={full_name}
-                      photo={photo}
-                      plan_type={plan_type}
-                      handleToggleActiveUser={() => handleToggleActiveUser(id)}
-                      handleToggleDrawer={handleToggleDrawer}
+                      key={user.id}
+                      id={user.id}
+                      user={user}
+                      handleToggleActiveUser={() =>
+                        handleToggleActiveUser(user.id)
+                      }
+                      handleToggleDrawer={handleToggleModalAddStudent}
                       handleToggleDeleteModal={handleToggleModalConfirmation}
-                      setSelectedIdStudents={setSelectedIdStudent}
+                      setSelectedStudent={setSelectedStudent}
                     />
-                  ),
-                )
+                  ))}
+                </>
+              ) : users.length ? (
+                <>
+                  {users.map(user => (
+                    <CardStudent
+                      key={user.id}
+                      id={user.id}
+                      user={user}
+                      handleToggleActiveUser={() =>
+                        handleToggleActiveUser(user.id)
+                      }
+                      handleToggleDrawer={handleToggleModalAddStudent}
+                      handleToggleDeleteModal={handleToggleModalConfirmation}
+                      setSelectedStudent={setSelectedStudent}
+                    />
+                  ))}
+                </>
               ) : (
                 <ListStudentEmpty>
                   Você não possui alunos cadastrados. Clique no botão
@@ -195,20 +219,14 @@ const Student: React.FC = () => {
             isOpen={modalOpen}
             setIsOpen={handleToggleModalAddStudent}
             updateStudents={updateStudents}
+            editUser={selectedStudent}
+            resetUser={handleResetUser}
           />
-
-          <Drawer
-            isOpen={drawerOpen}
-            setIsOpen={handleToggleDrawer}
-            typeDrawer="medium"
-          >
-            AAAA
-          </Drawer>
 
           <ModalConfirmationDeleteStudent
             isOpen={modalConfirmationOpen}
             setIsOpen={handleToggleModalConfirmation}
-            idUserSelected={selectedIdStudent}
+            idUserSelected={selectedStudent.id}
             updateUsers={updateStudents}
           />
         </Container>
