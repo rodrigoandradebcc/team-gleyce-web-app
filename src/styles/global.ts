@@ -178,5 +178,9 @@ export default createGlobalStyle`
     opacity: 0;
     transition: opacity 400ms ease-in-out;
   }
+
+  .DayPicker-TodayButton {
+    color: #e3a;
+  }
  
 `;
