@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import { FormHandles } from '@unform/core';
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 import { FiCheckSquare } from 'react-icons/fi';
 
 import Modal from '../Modal';

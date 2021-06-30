@@ -11,6 +11,7 @@ import SearchInput from '../../components/SearchInput';
 import Tabs from '../../components/TabsStudents';
 import { useDebounce } from '../../hooks/Debounce';
 import api from '../../services/api';
+import SkeletonContainerGrid from './components/SkeletonContainerGrid';
 import {
   ActionArea,
   Container,
@@ -40,6 +41,7 @@ interface StudentProps {
 
 const Student: React.FC = () => {
   const [users, setUsers] = useState<StudentProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [usersFiltered, setUsersFiltered] = useState<StudentProps[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentProps>(
     {} as StudentProps,
@@ -50,6 +52,7 @@ const Student: React.FC = () => {
   }
 
   async function filterUsers(name: string): Promise<void> {
+    setIsLoading(true);
     if (name === '') {
       resetFilteredUsers();
       updateStudents();
@@ -58,6 +61,7 @@ const Student: React.FC = () => {
         setUsersFiltered(response.data);
       });
     }
+    setIsLoading(false);
   }
 
   const handleResetUser = useCallback(() => {
@@ -97,9 +101,11 @@ const Student: React.FC = () => {
   ];
 
   useEffect(() => {
+    setIsLoading(true);
     api.get('/users').then(response => {
       setUsers(response.data);
     });
+    setIsLoading(false);
   }, []);
 
   const { debounce } = useDebounce();
@@ -173,8 +179,11 @@ const Student: React.FC = () => {
             <HeaderContent>
               <Result>{users.length} resultados</Result>
             </HeaderContent>
+
+            {isLoading && <SkeletonContainerGrid />}
+
             <ContainerCardsStudents>
-              {usersFiltered.length ? (
+              {usersFiltered.length && !isLoading ? (
                 <>
                   {usersFiltered.map(user => (
                     <CardStudent
@@ -190,23 +199,28 @@ const Student: React.FC = () => {
                     />
                   ))}
                 </>
-              ) : users.length ? (
-                <>
-                  {users.map(user => (
-                    <CardStudent
-                      key={user.id}
-                      id={user.id}
-                      user={user}
-                      handleToggleActiveUser={() =>
-                        handleToggleActiveUser(user.id)
-                      }
-                      handleToggleDrawer={handleToggleModalAddStudent}
-                      handleToggleDeleteModal={handleToggleModalConfirmation}
-                      setSelectedStudent={setSelectedStudent}
-                    />
-                  ))}
-                </>
               ) : (
+                users.length &&
+                !isLoading && (
+                  <>
+                    {users.map(user => (
+                      <CardStudent
+                        key={user.id}
+                        id={user.id}
+                        user={user}
+                        handleToggleActiveUser={() =>
+                          handleToggleActiveUser(user.id)
+                        }
+                        handleToggleDrawer={handleToggleModalAddStudent}
+                        handleToggleDeleteModal={handleToggleModalConfirmation}
+                        setSelectedStudent={setSelectedStudent}
+                      />
+                    ))}
+                  </>
+                )
+              )}
+
+              {users.length === 0 && (
                 <ListStudentEmpty>
                   Você não possui alunos cadastrados. Clique no botão
                   &quot;Cadastrar Aluno&quot; para que eles sejam exibidos aqui!

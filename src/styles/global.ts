@@ -93,6 +93,10 @@ export default createGlobalStyle`
     --background-content:#f7f7f7;
     --background-menu: #fcfcfc;
 
+    //PLACEHOLDER
+    --gray-1: #eee;
+    --gray-2: #d6d6d6;
+    --gray-3: #c5c5c5;
   }
 
   #mainContainer {

@@ -218,13 +218,13 @@ export const Top = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 `;
 
 export const Data = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 12px;
+  line-height: 0.75rem;
 `;
 
 export const Bottom = styled.div`

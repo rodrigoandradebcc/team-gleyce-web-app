@@ -19,7 +19,7 @@ export const Container = styled.div`
 export const Welcome = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 16px 16px;
+  margin: 1rem 1rem;
 
   width: inherit;
 `;

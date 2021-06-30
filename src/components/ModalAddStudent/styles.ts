@@ -21,7 +21,6 @@ export const ContainerDatePicker = styled.div`
     display: block;
     height: 100%;
 
-    background: red;
     input {
       flex: 1;
       font-size: 1rem;

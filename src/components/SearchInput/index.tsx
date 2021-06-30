@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useRef, useState } from 'react';
+import React, { InputHTMLAttributes, useRef } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { Container } from './styles';
 

@@ -10,9 +10,7 @@ interface ITabsProps {
 }
 
 const TabsPlans: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
-  const [tabActive, setTabActive] = useState(
-    tabsApi ? tabsApi[0]?.description : '',
-  );
+  const [tabActive, setTabActive] = useState(tabsApi ? tabsApi[0]?.id : '');
   const { changeTabPlanActive } = useTrainingSetup();
 
   const handleToggleModalAddPlan = useCallback(() => {
@@ -23,9 +21,9 @@ const TabsPlans: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
 
   useEffect(() => {
     if (tabsApi[0]?.description) {
-      const { description } = tabsApi[0];
+      const { description, id } = tabsApi[0];
       setTabActive(description);
-      changeTabPlanActive(description);
+      changeTabPlanActive(id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabsApi[0]?.description]);
@@ -40,7 +38,7 @@ const TabsPlans: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
               key={item.description}
               onClick={() => {
                 setTabActive(item.description);
-                changeTabPlanActive(item.description);
+                changeTabPlanActive(item.id);
               }}
             >
               {item.description}

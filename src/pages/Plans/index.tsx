@@ -181,7 +181,11 @@ const Plans: React.FC = () => {
             <tbody>
               {selectedExercises &&
                 selectedExercises.map(({ label, value }) => (
-                  <ExerciseRow key={value} nameExercise={label}>
+                  <ExerciseRow
+                    key={value}
+                    exercise={{ name: label, id: value }}
+                    plan_id={tabPlanContext}
+                  >
                     {label}
                   </ExerciseRow>
                 ))}
