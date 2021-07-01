@@ -42,6 +42,8 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   editUser,
   resetUser,
 }) => {
+  const [loadingButton, setLoadingButton] = useState(false);
+
   const { register, handleSubmit, reset, control } = useForm();
   const [defaultValues, setDefaultValues] = useState<StudentProps>(
     {} as StudentProps,
@@ -55,6 +57,8 @@ const ModalAddStudent: React.FC<IModalProps> = ({
   }, [reset, editUser]);
 
   function handle(data: StudentProps): void {
+    setLoadingButton(true);
+
     const currentDate = String(new Date(Date.now()));
 
     const newData = {
@@ -65,6 +69,8 @@ const ModalAddStudent: React.FC<IModalProps> = ({
     };
 
     handleStudentSubmit(newData);
+    setLoadingButton(false);
+
     setIsOpen();
   }
 
@@ -226,7 +232,7 @@ const ModalAddStudent: React.FC<IModalProps> = ({
           </div>
         </div>
 
-        <S.Button heightSize="large" type="submit">
+        <S.Button heightSize="large" type="submit" loading={loadingButton}>
           {editUser.id === '' ? 'Cadastrar' : 'Atualizar'}
         </S.Button>
       </S.Form>

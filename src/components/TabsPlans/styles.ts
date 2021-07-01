@@ -19,7 +19,6 @@ export const AddTabButton = styled(ButtonIcon)`
   width: fit-content;
   height: auto;
   padding: 4px;
-  margin-left: 3rem;
   margin-bottom: 0.5rem;
 
   svg {
@@ -79,6 +78,10 @@ export const ContainerTabs = styled.div`
   align-items: center;
   display: grid;
   grid-template-columns: repeat(auto-fit, 8rem);
+
+  > button + ${AddTabButton} {
+    margin-left: 1rem;
+  }
 
   /* overflow-x: auto;
   -webkit-overflow-scrolling: touch;

@@ -8,6 +8,7 @@ import ModalAddPlan from '../../components/ModalAddPlan';
 import Tabs from '../../components/TabsPlans';
 import { useTrainingSetup } from '../../hooks/TrainingSetupContext';
 import api from '../../services/api';
+import Exercises from '../Exercises';
 import ExerciseRow from './components/ExerciseRow';
 import * as S from './styles';
 
@@ -32,6 +33,7 @@ interface Exercises {
 interface ExercisesSelectedProps {
   value: string;
   label: string;
+  prescription?: Prescription;
 }
 
 interface Prescription {
@@ -54,9 +56,28 @@ interface ExercisesSelectedContextProps {
   prescription: Prescription;
 }
 
+interface Prescription {
+  id: string;
+  repetition: string;
+  serie: string;
+  weight: string;
+  interval: string;
+  observation: string;
+}
+
+interface ExerciseAndPrescriptionToPlanProps {
+  id: string;
+  planName: string;
+  exercise_id: string;
+  prescription_id: string;
+  prescription: Prescription;
+  exercise: Exercises;
+}
+
 const Plans: React.FC = () => {
   const location = useLocation<HistoryProps>();
   const { idSelected: planIdSelected } = location.state;
+  const [loading, setLoading] = useState(false);
 
   const [plans, setPlans] = useState<PlanProps[]>([] as PlanProps[]);
   const [openModal, setOpenModal] = useState(false);
@@ -69,40 +90,56 @@ const Plans: React.FC = () => {
     setOpenModal(!openModal);
   }, [openModal]);
 
-  const { setupPlan, tabPlanContext } = useTrainingSetup();
-
-  const mockPrescription = {
-    prescriptionId: '1',
-    repetition: 'string',
-    serie: 'string',
-    weight: 'string',
-    interval: 'string',
-    observation: 'string',
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function mountObjectTrainingCompleted(
-    selectedTab: string,
-  ): TrainingContextCompletedProps {
-    let newExercises: ExercisesSelectedContextProps[] = [];
-    newExercises = [];
-
-    selectedExercises.map(item => {
-      return newExercises.push({
-        ...item,
-        prescription: mockPrescription,
-      });
-    });
-
-    return {
-      planName: selectedTab,
-      exercises: newExercises,
-    };
-  }
+  const { tabPlanContext } = useTrainingSetup();
 
   useEffect(() => {
-    setupPlan(mountObjectTrainingCompleted(tabPlanContext));
+    api
+      .get<ExerciseAndPrescriptionToPlanProps[]>(
+        `/plans/plan-completed/${tabPlanContext}`,
+      )
+      .then(response => {
+        if (response.data.length > 0) {
+          return setSelectedExercises(
+            response.data.map(({ exercise: { id, name }, prescription }) => ({
+              value: id,
+              label: name,
+              prescription,
+            })),
+          );
+        }
+        return setSelectedExercises([]);
+      });
   }, [tabPlanContext]);
+
+  useEffect(() => {
+    api.get('/exercises').then(response => {
+      setExercises(response.data);
+    });
+  }, []);
+
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // function mountObjectTrainingCompleted(
+  //   selectedTab: string,
+  // ): TrainingContextCompletedProps {
+  //   let newExercises: ExercisesSelectedContextProps[] = [];
+  //   newExercises = [];
+
+  //   selectedExercises.map(item => {
+  //     return newExercises.push({
+  //       ...item,
+  //       prescription: mockPrescription,
+  //     });
+  //   });
+
+  //   return {
+  //     planName: selectedTab,
+  //     exercises: newExercises,
+  //   };
+  // }
+
+  // useEffect(() => {
+  //   setupPlan(mountObjectTrainingCompleted(tabPlanContext));
+  // }, [tabPlanContext]);
 
   const options = getNameExercises(exercises);
 
@@ -113,12 +150,6 @@ const Plans: React.FC = () => {
     });
     return res;
   }
-
-  useEffect(() => {
-    api.get('/exercises').then(response => {
-      setExercises(response.data);
-    });
-  }, []);
 
   useEffect(() => {
     const getPlansToUser = async (id: string): Promise<void> => {
@@ -143,8 +174,8 @@ const Plans: React.FC = () => {
         <S.Container>
           <S.LabelAndButton>
             <h1>Plan</h1>
-            <Button outlined outlinedColor="#FFBA01" type="submit">
-              SALVAR TREINO
+            <Button outlined outlinedColor="#FFBA01">
+              CONCLUIR TREINO
             </Button>
           </S.LabelAndButton>
 
@@ -161,6 +192,8 @@ const Plans: React.FC = () => {
                 onChange={(e: OptionsType<ExercisesSelectedProps>) => {
                   handleSetSelectedExercises(e);
                 }}
+                value={selectedExercises}
+                isDisabled={plans.length === 0}
               />
             </S.SelectAndButton>
             <Button background="#FFBA01">CADASTRAR EXERCÍCIO</Button>
@@ -180,11 +213,12 @@ const Plans: React.FC = () => {
             </thead>
             <tbody>
               {selectedExercises &&
-                selectedExercises.map(({ label, value }) => (
+                selectedExercises.map(({ label, value, prescription }) => (
                   <ExerciseRow
                     key={value}
                     exercise={{ name: label, id: value }}
                     plan_id={tabPlanContext}
+                    prescriptionValue={prescription}
                   >
                     {label}
                   </ExerciseRow>

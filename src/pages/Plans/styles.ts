@@ -56,7 +56,11 @@ export const SelectContainer = styled.div`
   justify-content: space-between;
 
   .css-2b097c-container {
-    width: 80%;
+    width: 100%;
+  }
+
+  .css-14jk2my-container {
+    width: 100%;
   }
 
   .css-yk16xz-control {

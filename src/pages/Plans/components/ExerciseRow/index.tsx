@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import api from '../../../../services/api';
-
-interface ExerciseRowProps {
-  exercise: {
-    id: string;
-    name: string;
-  };
-  plan_id: string;
-}
 
 interface Prescription {
   repetition: string;
@@ -15,6 +7,14 @@ interface Prescription {
   weight: string;
   interval: string;
   observation: string;
+}
+interface ExerciseRowProps {
+  exercise: {
+    id: string;
+    name: string;
+  };
+  plan_id: string;
+  prescriptionValue?: Prescription;
 }
 
 type PrescriptionTypes =
@@ -28,12 +28,8 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
   children,
   exercise,
   plan_id,
+  prescriptionValue,
 }) => {
-  // const [prescription, setPrescription] = useState<PrescriptionProps>(
-  //   {} as PrescriptionProps,
-  // );
-  const [nameExerciseRow, setNameExerciseRow] = useState(exercise.name);
-
   async function handleOnChange(
     name: PrescriptionTypes,
     event: string,
@@ -59,6 +55,7 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
         <input
           type="text"
           onBlur={e => handleOnChange('repetition', e.target.value)}
+          defaultValue={prescriptionValue?.repetition}
         />
       </td>
 
@@ -66,6 +63,7 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
         <input
           type="text"
           onBlur={e => handleOnChange('serie', e.target.value)}
+          defaultValue={prescriptionValue?.serie}
         />
       </td>
 
@@ -73,6 +71,7 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
         <input
           type="text"
           onBlur={e => handleOnChange('weight', e.target.value)}
+          defaultValue={prescriptionValue?.weight}
         />
       </td>
 
@@ -80,6 +79,7 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
         <input
           type="text"
           onBlur={e => handleOnChange('interval', e.target.value)}
+          defaultValue={prescriptionValue?.interval}
         />
       </td>
 
@@ -87,6 +87,7 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
         <input
           type="text"
           onBlur={e => handleOnChange('observation', e.target.value)}
+          defaultValue={prescriptionValue?.observation}
         />
       </td>
       <td>Excluir</td>
