@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import ReactModal from 'react-modal';
 
 interface ModalProps {
-  typeModal?: 'large' | 'medium' | 'small';
+  typeModal?: 'large' | 'medium' | 'small' | 'x-small';
 }
 
 export const ReactModalComponent = styled(ReactModal)<ModalProps>`
@@ -22,6 +22,12 @@ export const ReactModalComponent = styled(ReactModal)<ModalProps>`
     props.typeModal === 'small' &&
     css`
       max-width: 448px;
+    `}
+
+    ${props =>
+    props.typeModal === 'x-small' &&
+    css`
+      max-width: 472px;
     `}
 
   ${props =>

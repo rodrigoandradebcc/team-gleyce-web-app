@@ -5,7 +5,7 @@ interface IModalProps {
   children: ReactNode;
   isOpen: boolean;
   setIsOpen: () => void;
-  typeModal?: 'large' | 'medium' | 'small';
+  typeModal?: 'large' | 'medium' | 'small' | 'x-small';
   teste?: 'string';
 }
 

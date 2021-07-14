@@ -8,8 +8,10 @@ interface Prop {
 export const Container = styled.div`
   margin-bottom: 1rem;
   display: flex;
-  width: 100%;
   border-bottom: 1px solid #dddddd;
+
+  margin: 0 1rem;
+
   padding-bottom: 0.6rem;
 `;
 
@@ -72,7 +74,8 @@ export const Tab = styled.button<Prop>`
 
 export const ContainerTabs = styled.div`
   display: flex;
-  margin-top: 2rem;
+
+  margin-top: 1.5rem;
   width: 100%;
   height: 1.25rem;
   align-items: center;

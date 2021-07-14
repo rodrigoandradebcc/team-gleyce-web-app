@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
+// import { RiMore2Fill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
 import Select, { OptionsType } from 'react-select';
 import Button from '../../components/ButtonRod';
+import { DropdownPlansActions } from '../../components/DropdownPlansActions';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
 import ModalAddPlan from '../../components/ModalAddPlan';
@@ -76,8 +78,8 @@ interface ExerciseAndPrescriptionToPlanProps {
 
 const Plans: React.FC = () => {
   const location = useLocation<HistoryProps>();
-  const { idSelected: planIdSelected } = location.state;
-  const [loading, setLoading] = useState(false);
+  const { idSelected } = location.state;
+  const [moreOptionsButton, setMoreOptionsButton] = useState(false);
 
   const [plans, setPlans] = useState<PlanProps[]>([] as PlanProps[]);
   const [openModal, setOpenModal] = useState(false);
@@ -117,30 +119,6 @@ const Plans: React.FC = () => {
     });
   }, []);
 
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // function mountObjectTrainingCompleted(
-  //   selectedTab: string,
-  // ): TrainingContextCompletedProps {
-  //   let newExercises: ExercisesSelectedContextProps[] = [];
-  //   newExercises = [];
-
-  //   selectedExercises.map(item => {
-  //     return newExercises.push({
-  //       ...item,
-  //       prescription: mockPrescription,
-  //     });
-  //   });
-
-  //   return {
-  //     planName: selectedTab,
-  //     exercises: newExercises,
-  //   };
-  // }
-
-  // useEffect(() => {
-  //   setupPlan(mountObjectTrainingCompleted(tabPlanContext));
-  // }, [tabPlanContext]);
-
   const options = getNameExercises(exercises);
 
   // eslint-disable-next-line no-shadow
@@ -151,14 +129,15 @@ const Plans: React.FC = () => {
     return res;
   }
 
+  async function getPlans(id: string): Promise<void> {
+    await api.get(`/plans/${id}`).then(response => {
+      setPlans(response.data);
+    });
+  }
+
   useEffect(() => {
-    const getPlansToUser = async (id: string): Promise<void> => {
-      await api.get(`/plans/${id}`).then(response => {
-        setPlans(response.data);
-      });
-    };
-    getPlansToUser(planIdSelected);
-  }, [planIdSelected]);
+    getPlans(idSelected);
+  }, [idSelected]);
 
   function handleSetSelectedExercises(
     exercisesSel: OptionsType<ExercisesSelectedProps>,
@@ -172,31 +151,46 @@ const Plans: React.FC = () => {
       <div id="mainContainer">
         <Header />
         <S.Container>
-          <S.LabelAndButton>
+          <S.ActionArea>
             <h1>Plan</h1>
-            <Button outlined outlinedColor="#FFBA01">
-              CONCLUIR TREINO
-            </Button>
-          </S.LabelAndButton>
+            <S.ButtonArea>
+              <Button
+                outlined
+                outlinedColor="#FFBA01"
+                onClick={handleToggleModalAddPlan}
+              >
+                Editar Séries
+              </Button>
+
+              <S.ButtonIcon
+                onClick={() => setMoreOptionsButton(!moreOptionsButton)}
+              >
+                {/* <RiMore2Fill size={48} /> */}A
+                {moreOptionsButton && <DropdownPlansActions />}
+              </S.ButtonIcon>
+            </S.ButtonArea>
+          </S.ActionArea>
 
           <Tabs
             tabsApi={plans}
             handleOpenModal={openModalState => setOpenModal(openModalState)}
           />
 
+          <S.Label>
+            <p>Exercícios selecionados</p>
+          </S.Label>
+
           <S.SelectContainer>
-            <S.SelectAndButton>
-              <Select
-                options={options}
-                isMulti
-                onChange={(e: OptionsType<ExercisesSelectedProps>) => {
-                  handleSetSelectedExercises(e);
-                }}
-                value={selectedExercises}
-                isDisabled={plans.length === 0}
-              />
-            </S.SelectAndButton>
-            <Button background="#FFBA01">CADASTRAR EXERCÍCIO</Button>
+            <Select
+              options={options}
+              isMulti
+              onChange={(e: OptionsType<ExercisesSelectedProps>) => {
+                handleSetSelectedExercises(e);
+              }}
+              value={selectedExercises}
+              isDisabled={plans.length === 0}
+            />
+            <Button background="#FFBA01">CONCLUIR TREINO</Button>
           </S.SelectContainer>
 
           <table>
@@ -226,7 +220,12 @@ const Plans: React.FC = () => {
             </tbody>
           </table>
         </S.Container>
-        <ModalAddPlan isOpen={openModal} setIsOpen={handleToggleModalAddPlan} />
+        <ModalAddPlan
+          isOpen={openModal}
+          setIsOpen={handleToggleModalAddPlan}
+          plans={plans}
+          getPlans={() => getPlans(idSelected)}
+        />
       </div>
     </>
   );

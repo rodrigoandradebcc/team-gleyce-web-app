@@ -34,6 +34,19 @@ export default createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
+
+    ::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background-color: #c5c5c5;
+      border-radius: 4px;
+    }
+          
+    ::-webkit-scrollbar-track {
+      background-color: #f2f3f5;
+    }
   }
 
   body {
@@ -90,6 +103,7 @@ export default createGlobalStyle`
     --border-input: #F1EFEF;
 
     --text-body: #1E1E1E;
+    --text-body-200: #3D4047;
     --background-content:#f7f7f7;
     --background-menu: #fcfcfc;
 

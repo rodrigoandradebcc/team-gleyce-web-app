@@ -13,11 +13,11 @@ interface ButtonProp {
   outlinedColor?: string;
 }
 
-const BackGroundMix = css<ButtonProp>`
-  ${props => {
-    return props.background ? `${props.background}` : '(--yellow)';
-  }}
-`;
+// const BackGroundMix = css<ButtonProp>`
+//   ${props => {
+//     return props.background ? `${props.background}` : '(--yellow)';
+//   }}
+// `;
 
 export const ContainerLoading = styled.div`
   display: flex;
@@ -34,7 +34,6 @@ export const Container = styled.button<ButtonProp>`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 64px;
   position: relative;
   background: ${props =>
     props.background ? `${props.background}` : 'var(--yellow)'};
@@ -64,30 +63,8 @@ export const Container = styled.button<ButtonProp>`
         filter: brightness(1.1);
         box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
           0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-        background: ${BackGroundMix};
       }
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
-        background-repeat: no-repeat;
-        background-position: 50%;
-        transform: scale(10, 10);
-        opacity: 0;
-        transition: transform 0.5s, opacity 1s;
-      }
-      &:active:after {
-        transform: scale(0, 0);
-        opacity: 0.3;
-        transition: 0s;
-      }
-    `}
+    `} 
   ${props =>
     props.loading &&
     css`

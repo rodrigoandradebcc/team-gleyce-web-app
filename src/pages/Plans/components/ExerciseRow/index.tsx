@@ -1,5 +1,7 @@
 import React from 'react';
 import api from '../../../../services/api';
+import InputCell from '../InputCell';
+import * as S from './styles';
 
 interface Prescription {
   repetition: string;
@@ -32,12 +34,10 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
 }) => {
   async function handleOnChange(
     name: PrescriptionTypes,
-    event: string,
+    value: string,
   ): Promise<void> {
-    // const newValue = Object.assign(name, event);
-
     const prescription = {} as Prescription;
-    prescription[name] = event;
+    prescription[name] = value;
 
     const payload = {
       plan_id,
@@ -50,47 +50,52 @@ const ExerciseRow: React.FC<ExerciseRowProps> = ({
 
   return (
     <tr>
-      <td>{children}</td>
-      <td>
-        <input
+      <S.Cell>{children}</S.Cell>
+      <S.Cell>
+        <InputCell
+          name="repetition"
           type="text"
-          onBlur={e => handleOnChange('repetition', e.target.value)}
+          onBlur={handleOnChange}
           defaultValue={prescriptionValue?.repetition}
         />
-      </td>
+      </S.Cell>
 
-      <td>
-        <input
+      <S.Cell>
+        <InputCell
+          name="serie"
           type="text"
-          onBlur={e => handleOnChange('serie', e.target.value)}
+          onBlur={handleOnChange}
           defaultValue={prescriptionValue?.serie}
         />
-      </td>
+      </S.Cell>
 
-      <td>
-        <input
+      <S.Cell>
+        <InputCell
+          name="weight"
           type="text"
-          onBlur={e => handleOnChange('weight', e.target.value)}
+          onBlur={handleOnChange}
           defaultValue={prescriptionValue?.weight}
         />
-      </td>
+      </S.Cell>
 
-      <td>
-        <input
+      <S.Cell>
+        <InputCell
           type="text"
-          onBlur={e => handleOnChange('interval', e.target.value)}
+          name="interval"
+          onBlur={handleOnChange}
           defaultValue={prescriptionValue?.interval}
         />
-      </td>
+      </S.Cell>
 
-      <td>
-        <input
+      <S.Cell>
+        <InputCell
           type="text"
-          onBlur={e => handleOnChange('observation', e.target.value)}
+          name="observation"
+          onBlur={handleOnChange}
           defaultValue={prescriptionValue?.observation}
         />
-      </td>
-      <td>Excluir</td>
+      </S.Cell>
+      <S.Cell>Excluir</S.Cell>
     </tr>
   );
 };
