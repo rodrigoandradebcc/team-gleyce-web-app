@@ -51,16 +51,10 @@ const Student: React.FC = () => {
     setUsersFiltered([]);
   }
 
-  async function filterUsers(name: string): Promise<void> {
+  async function filterUsers(name?: string): Promise<void> {
     setIsLoading(true);
-    if (name === '') {
-      resetFilteredUsers();
-      updateStudents();
-    } else {
-      await api.get(`/users/filter-users?like=${name}`).then(response => {
-        setUsersFiltered(response.data);
-      });
-    }
+    resetFilteredUsers();
+    updateStudents(String(name));
     setIsLoading(false);
   }
 
@@ -71,11 +65,59 @@ const Student: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
 
-  const updateStudents = useCallback(() => {
-    api.get('/users').then(response => {
-      setUsers(response.data);
-    });
-  }, []);
+  const studentType = [
+    { id: '1', description: 'Todos' },
+    { id: '2', description: 'Ativos' },
+    { id: '3', description: 'Inativos' },
+  ];
+
+  const [filterSelectedTypeStudent, setFilterSelectedTypeStudent] = useState(
+    studentType[0].description,
+  );
+  const updateStudents = useCallback(
+    async (name?: string) => {
+      if (filterSelectedTypeStudent === 'Todos') {
+        if (name === 'undefined') {
+          await api.get(`/users`).then(response => {
+            setUsers(response.data);
+          });
+        } else {
+          await api.get(`/users/filter-users?name=${name}`).then(response => {
+            setUsers(response.data);
+          });
+        }
+      } else if (filterSelectedTypeStudent === 'Ativos') {
+        if (name === 'undefined') {
+          await api.get(`/users/filter-users?active=true`).then(response => {
+            setUsers(response.data);
+          });
+        } else {
+          await api
+            .get(`/users/filter-users?name=${name}&active=true`)
+            .then(response => {
+              setUsers(response.data);
+            });
+        }
+      } else if (filterSelectedTypeStudent === 'Inativos') {
+        if (name === 'undefined') {
+          await api.get(`/users/filter-users?active=false`).then(response => {
+            setUsers(response.data);
+          });
+        } else {
+          await api
+            .get(`users/filter-users?name=${name}&active=false`)
+            .then(response => {
+              setUsers(response.data);
+            });
+        }
+      }
+    },
+    [filterSelectedTypeStudent],
+  );
+
+  function changeStudentTypes(content: string): void {
+    setFilterSelectedTypeStudent(content);
+  }
 
   function clearUser(): void {
     setSelectedStudent({
@@ -94,19 +136,9 @@ const Student: React.FC = () => {
     });
   }
 
-  const trainingTypes = [
-    { id: '1', description: 'Todos' },
-    { id: '2', description: 'Ativos' },
-    { id: '3', description: 'Inativos' },
-  ];
-
   useEffect(() => {
-    setIsLoading(true);
-    api.get('/users').then(response => {
-      setUsers(response.data);
-    });
-    setIsLoading(false);
-  }, []);
+    filterUsers();
+  }, [filterSelectedTypeStudent]);
 
   const { debounce } = useDebounce();
 
@@ -131,7 +163,6 @@ const Student: React.FC = () => {
         await api.patch(`/users/change-active/${id}`, {
           active: !findUser?.active,
         });
-
         setUsers(oldStudents =>
           oldStudents.map(oldStudent =>
             oldStudent.id === id
@@ -139,6 +170,7 @@ const Student: React.FC = () => {
               : oldStudent,
           ),
         );
+        filterUsers();
       } catch ({ err }) {
         console.log(err);
       }
@@ -154,7 +186,10 @@ const Student: React.FC = () => {
         <Header />
         <Container>
           <h1>Alunos</h1>
-          <Tabs tabsApi={trainingTypes} />
+          <Tabs
+            tabsApi={studentType}
+            setStudentTypeSelected={changeStudentTypes}
+          />
 
           <ActionArea>
             <SearchInput

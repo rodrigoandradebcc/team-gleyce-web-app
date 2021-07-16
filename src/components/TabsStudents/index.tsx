@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiPlus } from 'react-icons/fi';
-import { useTrainingSetup } from '../../hooks/TrainingSetupContext';
 import { PlanProps } from '../../pages/Plans';
 import * as S from './styles';
 
 interface ITabsProps {
   tabsApi: PlanProps[];
   handleOpenModal?: (openModal: boolean) => void;
+  setStudentTypeSelected: (description: string) => void;
 }
 
-const TabsStudent: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
+const TabsStudent: React.FC<ITabsProps> = ({
+  tabsApi,
+  handleOpenModal,
+  setStudentTypeSelected,
+}) => {
   const [tabActive, setTabActive] = useState(
     tabsApi ? tabsApi[0]?.description : '',
   );
@@ -27,7 +30,6 @@ const TabsStudent: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabsApi[0]?.description]);
-
   return (
     <S.Container>
       <S.ContainerTabs>
@@ -38,6 +40,7 @@ const TabsStudent: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
               key={item.description}
               onClick={() => {
                 setTabActive(item.description);
+                setStudentTypeSelected(item.description);
               }}
             >
               {item.description}
