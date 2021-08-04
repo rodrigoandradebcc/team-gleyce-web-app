@@ -5,11 +5,13 @@ import * as S from './styles';
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
+  handleDeletePlan: () => Promise<void>;
 }
 
 function ConfirmationDeletePlanModal({
   isOpen = false,
   setIsOpen,
+  handleDeletePlan,
 }: IModalProps): JSX.Element {
   return (
     <S.ModalComponent
@@ -38,6 +40,7 @@ function ConfirmationDeletePlanModal({
             background="#E2445C"
             onClick={() => {
               setIsOpen();
+              handleDeletePlan();
             }}
           >
             Excluir

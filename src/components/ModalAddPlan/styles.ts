@@ -139,3 +139,15 @@ export const PlanContainer = styled.div`
   height: 21rem;
   overflow: hidden;
 `;
+
+export const EditInput = styled(NewInput)``;
+
+export const Form = styled.form`
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+`;

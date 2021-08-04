@@ -1,23 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import React, { useEffect, useState } from 'react';
 import { useTrainingSetup } from '../../hooks/TrainingSetupContext';
 import { PlanProps } from '../../pages/Plans';
 import * as S from './styles';
 
 interface ITabsProps {
   tabsApi: PlanProps[];
-  handleOpenModal?: (openModal: boolean) => void;
 }
 
-const TabsPlans: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
+const TabsPlans: React.FC<ITabsProps> = ({ tabsApi }) => {
   const [tabActive, setTabActive] = useState(tabsApi ? tabsApi[0]?.id : '');
   const { changeTabPlanActive } = useTrainingSetup();
-
-  const handleToggleModalAddPlan = useCallback(() => {
-    if (handleOpenModal) {
-      handleOpenModal(true);
-    }
-  }, [handleOpenModal]);
 
   useEffect(() => {
     if (tabsApi[0]?.description) {
@@ -44,14 +36,6 @@ const TabsPlans: React.FC<ITabsProps> = ({ tabsApi, handleOpenModal }) => {
               {item.description}
             </S.Tab>
           ))}
-
-        <S.AddTabButton
-          onClick={() => {
-            handleToggleModalAddPlan();
-          }}
-        >
-          <FiPlus size={16} />
-        </S.AddTabButton>
       </S.ContainerTabs>
     </S.Container>
   );

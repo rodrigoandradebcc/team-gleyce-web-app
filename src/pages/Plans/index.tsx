@@ -171,10 +171,7 @@ const Plans: React.FC = () => {
             </S.ButtonArea>
           </S.ActionArea>
 
-          <Tabs
-            tabsApi={plans}
-            handleOpenModal={openModalState => setOpenModal(openModalState)}
-          />
+          <Tabs tabsApi={plans} />
 
           <S.Label>
             <p>Exercícios selecionados</p>

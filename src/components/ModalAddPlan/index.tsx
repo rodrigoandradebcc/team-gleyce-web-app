@@ -1,18 +1,16 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useCallback, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { FormEvent, useCallback, useRef, useState } from 'react';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { FiEdit2, FiPlus } from 'react-icons/fi';
+import { IoMdCheckmark, IoMdCloseCircleOutline } from 'react-icons/io';
 import { IoReaderOutline } from 'react-icons/io5';
 import { useLocation } from 'react-router-dom';
-import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import { FiPlus, FiEdit2 } from 'react-icons/fi';
-import { FaRegTrashAlt } from 'react-icons/fa';
 import api from '../../services/api';
-import ButtonRod from '../ButtonRod';
+import ButtonIcon from '../ButtonIcon';
 import Modal from '../Modal';
+import ConfirmationDeletePlanModal from '../modals/ConfirmationDeletePlanModal';
 import { NewInput } from '../NewInput';
 import * as S from './styles';
-import ConfirmationDeletePlanModal from '../modals/ConfirmationDeletePlanModal';
 
 interface IModalProps {
   isOpen: boolean;
@@ -35,9 +33,10 @@ interface PlanProps {
   training_id: string;
 }
 
-const planFormSchema = yup.object().shape({
-  description: yup.string().required('Descrição obrigatória'),
-});
+interface EditForm {
+  edit: boolean;
+  planId: string;
+}
 
 const ModalAddPlan: React.FC<IModalProps> = ({
   isOpen = false,
@@ -45,30 +44,26 @@ const ModalAddPlan: React.FC<IModalProps> = ({
   plans,
   getPlans,
 }) => {
-  const { register, handleSubmit, formState, reset } = useForm({
-    resolver: yupResolver(planFormSchema),
-  });
+  const [description, setDescription] = useState('');
+
+  const [planSelected, setPlanSelected] = useState('');
+  const [editPlan, setEditPlan] = useState<EditForm>({} as EditForm);
 
   const [confirmationModal, setConfirmationModal] = useState(false);
 
   const handleToggleConfirmationModal = useCallback(() => {
     setConfirmationModal(!confirmationModal);
   }, [confirmationModal]);
-
-  const { errors } = formState;
-
   const location = useLocation<HistoryProps>();
 
   const { idSelected } = location.state;
 
-  function handleAddPlan(data: PlanProps): void {
-    const newData = { ...data, training_id: idSelected };
-
-    console.log(newData.description);
-    handlePlanSubmit(newData);
-    reset();
-
-    // setIsOpen();
+  function resetStateEditPlan(): void {
+    setEditPlan(oldState => ({
+      ...oldState,
+      edit: false,
+      planId: '',
+    }));
   }
 
   async function handleDeletePlan(id: string): Promise<void> {
@@ -80,18 +75,44 @@ const ModalAddPlan: React.FC<IModalProps> = ({
     }
   }
 
-  const handlePlanSubmit = useCallback(async (plan: PlanProps) => {
+  async function handleAddPlan(event: FormEvent): Promise<void> {
     try {
-      await api.post('/plans', plan);
+      event.preventDefault();
+      await api.post(`/plans`, {
+        description,
+        training_id: idSelected,
+      });
+      setDescription('');
+      // eslint-disable-next-line no-unused-expressions
       getPlans();
 
       toast.success('Plano cadastrado com sucesso!');
     } catch (error) {
-      toast.error(
-        'Ocorreu um erro ao cadastrar um Plano, tente novamente mais tarde!',
-      );
+      toast.error('Ocorreu um erro ao atualizar um Plano');
     }
-  }, []);
+  }
+
+  async function handleUpdatePlanModal(event: FormEvent): Promise<void> {
+    try {
+      event.preventDefault();
+      await api.put(`/plans/${editPlan.planId}`, {
+        description,
+      });
+      disableEditPlan();
+      getPlans();
+      toast.success('Plano editado com sucesso!');
+    } catch (error) {
+      toast.error('Ocorreu um erro ao atualizar um Plano');
+    }
+  }
+
+  function disableEditPlan(): void {
+    setEditPlan(oldState => ({
+      ...oldState,
+      planId: '',
+      edit: false,
+    }));
+  }
 
   return (
     <>
@@ -99,7 +120,6 @@ const ModalAddPlan: React.FC<IModalProps> = ({
         isOpen={isOpen}
         typeModal="x-small"
         setIsOpen={() => {
-          reset();
           setIsOpen();
         }}
       >
@@ -108,9 +128,13 @@ const ModalAddPlan: React.FC<IModalProps> = ({
             <IoReaderOutline size={24} />
             <p>Séries</p>
           </S.LogoAndTitleModal>
-          <S.FormDescription onSubmit={handleSubmit(handleAddPlan)}>
-            <NewInput placeholder="Descrição" {...register('description')} />
-            <S.IconButton type="submit">
+          <S.FormDescription>
+            <input
+              placeholder="Descrição"
+              onChange={event => setDescription(event.target.value)}
+              value={description}
+            />
+            <S.IconButton onClick={handleAddPlan}>
               <FiPlus size={24} />
             </S.IconButton>
           </S.FormDescription>
@@ -128,19 +152,61 @@ const ModalAddPlan: React.FC<IModalProps> = ({
             <S.SectionPlans>
               {plans &&
                 plans.map(plan => {
+                  // console.log(plan.description);
                   return (
-                    <S.PlanContent>
+                    <S.PlanContent key={plan.id}>
                       <S.PlanItem>
-                        <p>{plan.description}</p>
+                        {editPlan.edit && editPlan.planId === plan.id ? (
+                          <S.Form>
+                            <NewInput
+                              defaultValue={plan.description}
+                              name="description"
+                              onChange={event =>
+                                setDescription(event.target.value)
+                              }
+                              placeholder="Ex: A"
+                            />
+                            <div>
+                              <ButtonIcon onClick={handleUpdatePlanModal}>
+                                <IoMdCheckmark />
+                              </ButtonIcon>
+                              <ButtonIcon
+                                onClick={() => {
+                                  setEditPlan(oldState => ({
+                                    ...oldState,
+                                    edit: !editPlan.edit,
+                                  }));
+                                }}
+                              >
+                                <IoMdCloseCircleOutline />
+                              </ButtonIcon>
+                            </div>
+                          </S.Form>
+                        ) : (
+                          <p key={plan.description}>{plan.description}</p>
+                        )}
                       </S.PlanItem>
                       <S.PlanItem>
-                        <FiEdit2 />
-                        <FaRegTrashAlt
-                          onClick={() => {
-                            handleToggleConfirmationModal();
-                            // handleDeletePlan(plan.id)
-                          }}
-                        />
+                        {!(editPlan.edit && editPlan.planId === plan.id) && (
+                          <>
+                            <FiEdit2
+                              onClick={() => {
+                                setEditPlan(oldState => ({
+                                  ...oldState,
+                                  edit: !editPlan.edit,
+                                  planId: plan.id,
+                                }));
+                              }}
+                            />
+                            <FaRegTrashAlt
+                              onClick={() => {
+                                // console.log('aaaaaaaaaaaaaa', plan.id);
+                                handleToggleConfirmationModal();
+                                setPlanSelected(plan.id);
+                              }}
+                            />
+                          </>
+                        )}
                       </S.PlanItem>
                     </S.PlanContent>
                   );
@@ -150,6 +216,7 @@ const ModalAddPlan: React.FC<IModalProps> = ({
         </S.ContainerModal>
       </Modal>
       <ConfirmationDeletePlanModal
+        handleDeletePlan={() => handleDeletePlan(planSelected)}
         isOpen={confirmationModal}
         setIsOpen={handleToggleConfirmationModal}
       />
