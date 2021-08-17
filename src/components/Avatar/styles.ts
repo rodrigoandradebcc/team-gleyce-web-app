@@ -39,7 +39,7 @@ export const AvatarContainer = styled.div<AvatarProps>`
   align-items: center;
   border: 2px solid #ffc62d;
 
-  p {
+  > p {
     font-size: ${props => props.size && `${props.size * 0.9}`}rem;
     font-weight: 400;
     color: #ffc62d;

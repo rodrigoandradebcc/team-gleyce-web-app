@@ -1,29 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FiYoutube, FiEdit, FiTrash2 } from 'react-icons/fi';
-
+import { useHistory } from 'react-router';
+import { Table } from 'antd';
 import api from '../../services/api';
-
-import ModalAddExercise from '../../components/ModalAddExercise';
-import ModalEditExercise from '../../components/ModalEditExercise';
-import ModalDeleteExercise from '../../components/ModalDeleteExercise';
-
+import ModalExercise from '../../components/ModalAddExercise';
 import {
   Container,
-  Welcome,
-  Message,
-  ScreenName,
-  ExerciseList,
-  Head,
-  HeadColumn,
-  RegisterButton,
+  Title,
+  ButtonExercices,
+  ButtonLink,
+  IconGroup,
+  ExerciseDash,
   Body,
-  Line,
-  Column,
-  Name,
-  Group,
-  LinkVideo,
-  Actions,
-  EmptySpace,
 } from './styles';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
@@ -37,11 +25,11 @@ interface IExercise {
 
 const Exercises: React.FC = () => {
   const [exercises, setExercises] = useState<IExercise[]>([]);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [loading, setloading] = useState(true);
   const [editingExercise, setEditingExercise] = useState<IExercise>(
     {} as IExercise,
   );
@@ -54,6 +42,7 @@ const Exercises: React.FC = () => {
       );
 
       setExercises(exercisesReturned);
+      setloading(false);
     }
 
     getExercises();
@@ -75,129 +64,71 @@ const Exercises: React.FC = () => {
     [deleteModalOpen],
   );
 
-  const handleAddExercise = useCallback(
-    async (newExercise: IExercise) => {
-      try {
-        const { data: exerciseCreated } = await api.post<IExercise>(
-          '/exercises',
-          newExercise,
-        );
+  const history = useHistory();
 
-        setExercises([...exercises, exerciseCreated]);
-      } catch ({ err }) {
-        console.log(err);
-      }
+  const data = loading
+    ? []
+    : exercises.map(row => ({
+        Id: row.id,
+        Name: row.name,
+        group: row.exercise_group,
+        link: (
+          <ButtonLink onClick={() => history.push(row.link)}>
+            <FiYoutube size={20} />
+          </ButtonLink>
+        ),
+        actions: (
+          <IconGroup>
+            <ButtonLink>
+              <FiEdit size={20} />
+            </ButtonLink>
+            <ButtonLink>
+              <FiTrash2 size={20} />
+            </ButtonLink>
+          </IconGroup>
+        ),
+      }));
+
+  const columns = [
+    {
+      title: 'Nome',
+      dataIndex: 'Name',
+      key: 'Name',
     },
-    [exercises],
-  );
-
-  const handleUpdateExercise = useCallback(async (exercise: IExercise) => {
-    try {
-      await api.put(`/exercises/${exercise.id}`, exercise);
-      setRefresh(!refresh);
-    } catch ({ err }) {
-      console.log(err);
-    }
-  }, []);
-
-  const handleDeleteExercise = useCallback(async (id: string) => {
-    try {
-      await api.delete(`/exercises/${id}`);
-      setRefresh(!refresh);
-    } catch ({ err }) {
-      console.log(err);
-    }
-  }, []);
-
-  const handleEditExercise = useCallback(
-    (exercise: IExercise) => {
-      setEditingExercise(exercise);
-      handleToggleEditModal();
+    {
+      title: 'Grupo de exercício',
+      dataIndex: 'group',
+      key: 'group',
     },
-    [handleToggleEditModal],
-  );
+    {
+      title: 'Link do video',
+      dataIndex: 'link',
+      key: 'link',
+    },
+    {
+      title: 'Ações',
+      dataIndex: 'actions',
+    },
+  ];
 
   return (
     <>
       <MenuBar />
-
       <div id="mainContainer">
         <Header />
 
         <Container>
-          <Welcome>
-            <Message>Bem vindo, FULANO DE TAL</Message>
-            <ScreenName>Exercícios</ScreenName>
-          </Welcome>
+          <ExerciseDash>
+            <Title>Exercícios</Title>
+            <ButtonExercices onClick={() => handleToggleModal()}>
+              CADASTRAR EXERCÍCIO
+            </ButtonExercices>
+          </ExerciseDash>
 
-          <ExerciseList>
-            <Head>
-              <HeadColumn>NOME</HeadColumn>
-              <HeadColumn>GRUPO DO EXERCÍCIO</HeadColumn>
-              <HeadColumn center>LINK DO VÍDEO</HeadColumn>
-              <HeadColumn center>AÇÕES</HeadColumn>
-              <HeadColumn>
-                <RegisterButton onClick={() => handleToggleModal()}>
-                  CADASTRAR EXERCÍCIO
-                </RegisterButton>
-              </HeadColumn>
-            </Head>
-            <Body>
-              {exercises.map(({ id, name, exercise_group, link }) => (
-                <Line key={id}>
-                  <Column>
-                    <Name>{name}</Name>
-                  </Column>
-                  <Column>
-                    <Group>{exercise_group}</Group>
-                  </Column>
-                  <Column center>
-                    <LinkVideo href={link} target="_blank">
-                      <FiYoutube />
-                    </LinkVideo>
-                  </Column>
-                  <Column>
-                    <Actions>
-                      <FiEdit
-                        onClick={() => {
-                          handleEditExercise({
-                            id,
-                            name,
-                            exercise_group,
-                            link,
-                          });
-                        }}
-                      />
-                      <FiTrash2 onClick={() => handleToggleDeleteModal(id)} />
-                    </Actions>
-                  </Column>
-                  <Column>
-                    <EmptySpace />
-                  </Column>
-                </Line>
-              ))}
-            </Body>
-          </ExerciseList>
-
-          <ModalAddExercise
-            isOpen={modalOpen}
-            setIsOpen={handleToggleModal}
-            handleAddExercise={handleAddExercise}
-          />
-
-          <ModalEditExercise
-            isOpen={editModalOpen}
-            setIsOpen={handleToggleEditModal}
-            handleUpdateExercise={handleUpdateExercise}
-            editingExercise={editingExercise}
-          />
-
-          <ModalDeleteExercise
-            isOpen={deleteModalOpen}
-            setIsOpen={() => setDeleteModalOpen(!deleteModalOpen)}
-            handleDeleteExercise={handleDeleteExercise}
-            deletingExercise={deletingExercise}
-          />
+          <Body>
+            <Table dataSource={data} columns={columns} />
+          </Body>
+          <ModalExercise isOpen={modalOpen} setIsOpen={handleToggleModal} />
         </Container>
       </div>
     </>

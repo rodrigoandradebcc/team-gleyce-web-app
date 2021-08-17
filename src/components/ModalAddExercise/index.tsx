@@ -1,11 +1,14 @@
 import React, { useCallback } from 'react';
-import { FiCheckSquare } from 'react-icons/fi';
-import { v4 as uuid } from 'uuid';
+import { MdFitnessCenter } from 'react-icons/md';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import ButtonRod from '../ButtonRod';
 import { NewInput } from '../NewInput';
 import Modal from '../Modal';
-import { Form, Label } from './styles';
+import * as S from './styles';
+import api from '../../services/api';
 
-interface IExercise {
+interface ExerciseProps {
   exercise_group: string;
   id: string;
   link: string;
@@ -15,64 +18,61 @@ interface IExercise {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
-  handleAddExercise: (exercise: IExercise) => void;
+  exercise?: ExerciseProps;
 }
 
-const ModalAddExercise: React.FC<IModalProps> = ({
+const ModalExercise: React.FC<IModalProps> = ({
   isOpen = false,
   setIsOpen,
-  handleAddExercise,
+  exercise,
 }) => {
-  const handleSubmit = useCallback(
-    async ({ name, link, exercise_group }: IExercise) => {
-      handleAddExercise({
-        id: uuid(),
-        name,
-        link,
-        exercise_group,
-      });
+  const { register, handleSubmit, reset } = useForm();
 
-      setIsOpen();
+  const handleAddExercise = useCallback(
+    async (exerciseData: ExerciseProps): Promise<void> => {
+      try {
+        await api.post('/exercises', exerciseData);
+
+        toast.success('Exercício cadastrado com sucesso!');
+      } catch (error) {
+        reset();
+        toast.error(error.response.data.error);
+      }
     },
-    [handleAddExercise, setIsOpen],
+    [],
   );
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form onSubmit={handleSubmit}>
-        <h1>Novo exercício</h1>
-
-        <div className="two-inputs">
-          <div>
-            <Label>Nome Exercício</Label>
-            <NewInput name="name" placeholder="Ex: Banco Tríceps''" />
-          </div>
-          <div>
-            <Label>Grupo do exercício</Label>
-            <NewInput name="exercise_group" type="text" placeholder="Tríceps" />
-          </div>
-        </div>
-
-        <div>
-          <div>
-            <Label>Link do vídeo</Label>
+      <S.ContainerModal>
+        <S.LogoAndTitleModal>
+          <MdFitnessCenter size={24} />
+          <p>Cadastrar Exercicios</p>
+        </S.LogoAndTitleModal>
+        <form onSubmit={handleSubmit(handleAddExercise)}>
+          <S.LabelAndInputArea>
+            <S.Label>Nome do Exercício</S.Label>
+            <NewInput placeholder="Ex: Banco Tríceps''" {...register('name')} />
+          </S.LabelAndInputArea>
+          <S.LabelAndInputArea>
+            <S.Label>Grupo de Exericio</S.Label>
             <NewInput
-              name="link"
               type="text"
-              placeholder="https://youtube.com"
+              placeholder="Tríceps"
+              {...register('exercise_group')}
             />
-          </div>
-        </div>
-
-        <button type="submit" data-testid="add-exercise-button">
-          <p className="text">Adicionar exercício</p>
-          <div className="icon">
-            <FiCheckSquare size={24} />
-          </div>
-        </button>
-      </Form>
+          </S.LabelAndInputArea>
+          <S.LabelAndInputArea>
+            <S.Label>Link do Video</S.Label>
+            <NewInput type="text" placeholder="Tríceps" {...register('link')} />
+          </S.LabelAndInputArea>
+          <ButtonRod fullWidth heightSize="large" type="submit">
+            Adicionar exercício
+          </ButtonRod>
+        </form>
+      </S.ContainerModal>
     </Modal>
   );
 };
 
-export default ModalAddExercise;
+export default ModalExercise;

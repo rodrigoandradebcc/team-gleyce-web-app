@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { formatISO } from 'date-fns';
 import React, { useCallback, useEffect, useState } from 'react';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { useHistory } from 'react-router';
 import Button from '../../components/ButtonRod';
 import CardStudent from '../../components/CardStudent';
 import Header from '../../components/Header';
@@ -42,18 +44,13 @@ interface StudentProps {
 const Student: React.FC = () => {
   const [users, setUsers] = useState<StudentProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [usersFiltered, setUsersFiltered] = useState<StudentProps[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentProps>(
     {} as StudentProps,
   );
-
-  function resetFilteredUsers(): void {
-    setUsersFiltered([]);
-  }
+  const history = useHistory();
 
   async function filterUsers(name?: string): Promise<void> {
     setIsLoading(true);
-    resetFilteredUsers();
     updateStudents(String(name));
     setIsLoading(false);
   }
@@ -158,7 +155,6 @@ const Student: React.FC = () => {
       if (!findUser) {
         return;
       }
-
       try {
         await api.patch(`/users/change-active/${id}`, {
           active: !findUser?.active,
@@ -185,7 +181,10 @@ const Student: React.FC = () => {
       <div id="mainContainer">
         <Header />
         <Container>
-          <h1>Alunos</h1>
+          <Button onClick={() => history.push('/dashboard')}>
+            <IoMdArrowRoundBack />
+          </Button>
+          <h2>Alunos</h2>
           <Tabs
             tabsApi={studentType}
             setStudentTypeSelected={changeStudentTypes}
@@ -202,10 +201,7 @@ const Student: React.FC = () => {
                 })
               }
             />
-            <Button
-              background="#1E1E1E"
-              onClick={() => handleToggleModalAddStudent()}
-            >
+            <Button onClick={() => handleToggleModalAddStudent()}>
               CADASTRAR ALUNO
             </Button>
           </ActionArea>
@@ -218,9 +214,9 @@ const Student: React.FC = () => {
             {isLoading && <SkeletonContainerGrid />}
 
             <ContainerCardsStudents>
-              {usersFiltered.length && !isLoading ? (
+              {users.length && !isLoading && (
                 <>
-                  {usersFiltered.map(user => (
+                  {users.map(user => (
                     <CardStudent
                       key={user.id}
                       id={user.id}
@@ -234,25 +230,6 @@ const Student: React.FC = () => {
                     />
                   ))}
                 </>
-              ) : (
-                users.length &&
-                !isLoading && (
-                  <>
-                    {users.map(user => (
-                      <CardStudent
-                        key={user.id}
-                        id={user.id}
-                        user={user}
-                        handleToggleActiveUser={() =>
-                          handleToggleActiveUser(user.id)
-                        }
-                        handleToggleDrawer={handleToggleModalAddStudent}
-                        handleToggleDeleteModal={handleToggleModalConfirmation}
-                        setSelectedStudent={setSelectedStudent}
-                      />
-                    ))}
-                  </>
-                )
               )}
 
               {users.length === 0 && (

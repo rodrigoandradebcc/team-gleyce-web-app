@@ -1,5 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { createGlobalStyle, keyframes } from 'styled-components';
+import 'antd/dist/antd.css';
 
 const modalTransition = keyframes`
   from{
@@ -9,7 +10,6 @@ const modalTransition = keyframes`
     transform: translate3d(0, 0, 0);
   }
 `;
-
 const modalTransitionClose = keyframes`
   from{
     transform: translate3d(0, 0, 0);
@@ -34,16 +34,18 @@ export default createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
-
+    p{
+      margin: 0;
+    }
     ::-webkit-scrollbar {
       width: 0.5rem;
     }
-    
+
     ::-webkit-scrollbar-thumb {
       background-color: #c5c5c5;
       border-radius: 4px;
     }
-          
+
     ::-webkit-scrollbar-track {
       background-color: #f2f3f5;
     }
@@ -65,7 +67,7 @@ export default createGlobalStyle`
     display: flex;
   }
 
-  html { 
+  html {
     @media (max-width: 1080px){
       font-size: 93.75%;
     }
@@ -200,5 +202,5 @@ export default createGlobalStyle`
   .DayPicker-TodayButton {
     color: #e3a;
   }
- 
+
 `;
