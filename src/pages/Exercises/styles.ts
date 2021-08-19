@@ -5,7 +5,7 @@ interface Props {
   center?: boolean;
 }
 
-export const ButtonExercices = styled(Button)`
+export const ButtonExercises = styled(Button)`
   padding: 1.28rem 1.5rem;
   p {
     line-height: 26px;
@@ -28,6 +28,10 @@ export const IconGroup = styled.div`
     margin-left: 20px;
   }
   align-items: center;
+
+  svg + svg {
+    margin-left: 40px;
+  }
 `;
 
 export const ExerciseDash = styled.div`

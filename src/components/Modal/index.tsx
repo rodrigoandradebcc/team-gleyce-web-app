@@ -6,7 +6,6 @@ interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
   typeModal?: 'large' | 'medium' | 'small' | 'x-small';
-  teste?: 'string';
 }
 
 const Modal: React.FC<IModalProps> = ({
@@ -14,7 +13,6 @@ const Modal: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
   typeModal,
-  teste,
 }: IModalProps) => {
   const [modalStatus, setModalStatus] = useState(isOpen);
 
@@ -29,7 +27,7 @@ const Modal: React.FC<IModalProps> = ({
       ariaHideApp={false}
       onRequestClose={setIsOpen}
       overlayClassName="react-modal-overlay"
-      className={teste || 'react-modal-content'}
+      className="react-modal-content"
       closeTimeoutMS={900}
       typeModal={typeModal}
     >

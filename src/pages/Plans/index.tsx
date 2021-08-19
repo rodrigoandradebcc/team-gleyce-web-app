@@ -95,7 +95,11 @@ const Plans: React.FC = () => {
   const { tabPlanContext } = useTrainingSetup();
 
   useEffect(() => {
-    api
+    listCompletedPlan();
+  }, [tabPlanContext]);
+
+  const listCompletedPlan = useCallback(async () => {
+    await api
       .get<ExerciseAndPrescriptionToPlanProps[]>(
         `/plans/plan-completed/${tabPlanContext}`,
       )
@@ -154,6 +158,9 @@ const Plans: React.FC = () => {
           <S.ActionArea>
             <h1>Plan</h1>
             <S.ButtonArea>
+              <Button outlined outlinedColor="#FFBA01" onClick={() => {}}>
+                Baixar PDF
+              </Button>
               <Button
                 outlined
                 outlinedColor="#FFBA01"
@@ -210,6 +217,7 @@ const Plans: React.FC = () => {
                     exercise={{ name: label, id: value }}
                     plan_id={tabPlanContext}
                     prescriptionValue={prescription}
+                    loadPlanCompleted={listCompletedPlan}
                   >
                     {label}
                   </ExerciseRow>

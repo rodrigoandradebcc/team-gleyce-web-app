@@ -1,20 +1,19 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { FiYoutube, FiEdit, FiTrash2 } from 'react-icons/fi';
-import { useHistory } from 'react-router';
 import { Table } from 'antd';
-import api from '../../services/api';
-import ModalExercise from '../../components/ModalAddExercise';
-import {
-  Container,
-  Title,
-  ButtonExercices,
-  ButtonLink,
-  IconGroup,
-  ExerciseDash,
-  Body,
-} from './styles';
+import React, { useEffect, useState } from 'react';
+import { FiEdit, FiTrash2, FiYoutube } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
+import ModalExercise from '../../components/ModalAddExercise';
+import api from '../../services/api';
+import {
+  Body,
+  ButtonExercises,
+  Container,
+  ExerciseDash,
+  IconGroup,
+  Title,
+} from './styles';
 
 interface IExercise {
   exercise_group: string;
@@ -25,15 +24,20 @@ interface IExercise {
 
 const Exercises: React.FC = () => {
   const [exercises, setExercises] = useState<IExercise[]>([]);
+  const [exerciseSelected, setExerciseSelected] = useState<IExercise>();
+
   const [modalOpen, setModalOpen] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [loading, setloading] = useState(true);
-  const [editingExercise, setEditingExercise] = useState<IExercise>(
-    {} as IExercise,
-  );
-  const [deletingExercise, setDeletingExercise] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  async function deleteExercise(id: string): Promise<void> {
+    try {
+      await api.delete(`/exercises/${id}`);
+      loadExercises();
+      toast.success('Exercício excluído com sucesso!');
+    } catch (error) {
+      toast.error('Exercício excluído com sucesso!');
+    }
+  }
 
   useEffect(() => {
     async function getExercises(): Promise<void> {
@@ -42,29 +46,21 @@ const Exercises: React.FC = () => {
       );
 
       setExercises(exercisesReturned);
-      setloading(false);
+      setLoading(false);
     }
 
     getExercises();
-  }, [setExercises, refresh]);
+  }, [setExercises]);
 
-  const handleToggleModal = useCallback(() => {
-    setModalOpen(!modalOpen);
-  }, [modalOpen]);
+  function clearData(): void {
+    setExerciseSelected({} as IExercise);
+  }
 
-  const handleToggleEditModal = useCallback(() => {
-    setEditModalOpen(!editModalOpen);
-  }, [editModalOpen]);
-
-  const handleToggleDeleteModal = useCallback(
-    (id: string) => {
-      setDeleteModalOpen(!deleteModalOpen);
-      setDeletingExercise(id);
-    },
-    [deleteModalOpen],
-  );
-
-  const history = useHistory();
+  async function loadExercises(): Promise<void> {
+    await api.get(`/exercises`).then(response => {
+      setExercises(response.data);
+    });
+  }
 
   const data = loading
     ? []
@@ -72,19 +68,22 @@ const Exercises: React.FC = () => {
         Id: row.id,
         Name: row.name,
         group: row.exercise_group,
-        link: (
-          <ButtonLink onClick={() => history.push(row.link)}>
-            <FiYoutube size={20} />
-          </ButtonLink>
-        ),
+        link: <FiYoutube size={20} />,
         actions: (
           <IconGroup>
-            <ButtonLink>
-              <FiEdit size={20} />
-            </ButtonLink>
-            <ButtonLink>
-              <FiTrash2 size={20} />
-            </ButtonLink>
+            <FiEdit
+              size={20}
+              onClick={() => {
+                setModalOpen(true);
+                setExerciseSelected(row);
+              }}
+            />
+            <FiTrash2
+              size={20}
+              onClick={() => {
+                deleteExercise(row.id);
+              }}
+            />
           </IconGroup>
         ),
       }));
@@ -120,15 +119,24 @@ const Exercises: React.FC = () => {
         <Container>
           <ExerciseDash>
             <Title>Exercícios</Title>
-            <ButtonExercices onClick={() => handleToggleModal()}>
+            <ButtonExercises onClick={() => setModalOpen(true)}>
               CADASTRAR EXERCÍCIO
-            </ButtonExercices>
+            </ButtonExercises>
           </ExerciseDash>
 
           <Body>
             <Table dataSource={data} columns={columns} />
           </Body>
-          <ModalExercise isOpen={modalOpen} setIsOpen={handleToggleModal} />
+
+          <ModalExercise
+            exercise={exerciseSelected}
+            isOpen={modalOpen}
+            setIsOpen={() => {
+              setModalOpen(false);
+            }}
+            clearData={clearData}
+            loadExercises={loadExercises}
+          />
         </Container>
       </div>
     </>

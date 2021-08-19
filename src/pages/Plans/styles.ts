@@ -36,16 +36,22 @@ export const ButtonIcon = styled(ButtonRod)`
 export const ButtonArea = styled.div`
   display: flex;
 
-  > button:first-child {
+  > button {
     margin-right: 1rem;
+  }
+
+  > button {
     height: 2.5rem;
     font-weight: 600;
-    text-transform: uppercase;
 
     &:hover {
       background: var(--yellow);
       color: var(--white);
     }
+  }
+
+  > button:first-child {
+    text-transform: uppercase;
   }
 `;
 
