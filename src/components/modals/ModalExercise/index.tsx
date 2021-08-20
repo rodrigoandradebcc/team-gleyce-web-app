@@ -2,10 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdFitnessCenter } from 'react-icons/md';
 import { toast } from 'react-toastify';
-import api from '../../services/api';
-import ButtonRod from '../ButtonRod';
-import Modal from '../Modal';
-import { NewInput } from '../NewInput';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import api from '../../../services/api';
+import ButtonRod from '../../ButtonRod';
+import Modal from '../../Modal';
+import { NewInput } from '../../NewInput';
+import { NewSelect } from '../../NewSelect';
 import * as S from './styles';
 
 interface ExerciseProps {
@@ -30,7 +33,14 @@ const ModalExercise: React.FC<IModalProps> = ({
   clearData,
   loadExercises,
 }) => {
-  const { register, handleSubmit, reset } = useForm();
+  const exerciseFormSchema = yup.object().shape({
+    name: yup.string().required('Nome obrigatório'),
+  });
+  const { register, handleSubmit, reset, formState } = useForm({
+    resolver: yupResolver(exerciseFormSchema),
+  });
+  const { errors } = formState;
+
   const [defaultValues, setDefaultValues] = useState<ExerciseProps>(
     {} as ExerciseProps,
   );
@@ -55,7 +65,7 @@ const ModalExercise: React.FC<IModalProps> = ({
         toast.error(error.response.data.error);
       }
     },
-    [defaultValues.id, setIsOpen],
+    [defaultValues.id, loadExercises, setIsOpen],
   );
 
   useEffect(() => {
@@ -64,6 +74,23 @@ const ModalExercise: React.FC<IModalProps> = ({
     }
     reset(exercise);
   }, [reset, exercise]);
+
+  const exercise_group = [
+    { label: 'QUADRÍCEPS', value: 'QUADRÍCEPS' },
+    { label: 'ADUTORES/ABDUTORES', value: 'ADUTORES/ABDUTORES' },
+    { label: 'BÍCEPS/ANTEBRAÇO', value: 'BÍCEPS/ANTEBRAÇO' },
+    { label: 'COSTAS', value: 'COSTAS' },
+    { label: 'ISQUIOTIBIAIS/GLÚTEOS', value: 'ISQUIOTIBIAIS/GLÚTEOS' },
+    { label: 'OMBRO/TRAPÉZIO', value: 'OMBRO/TRAPÉZIO' },
+    { label: 'FLEXÃO PLANTAR ISO', value: 'FLEXÃO PLANTAR ISO' },
+    { label: 'TRÍCEPS', value: 'TRÍCEPS' },
+    { label: 'TREINAMENTO FUNCIONAL', value: 'TREINAMENTO FUNCIONAL' },
+    { label: 'OMBRO/TRAPEZIO', value: 'OMBRO/TRAPEZIO' },
+    { label: 'CARDIO', value: 'CARDIO' },
+    { label: 'OBSERVACOES', value: 'OBSERVACOES' },
+    { label: 'MUSCULAÇÃO', value: 'MUSCULAÇÃO' },
+    { label: 'PEITORAL', value: 'PEITORAL' },
+  ];
 
   return (
     <Modal
@@ -77,7 +104,7 @@ const ModalExercise: React.FC<IModalProps> = ({
       <S.ContainerModal>
         <S.LogoAndTitleModal>
           <MdFitnessCenter size={24} />
-          <p>Cadastrar Exercícios</p>
+          <p>{defaultValues.id ? 'Editar' : 'Cadastrar'} Exercícios</p>
         </S.LogoAndTitleModal>
         <form onSubmit={handleSubmit(handleAddExercise)}>
           <S.LabelAndInputArea>
@@ -85,16 +112,17 @@ const ModalExercise: React.FC<IModalProps> = ({
             <NewInput
               placeholder="Ex: Banco Tríceps''"
               {...register('name')}
+              error={errors.name}
               defaultValue={defaultValues.name || ''}
             />
           </S.LabelAndInputArea>
           <S.LabelAndInputArea>
             <S.Label>Grupo de Exerício</S.Label>
-            <NewInput
-              type="text"
-              placeholder="Tríceps"
+
+            <NewSelect
+              values={exercise_group}
               {...register('exercise_group')}
-              defaultValue={defaultValues.exercise_group || ''}
+              defaultValue={defaultValues?.exercise_group}
             />
           </S.LabelAndInputArea>
           <S.LabelAndInputArea>
@@ -102,7 +130,7 @@ const ModalExercise: React.FC<IModalProps> = ({
 
             <NewInput
               type="text"
-              placeholder="Tríceps"
+              placeholder="www.link.com"
               {...register('link')}
               defaultValue={defaultValues.link || ''}
             />

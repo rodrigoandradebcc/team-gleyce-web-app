@@ -4,7 +4,7 @@ import { FiEdit, FiTrash2, FiYoutube } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
-import ModalExercise from '../../components/ModalAddExercise';
+import ModalExercise from '../../components/modals/ModalExercise';
 import api from '../../services/api';
 import {
   Body,

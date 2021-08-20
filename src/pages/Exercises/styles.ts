@@ -54,6 +54,7 @@ export const Container = styled.div`
   flex: 1;
   background-color: var(--background-content);
   padding: 12px;
+  overflow-x: hidden;
 `;
 
 export const Title = styled.h1`
@@ -76,8 +77,14 @@ export const Head = styled.div`
 `;
 
 export const Body = styled.div`
-  width: 100%;
-  padding: 0 17px;
+  .ant-pagination-item-active a {
+    color: var(--yellow);
+  }
+
+  .ant-pagination-item-active {
+    border-color: var(--yellow);
+  }
+
   table {
     th tr {
       justify-content: space-between;
