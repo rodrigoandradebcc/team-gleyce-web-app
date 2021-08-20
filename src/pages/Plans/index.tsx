@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-// import { RiMore2Fill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
 import Select, { OptionsType } from 'react-select';
+import { toast } from 'react-toastify';
 import Button from '../../components/ButtonRod';
 import { DropdownPlansActions } from '../../components/DropdownPlansActions';
 import Header from '../../components/Header';
@@ -98,6 +98,14 @@ const Plans: React.FC = () => {
     listCompletedPlan();
   }, [tabPlanContext]);
 
+  async function generatePdf(id: string): Promise<void> {
+    try {
+      await api.get(`/plans/generate-pdf/${id}`);
+    } catch (error) {
+      toast.error(error);
+    }
+  }
+
   const listCompletedPlan = useCallback(async () => {
     await api
       .get<ExerciseAndPrescriptionToPlanProps[]>(
@@ -158,7 +166,13 @@ const Plans: React.FC = () => {
           <S.ActionArea>
             <h1>Plan</h1>
             <S.ButtonArea>
-              <Button outlined outlinedColor="#FFBA01" onClick={() => {}}>
+              <Button
+                outlined
+                outlinedColor="#FFBA01"
+                onClick={() => {
+                  generatePdf(idSelected);
+                }}
+              >
                 Baixar PDF
               </Button>
               <Button
