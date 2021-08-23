@@ -17,6 +17,7 @@ interface TrainingProps {
   observation: string;
   note: string;
   expiration_date: string;
+  training_frequency: string;
   user_id: string;
 }
 
@@ -25,6 +26,7 @@ type Inputs = {
   observation: string;
   note: string;
   expiration_date: string;
+  training_frequency: string;
 };
 
 interface DrawerEditTraining {
@@ -113,6 +115,17 @@ const DrawerEditTraining: React.FC<DrawerEditTraining> = ({
               defaultValue={training?.name}
             />
           </S.LabelAndInputArea>
+
+          <S.LabelAndInputArea>
+            <S.Label>Frequência Semanal</S.Label>
+            <NewInput
+              placeholder="Ex: Supino"
+              required
+              {...register('training_frequency')}
+              defaultValue={training?.training_frequency}
+            />
+          </S.LabelAndInputArea>
+
           <S.LabelAndInputArea>
             <S.Label>Data de expiração</S.Label>
 

@@ -10,6 +10,7 @@ interface TrainingProps {
   note: string;
   expiration_date: string;
   user_id: string;
+  training_frequency: string;
 }
 
 interface DropdownMenuProps {

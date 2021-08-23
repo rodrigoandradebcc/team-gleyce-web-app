@@ -17,12 +17,6 @@ const TabsStudent: React.FC<ITabsProps> = ({
     tabsApi ? tabsApi[0]?.description : '',
   );
 
-  const handleToggleModalAddPlan = useCallback(() => {
-    if (handleOpenModal) {
-      handleOpenModal(true);
-    }
-  }, [handleOpenModal]);
-
   useEffect(() => {
     if (tabsApi[0]?.description) {
       const { description } = tabsApi[0];

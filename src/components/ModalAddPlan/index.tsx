@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useRef, useState } from 'react';
+import React, { FormEvent, useCallback, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { FiEdit2, FiPlus } from 'react-icons/fi';
 import { IoMdCheckmark, IoMdCloseCircleOutline } from 'react-icons/io';
@@ -28,11 +28,6 @@ interface HistoryProps {
   idSelected: string;
 }
 
-interface PlanProps {
-  description: string;
-  training_id: string;
-}
-
 interface EditForm {
   edit: boolean;
   planId: string;
@@ -57,14 +52,6 @@ const ModalAddPlan: React.FC<IModalProps> = ({
   const location = useLocation<HistoryProps>();
 
   const { idSelected } = location.state;
-
-  function resetStateEditPlan(): void {
-    setEditPlan(oldState => ({
-      ...oldState,
-      edit: false,
-      planId: '',
-    }));
-  }
 
   async function handleDeletePlan(id: string): Promise<void> {
     try {
@@ -200,7 +187,6 @@ const ModalAddPlan: React.FC<IModalProps> = ({
                             />
                             <FaRegTrashAlt
                               onClick={() => {
-                                // console.log('aaaaaaaaaaaaaa', plan.id);
                                 handleToggleConfirmationModal();
                                 setPlanSelected(plan.id);
                               }}

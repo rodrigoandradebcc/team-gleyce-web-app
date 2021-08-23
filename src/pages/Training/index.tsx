@@ -9,7 +9,7 @@ import DrawerEditTraining from '../../components/DrawerEditTraining';
 import DropdownMenu from '../../components/DropdownMenu';
 import Header from '../../components/Header';
 import MenuBar from '../../components/MenuBar';
-import ModalAddTraining from '../../components/ModalAddTraining';
+import ModalAddTraining from '../../components/modals/ModalAddTraining';
 import ModalConfirmationDeleteTraining from '../../components/ModalConfirmationDeleteTraining';
 import Tabs from '../../components/TabsTrainings';
 import api from '../../services/api';
@@ -23,6 +23,7 @@ interface HistoryProps {
 interface TrainingProps {
   id: string;
   name: string;
+  training_frequency: string;
   observation: string;
   note: string;
   expiration_date: string;

@@ -4,11 +4,11 @@ import { MdFitnessCenter } from 'react-icons/md';
 import { useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 import { parseISO } from 'date-fns';
-import api from '../../services/api';
-import ButtonRod from '../ButtonRod';
-import { InputTextArea } from '../InputTextArea';
-import Modal from '../Modal';
-import { NewInput } from '../NewInput';
+import api from '../../../services/api';
+import ButtonRod from '../../ButtonRod';
+import { InputTextArea } from '../../InputTextArea';
+import Modal from '../../Modal';
+import { NewInput } from '../../NewInput';
 import * as S from './styles';
 
 interface TrainingProps {
@@ -17,6 +17,7 @@ interface TrainingProps {
   note: string;
   expiration_date: string;
   user_id: string;
+  training_frequency: string;
 }
 
 interface HistoryProps {
@@ -63,7 +64,7 @@ const ModalAddTraining: React.FC<IModalProps> = ({
         toast.error(error.response.data.error);
       }
     },
-    [],
+    [reset, updateTrainings],
   );
 
   return (
@@ -86,6 +87,14 @@ const ModalAddTraining: React.FC<IModalProps> = ({
               placeholder="Ex: Emagrecimento"
               required
               {...register('name')}
+            />
+          </S.LabelAndInputArea>
+          <S.LabelAndInputArea>
+            <S.Label>Nome do treino</S.Label>
+            <NewInput
+              placeholder="Ex: 6 vezes"
+              required
+              {...register('training_frequency')}
             />
           </S.LabelAndInputArea>
           <S.LabelAndInputArea>
