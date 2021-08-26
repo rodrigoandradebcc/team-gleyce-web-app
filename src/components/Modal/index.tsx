@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { ReactModalComponent } from './styles';
+import { MdClose } from 'react-icons/md';
+import * as S from './styles';
 
 interface IModalProps {
   children: ReactNode;
@@ -15,13 +16,14 @@ const Modal: React.FC<IModalProps> = ({
   typeModal,
 }: IModalProps) => {
   const [modalStatus, setModalStatus] = useState(isOpen);
+  const [buttonCloseMouseOver, setButtonCloseMouseOver] = useState(false);
 
   useEffect(() => {
     setModalStatus(isOpen);
   }, [isOpen]);
 
   return (
-    <ReactModalComponent
+    <S.ReactModalComponent
       isOpen={modalStatus}
       shouldCloseOnOverlayClick={!false}
       ariaHideApp={false}
@@ -31,8 +33,24 @@ const Modal: React.FC<IModalProps> = ({
       closeTimeoutMS={900}
       typeModal={typeModal}
     >
-      {children}
-    </ReactModalComponent>
+      <S.ContainerModal>
+        <S.IconButtonClose
+          onClick={() => {
+            setIsOpen();
+          }}
+          mouseButton={buttonCloseMouseOver}
+          onMouseOut={() => {
+            setButtonCloseMouseOver(true);
+          }}
+          onMouseOver={() => {
+            setButtonCloseMouseOver(false);
+          }}
+        >
+          <MdClose size={24} />
+        </S.IconButtonClose>
+        {children}
+      </S.ContainerModal>
+    </S.ReactModalComponent>
   );
 };
 
