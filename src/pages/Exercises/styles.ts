@@ -55,12 +55,14 @@ export const Container = styled.div`
   background-color: var(--background-content);
   padding: 12px;
   overflow-x: hidden;
+
+  padding: 0 64px;
 `;
 
 export const Title = styled.h1`
   display: flex;
   flex-direction: column;
-  margin: 16px 16px;
+  margin: 16px 0;
   width: inherit;
 `;
 

@@ -126,9 +126,15 @@ const Plans: React.FC = () => {
   }, [tabPlanContext]);
 
   useEffect(() => {
-    api.get('/exercises').then(response => {
-      setExercises(response.data);
-    });
+    try {
+      console.log('lalalala');
+
+      api.get('/exercises/all').then(response => {
+        setExercises(response.data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   const options = getNameExercises(exercises);
